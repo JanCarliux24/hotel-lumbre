@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Lumbre Hotel &amp; Spa: habitaciones frente al mar, spa y gastronomía. Calcula tu presupuesto al instante.">
+<meta name="theme-color" content="#FBF7F0">
+<title>Lumbre Hotel &amp; Spa</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/i18n.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body>
+
+<!-- Iconos -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3c4 4 6 7 6 10a6 6 0 0 1-12 0c0-3 2-6 6-10z"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24"><path d="M7 3v18M5 3v4a2 2 0 0 0 4 0V3M17 21V3c-2 2-3 4.500-3 8h3"/></symbol>
+  <symbol id="i-pool" viewBox="0 0 24 24"><path d="M3 16c2 0 2-1.500 4.500-1.500S10 16 12 16s2-1.500 4.500-1.500S19 16 21 16M3 20c2 0 2-1.500 4.500-1.500S10 20 12 20s2-1.500 4.500-1.500S19 20 21 20M9 12V5.500a2 2 0 0 1 4 0M17 12V5.500a2 2 0 0 0-4 0"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M3 19h18M5 19a7 7 0 0 1 14 0M12 12V8M10 8h4"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M3.500 9.500a12 12 0 0 1 17 0M6.500 13a8 8 0 0 1 11 0M9.500 16.500a4 4 0 0 1 5 0M12 20h.01"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.500-3.200 8-8 9-4.800-1-8-4.500-8-9V6zM9 12l2 2 4-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.500"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-cookie" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9 4 4 0 0 0 4 4 4 4 0 0 0 5 5zM9 10h.01M14 14h.01M9.500 15.500h.01"/></symbol>
+  <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M3 3l18 18M10.600 6.100A9.600 9.600 0 0 1 12 6c5 0 8.500 4 9.500 6-.400.900-1.300 2.100-2.500 3.200M6.600 7.500C4.600 8.800 3.200 10.600 2.500 12c1 2 4.500 6 9.500 6 1.400 0 2.700-.300 3.900-.800M9.900 9.900a3 3 0 0 0 4.200 4.200"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.500l4.500 4.500L19 7.500"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.500 2.500 3.800 5.500 3.800 9s-1.300 6.500-3.800 9c-2.500-2.500-3.800-5.500-3.800-9S9.500 5.500 12 3z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.500"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0M16 4.800a3.500 3.500 0 0 1 0 6.400M18 14.500a6.500 6.500 0 0 1 3.500 5.500"/></symbol>
+  <symbol id="i-size" viewBox="0 0 24 24"><path d="M4 9V4h5M20 15v5h-5M4 4l6 6M20 20l-6-6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.700 5.600 6.100.900-4.400 4.300 1 6.100L12 17l-5.400 2.900 1-6.100L3.200 9.500l6.100-.900z"/></symbol>
+</svg>
+
+<a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido</a>
+<div class="progress" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-in">
+    <a class="logo" href="#top" aria-label="Lumbre Hotel &amp; Spa">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle class="l-bg" cx="16" cy="16" r="15"/><path class="l-fg" d="M7 21a9 9 0 0 1 18 0z"/><rect class="l-fg" x="5.5" y="21.5" width="21" height="3" rx="1.5"/><rect class="l-fg" x="14.5" y="8" width="3" height="4" rx="1.5"/></svg>
+      <span>Lumbre</span>
+    </a>
+
+    <nav class="nav" id="mainNav" aria-label="Principal" data-i18n-attr="aria-label:a11y.nav">
+      <a href="#habitaciones" data-i18n="nav.rooms">Habitaciones</a>
+      <a href="#experiencias" data-i18n="nav.exp">Experiencias</a>
+      <a href="#destino" data-i18n="nav.dest">Destino</a>
+      <a href="#presupuesto" data-i18n="nav.quote">Presupuesto</a>
+      <a href="#seguridad" data-i18n="nav.security">Seguridad</a>
+      <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="prefs">
+        <button class="prefs-btn" id="prefsBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="prefsPop" data-i18n-attr="aria-label:prefs.title">
+          <svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>
+          <span id="prefsLabel">ES · EUR</span>
+        </button>
+        <div class="prefs-pop" id="prefsPop" hidden>
+          <p class="prefs-title" data-i18n="prefs.title">Idioma y moneda</p>
+          <label class="mini-field">
+            <span data-i18n="prefs.lang">Idioma</span>
+            <select id="langSel">
+              <option value="es">Español</option>
+              <option value="en">English</option>
+              <option value="pt">Português</option>
+              <option value="fr">Français</option>
+            </select>
+          </label>
+          <label class="mini-field">
+            <span data-i18n="prefs.cur">Moneda</span>
+            <select id="curSel">
+              <option value="EUR">EUR €</option>
+              <option value="USD">USD $</option>
+              <option value="MXN">MXN $</option>
+              <option value="GBP">GBP £</option>
+              <option value="BRL">BRL R$</option>
+              <option value="COP">COP $</option>
+            </select>
+          </label>
+          <p class="prefs-note" id="regionNote"></p>
+        </div>
+      </div>
+      <a class="btn btn-sm header-cta" href="#presupuesto" data-i18n="nav.book">Reservar</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mainNav" data-i18n-attr="aria-label:a11y.menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-media" aria-hidden="true">
+    <img class="hero-img" src="assets/img/hero.jpg" alt="" width="2000" height="1333" fetchpriority="high" decoding="async">
+  </div>
+
+  <div class="wrap hero-in">
+    <p class="eyebrow hero-fade" data-i18n="hero.eyebrow">Costa del Sol · 5 estrellas</p>
+    <h1 class="hero-title" data-i18n="hero.title" data-split>Despierta donde el sol toca el mar.</h1>
+    <p class="hero-sub hero-fade" data-i18n="hero.sub">Un hotel boutique frente al mar con spa, cocina de autor y el descanso que estabas buscando.</p>
+
+    <form class="quick hero-fade" id="heroForm" novalidate>
+      <div class="field">
+        <label for="h-checkin" data-i18n="f.checkin">Llegada</label>
+        <input id="h-checkin" name="checkin" type="date" required>
+        <p class="field-msg" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="h-checkout" data-i18n="f.checkout">Salida</label>
+        <input id="h-checkout" name="checkout" type="date" required>
+        <p class="field-msg" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="h-guests" data-i18n="f.guests">Huéspedes</label>
+        <select id="h-guests" name="guests">
+          <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+        <p class="field-msg"></p>
+      </div>
+      <button class="btn quick-btn" type="submit">
+        <span data-i18n="hero.cta">Ver presupuesto</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- CIFRAS -->
+<section class="stats" aria-label="Cifras" data-i18n-attr="aria-label:stats.aria">
+  <div class="wrap stats-in">
+    <div class="stat reveal"><strong><span data-count="4.9" data-decimals="1">4,9</span><small>/5</small></strong><span data-i18n="stats.rating">Valoración de huéspedes</span></div>
+    <div class="stat reveal" data-delay="80"><strong><span data-count="86">86</span></strong><span data-i18n="stats.rooms">Habitaciones y suites</span></div>
+    <div class="stat reveal" data-delay="160"><strong><span data-count="120">120</span><small> m</small></strong><span data-i18n="stats.beach">A la playa</span></div>
+    <div class="stat reveal" data-delay="240"><strong><span data-count="24">24</span><small> h</small></strong><span data-i18n="stats.desk">Recepción y conserjería</span></div>
+  </div>
+</section>
+
+<!-- HABITACIONES -->
+<section class="section" id="habitaciones">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="rooms.eyebrow">Habitaciones</p>
+      <h2 data-i18n="rooms.title">Elige tu forma de descansar.</h2>
+      <p data-i18n="rooms.sub">Tres categorías, todas con vistas, desayuno opcional y cancelación flexible.</p>
+    </header>
+
+    <div class="rooms">
+      <article class="room reveal tilt">
+        <div class="room-art"><img src="assets/img/room-standard.jpg" alt="" data-i18n-attr="alt:room.standard" width="1100" height="733" loading="lazy" decoding="async"></div>
+        <div class="room-body">
+          <h3 data-i18n="room.standard">Estándar Jardín</h3>
+          <p data-i18n="room.standard.d">Luminosa y tranquila, con terraza al jardín mediterráneo.</p>
+          <ul class="room-meta">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span data-i18n="room.cap2">Hasta 2 huéspedes</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-size"/></svg><span>24 m²</span></li>
+          </ul>
+          <div class="room-foot">
+            <p class="price"><span data-i18n="from">Desde</span> <strong data-price="120">120 €</strong> <span data-i18n="per.night">/ noche</span></p>
+            <button class="btn btn-ghost btn-sm" type="button" data-pick-room="standard" data-i18n="rooms.pick">Elegir</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="room room-hot reveal tilt" data-delay="100">
+        <span class="badge" data-i18n="rooms.popular">La favorita</span>
+        <div class="room-art"><img src="assets/img/room-deluxe.jpg" alt="" data-i18n-attr="alt:room.deluxe" width="1100" height="733" loading="lazy" decoding="async"></div>
+        <div class="room-body">
+          <h3 data-i18n="room.deluxe">Suite Deluxe Mar</h3>
+          <p data-i18n="room.deluxe.d">Salón independiente, bañera exenta y balcón frente al mar.</p>
+          <ul class="room-meta">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span data-i18n="room.cap3">Hasta 3 huéspedes</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-size"/></svg><span>42 m²</span></li>
+          </ul>
+          <div class="room-foot">
+            <p class="price"><span data-i18n="from">Desde</span> <strong data-price="190">190 €</strong> <span data-i18n="per.night">/ noche</span></p>
+            <button class="btn btn-sm" type="button" data-pick-room="deluxe" data-i18n="rooms.pick">Elegir</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="room reveal tilt" data-delay="200">
+        <div class="room-art"><img src="assets/img/room-penthouse.jpg" alt="" data-i18n-attr="alt:room.penthouse" width="1100" height="733" loading="lazy" decoding="async"></div>
+        <div class="room-body">
+          <h3 data-i18n="room.penthouse">Ático Lumbre</h3>
+          <p data-i18n="room.penthouse.d">Dos dormitorios, piscina privada y la mejor puesta de sol.</p>
+          <ul class="room-meta">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span data-i18n="room.cap6">Hasta 6 huéspedes</span></li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-size"/></svg><span>95 m²</span></li>
+          </ul>
+          <div class="room-foot">
+            <p class="price"><span data-i18n="from">Desde</span> <strong data-price="340">340 €</strong> <span data-i18n="per.night">/ noche</span></p>
+            <button class="btn btn-ghost btn-sm" type="button" data-pick-room="penthouse" data-i18n="rooms.pick">Elegir</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ESCENA CON SCROLL -->
+<section class="showcase" id="showcase" aria-label="Un día en Lumbre" data-i18n-attr="aria-label:sc.aria">
+  <div class="showcase-sticky">
+    <div class="showcase-frame">
+      <img class="sc-img" src="assets/img/day-morning.jpg" alt="" width="1800" height="1200" loading="lazy" decoding="async">
+      <img class="sc-img sc-dusk" src="assets/img/day-sunset.jpg" alt="" width="1800" height="1200" loading="lazy" decoding="async">
+      <img class="sc-img sc-night" src="assets/img/day-night.jpg" alt="" width="1800" height="1200" loading="lazy" decoding="async">
+      <div class="sc-shade"></div>
+      <div class="sc-caps">
+        <div class="sc-cap is-on" data-stage="0">
+          <p class="eyebrow" data-i18n="sc.1.k">07:30</p>
+          <h2 data-i18n="sc.1.t">Amanece. Desayuno en la terraza.</h2>
+          <p data-i18n="sc.1.d">Pan recién hecho, fruta de la huerta y el mar entero para ti.</p>
+        </div>
+        <div class="sc-cap" data-stage="1">
+          <p class="eyebrow" data-i18n="sc.2.k">19:45</p>
+          <h2 data-i18n="sc.2.t">Atardece. Una copa en la piscina infinita.</h2>
+          <p data-i18n="sc.2.d">El cielo se enciende y nadie tiene prisa.</p>
+        </div>
+        <div class="sc-cap" data-stage="2">
+          <p class="eyebrow" data-i18n="sc.3.k">23:00</p>
+          <h2 data-i18n="sc.3.t">Anochece. Silencio y estrellas.</h2>
+          <p data-i18n="sc.3.d">Habitaciones insonorizadas y camas que no querrás dejar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCIAS -->
+<section class="section" id="experiencias">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="exp.eyebrow">Experiencias</p>
+      <h2 data-i18n="exp.title">Todo lo que hace especial una estancia.</h2>
+    </header>
+    <div class="bento">
+      <article class="tile tile-lg reveal">
+        <img class="tile-img" src="assets/img/exp-spa.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="tile-body">
+          <h3 data-i18n="exp.spa"></h3>
+          <p data-i18n="exp.spa.d"></p>
+          <button class="chip-btn" type="button" data-add-extra="spa"><span data-i18n="exp.add"></span></button>
+        </div>
+      </article>
+      <article class="tile  reveal" data-delay="80">
+        <img class="tile-img" src="assets/img/exp-food.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="tile-body">
+          <h3 data-i18n="exp.food"></h3>
+          <p data-i18n="exp.food.d"></p>
+          <button class="chip-btn" type="button" data-add-extra="breakfast"><span data-i18n="exp.add"></span></button>
+        </div>
+      </article>
+      <article class="tile  reveal" data-delay="160">
+        <img class="tile-img" src="assets/img/exp-pool.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="tile-body">
+          <h3 data-i18n="exp.pool"></h3>
+          <p data-i18n="exp.pool.d"></p>
+          <span class="chip" data-i18n="exp.included"></span>
+        </div>
+      </article>
+      <article class="tile  reveal">
+        <img class="tile-img" src="assets/img/exp-desk.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="tile-body">
+          <h3 data-i18n="exp.desk"></h3>
+          <p data-i18n="exp.desk.d"></p>
+          <span class="chip" data-i18n="exp.included"></span>
+        </div>
+      </article>
+      <article class="tile  reveal" data-delay="80">
+        <img class="tile-img" src="assets/img/exp-wifi.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="tile-body">
+          <h3 data-i18n="exp.wifi"></h3>
+          <p data-i18n="exp.wifi.d"></p>
+          <span class="chip" data-i18n="exp.included"></span>
+        </div>
+      </article>
+      <article class="tile tile-lg reveal" data-delay="160">
+        <img class="tile-img" src="assets/img/exp-trips.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="tile-body">
+          <h3 data-i18n="exp.trips"></h3>
+          <p data-i18n="exp.trips.d"></p>
+          <button class="chip-btn" type="button" data-ask="exp.trips"><span data-i18n="exp.ask"></span></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- DESTINO -->
+<section class="section section-alt" id="destino">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="dest.eyebrow"></p>
+      <h2 data-i18n="dest.title"></h2>
+      <p data-i18n="dest.sub"></p>
+    </header>
+    <div class="dest">
+      <article class="dest-card reveal">
+        <img src="assets/img/dest-cove.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="dest-body">
+          <h3 data-i18n="dest.1.t"></h3>
+          <p data-i18n="dest.1.d"></p>
+          <button class="chip-btn" type="button" data-ask="dest.1.t"><span data-i18n="dest.ask"></span></button>
+        </div>
+      </article>
+      <article class="dest-card reveal" data-delay="80">
+        <img src="assets/img/dest-village.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="dest-body">
+          <h3 data-i18n="dest.2.t"></h3>
+          <p data-i18n="dest.2.d"></p>
+          <button class="chip-btn" type="button" data-ask="dest.2.t"><span data-i18n="dest.ask"></span></button>
+        </div>
+      </article>
+      <article class="dest-card reveal" data-delay="160">
+        <img src="assets/img/dest-town.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="dest-body">
+          <h3 data-i18n="dest.3.t"></h3>
+          <p data-i18n="dest.3.d"></p>
+          <button class="chip-btn" type="button" data-ask="dest.3.t"><span data-i18n="dest.ask"></span></button>
+        </div>
+      </article>
+      <article class="dest-card reveal" data-delay="240">
+        <img src="assets/img/dest-sail.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async">
+        <div class="dest-body">
+          <h3 data-i18n="dest.4.t"></h3>
+          <p data-i18n="dest.4.d"></p>
+          <button class="chip-btn" type="button" data-ask="dest.4.t"><span data-i18n="dest.ask"></span></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section class="section" id="presupuesto">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="quote.eyebrow">Presupuesto</p>
+      <h2 data-i18n="quote.title">Calcula tu estancia en 3 pasos.</h2>
+      <p data-i18n="quote.sub">Sin sorpresas: verás el desglose completo antes de enviar nada.</p>
+    </header>
+
+    <div class="quote reveal">
+      <div class="quote-main">
+        <ol class="steps-bar" id="stepsBar">
+          <li class="is-on"><span class="dot">1</span><span data-i18n="quote.s1">Fechas</span></li>
+          <li><span class="dot">2</span><span data-i18n="quote.s2">Habitación</span></li>
+          <li><span class="dot">3</span><span data-i18n="quote.s3">Tus datos</span></li>
+        </ol>
+
+        <form id="quoteForm" novalidate autocomplete="on">
+          <!-- Paso 1 -->
+          <fieldset class="step" data-step="1">
+            <legend class="sr-only" data-i18n="quote.s1">Fechas</legend>
+            <div class="grid-2">
+              <div class="field">
+                <label for="q-checkin" data-i18n="f.checkin">Llegada</label>
+                <input id="q-checkin" name="checkin" type="date" required>
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="q-checkout" data-i18n="f.checkout">Salida</label>
+                <input id="q-checkout" name="checkout" type="date" required>
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="q-adults" data-i18n="f.adults">Adultos</label>
+                <div class="stepper">
+                  <button type="button" class="stp" data-for="q-adults" data-delta="-1" aria-label="−" data-i18n-attr="aria-label:f.less">−</button>
+                  <input id="q-adults" name="adults" type="number" inputmode="numeric" min="1" max="6" step="1" value="2" required>
+                  <button type="button" class="stp" data-for="q-adults" data-delta="1" aria-label="+" data-i18n-attr="aria-label:f.more">+</button>
+                </div>
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="q-children" data-i18n="f.children">Niños (2–12 años)</label>
+                <div class="stepper">
+                  <button type="button" class="stp" data-for="q-children" data-delta="-1" aria-label="−" data-i18n-attr="aria-label:f.less">−</button>
+                  <input id="q-children" name="children" type="number" inputmode="numeric" min="0" max="4" step="1" value="0" required>
+                  <button type="button" class="stp" data-for="q-children" data-delta="1" aria-label="+" data-i18n-attr="aria-label:f.more">+</button>
+                </div>
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Paso 2 -->
+          <fieldset class="step" data-step="2" hidden>
+            <legend class="sr-only" data-i18n="quote.s2">Habitación</legend>
+            <p class="group-label" data-i18n="f.room">Habitación</p>
+            <div class="choices" id="roomChoices">
+              <label class="choice">
+                <input type="radio" name="room" value="standard">
+                <span class="choice-body"><b data-i18n="room.standard">Estándar Jardín</b><small><span data-price="120">120 €</span> <span data-i18n="per.night">/ noche</span> · <span data-i18n="room.cap2">Hasta 2 huéspedes</span></small></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="room" value="deluxe" checked>
+                <span class="choice-body"><b data-i18n="room.deluxe">Suite Deluxe Mar</b><small><span data-price="190">190 €</span> <span data-i18n="per.night">/ noche</span> · <span data-i18n="room.cap3">Hasta 3 huéspedes</span></small></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="room" value="penthouse">
+                <span class="choice-body"><b data-i18n="room.penthouse">Ático Lumbre</b><small><span data-price="340">340 €</span> <span data-i18n="per.night">/ noche</span> · <span data-i18n="room.cap6">Hasta 6 huéspedes</span></small></span>
+              </label>
+            </div>
+            <p class="field-msg group-msg" id="roomMsg" aria-live="polite"></p>
+
+            <p class="group-label" data-i18n="f.extras">Extras</p>
+            <div class="choices choices-2">
+              <label class="choice">
+                <input type="checkbox" name="extras" value="breakfast">
+                <span class="choice-body"><b data-i18n="x.breakfast">Desayuno buffet</b><small><span data-price="18">18 €</span> <span data-i18n="x.pp.night">por persona y noche</span></small></span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="extras" value="spa">
+                <span class="choice-body"><b data-i18n="x.spa">Circuito de spa</b><small><span data-price="45">45 €</span> <span data-i18n="x.pp">por adulto</span></small></span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="extras" value="transfer">
+                <span class="choice-body"><b data-i18n="x.transfer">Traslado aeropuerto</b><small><span data-price="60">60 €</span> <span data-i18n="x.once">por estancia</span></small></span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="extras" value="parking">
+                <span class="choice-body"><b data-i18n="x.parking">Parking cubierto</b><small><span data-price="15">15 €</span> <span data-i18n="per.night">/ noche</span></small></span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="extras" value="late">
+                <span class="choice-body"><b data-i18n="x.late">Salida tardía (16:00)</b><small><span data-price="30">30 €</span> <span data-i18n="x.once">por estancia</span></small></span>
+              </label>
+            </div>
+
+            <div class="field promo">
+              <label for="q-promo" data-i18n="f.promo">Código promocional (opcional)</label>
+              <div class="inline">
+                <input id="q-promo" name="promo" type="text" maxlength="20" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="LUMBRE10">
+                <button class="btn btn-ghost btn-sm" type="button" id="promoApply" data-i18n="f.apply">Aplicar</button>
+              </div>
+              <p class="field-msg" aria-live="polite"></p>
+            </div>
+          </fieldset>
+
+          <!-- Paso 3 -->
+          <fieldset class="step" data-step="3" hidden>
+            <legend class="sr-only" data-i18n="quote.s3">Tus datos</legend>
+            <div class="grid-2">
+              <div class="field">
+                <label for="q-name" data-i18n="f.name">Nombre y apellidos</label>
+                <input id="q-name" name="name" type="text" autocomplete="name" maxlength="80" required>
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="q-email" data-i18n="f.email">Correo electrónico</label>
+                <input id="q-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" spellcheck="false" required placeholder="nombre@correo.com" data-i18n-attr="placeholder:f.email.ph">
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="q-phone" data-i18n="f.phone">Teléfono (opcional)</label>
+                <input id="q-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="+34 600 000 000">
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="q-notes" data-i18n="f.notes">Peticiones especiales (opcional)</label>
+                <textarea id="q-notes" name="notes" rows="2" maxlength="500"></textarea>
+                <p class="field-msg" aria-live="polite"></p>
+              </div>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="q-website">Website</label>
+              <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <div class="field check-field">
+              <label class="check">
+                <input id="q-consent" name="consent" type="checkbox" required>
+                <span data-i18n="f.consent">Acepto que Lumbre use estos datos solo para responder a mi solicitud.</span>
+              </label>
+              <p class="field-msg" aria-live="polite"></p>
+            </div>
+          </fieldset>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" type="button" id="prevBtn" hidden data-i18n="quote.back">Atrás</button>
+            <button class="btn" type="button" id="nextBtn" data-i18n="quote.next">Continuar</button>
+            <button class="btn" type="submit" id="submitBtn" hidden data-i18n="quote.send">Solicitar reserva</button>
+          </div>
+        </form>
+
+        <div class="success" id="quoteSuccess" hidden tabindex="-1">
+          <div class="success-ic"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></div>
+          <h3 data-i18n="ok.title">¡Solicitud lista!</h3>
+          <p id="okText"></p>
+          <p class="ref"><span data-i18n="ok.ref">Referencia</span> <strong id="refCode">LMB-000000</strong></p>
+          <p class="fine" data-i18n="ok.demo">Sitio de demostración: la solicitud todavía no se envía a ningún servidor.</p>
+          <button class="btn btn-ghost" type="button" id="newQuote" data-i18n="ok.again">Hacer otro presupuesto</button>
+        </div>
+      </div>
+
+      <aside class="summary" aria-labelledby="sumTitle">
+        <div class="lumi-row">
+          <svg class="lumi" id="lumi" viewBox="0 0 120 110" aria-hidden="true">
+            <ellipse class="lumi-shadow" cx="60" cy="102" rx="40" ry="5"/>
+            <g class="lumi-body">
+              <rect x="54" y="8" width="12" height="14" rx="6" fill="#B8863B"/>
+              <path d="M16 82c0-28 19-50 44-50s44 22 44 50z" fill="#E9B95C"/>
+              <path d="M28 70c2-16 11-27 23-31" stroke="#fff" stroke-opacity=".9" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <rect x="8" y="80" width="104" height="14" rx="7" fill="#0F5F66"/>
+              <g class="lumi-eyes"><ellipse cx="46" cy="60" rx="5" ry="6.500" fill="#1C2B30"/><ellipse cx="74" cy="60" rx="5" ry="6.500" fill="#1C2B30"/></g>
+              <path id="lumiMouth" d="M50 70q10 8 20 0" stroke="#1C2B30" stroke-width="3.500" stroke-linecap="round" fill="none"/>
+            </g>
+          </svg>
+          <p class="bubble" id="lumiBubble" aria-live="polite"></p>
+        </div>
+        <h3 id="sumTitle" data-i18n="sum.title">Tu presupuesto</h3>
+        <ul class="sum-list" id="sumList"></ul>
+        <div class="sum-total">
+          <span data-i18n="sum.total">Total estimado</span>
+          <strong id="sumTotal">—</strong>
+        </div>
+        <p class="fine" id="sumPerNight"></p>
+        <p class="fine" data-i18n="sum.note">Impuestos incluidos. Precios orientativos; el tipo de cambio es aproximado.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- OPINIONES -->
+<section class="section" id="opiniones">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="rev.eyebrow">Opiniones</p>
+      <h2 data-i18n="rev.title">Quien viene, vuelve.</h2>
+    </header>
+  </div>
+  <div class="marquee" id="marquee">
+    <div class="marquee-track">
+      <figure class="quote-card"><blockquote data-i18n="rev.1">«El mejor desayuno con vistas de nuestra vida. El personal, un diez.»</blockquote><figcaption>Marta · Madrid</figcaption></figure>
+      <figure class="quote-card"><blockquote data-i18n="rev.2">«Reservar fue facilísimo y el precio final fue exactamente el del presupuesto.»</blockquote><figcaption>James · London</figcaption></figure>
+      <figure class="quote-card"><blockquote data-i18n="rev.3">«El spa al atardecer es otra dimensión. Volveremos en otoño.»</blockquote><figcaption>Camille · Lyon</figcaption></figure>
+      <figure class="quote-card"><blockquote data-i18n="rev.4">«Viajamos con niños y pensaron en todo. Cero estrés.»</blockquote><figcaption>Rafael · São Paulo</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- SEGURIDAD -->
+<section class="section section-dark" id="seguridad">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n="sec.eyebrow">Seguridad y privacidad</p>
+      <h2 data-i18n="sec.title">Tus datos, a buen recaudo.</h2>
+      <p data-i18n="sec.sub">La web está construida para pedir lo mínimo y protegerlo al máximo.</p>
+    </header>
+    <div class="sec-grid">
+      <article class="sec-card reveal">
+        <svg class="ic ic-xl" aria-hidden="true"><use href="#i-shield"/></svg>
+        <h3 data-i18n="sec.1.t">Formularios validados</h3>
+        <p data-i18n="sec.1.d">Cada campo se comprueba (correo, fechas, teléfono) y los envíos automáticos de bots se bloquean.</p>
+      </article>
+      <article class="sec-card reveal" data-delay="80">
+        <svg class="ic ic-xl" aria-hidden="true"><use href="#i-lock"/></svg>
+        <h3 data-i18n="sec.2.t">Política de contenido estricta</h3>
+        <p data-i18n="sec.2.d">Una política CSP impide ejecutar código o cargar recursos que no sean de este sitio.</p>
+      </article>
+      <article class="sec-card reveal" data-delay="160">
+        <svg class="ic ic-xl" aria-hidden="true"><use href="#i-eyeoff"/></svg>
+        <h3 data-i18n="sec.3.t">Sin rastreadores</h3>
+        <p data-i18n="sec.3.d">Cero publicidad, cero analítica de terceros y ninguna llamada a servidores externos.</p>
+      </article>
+      <article class="sec-card reveal" data-delay="240">
+        <svg class="ic ic-xl" aria-hidden="true"><use href="#i-cookie"/></svg>
+        <h3 data-i18n="sec.4.t">Cookies bajo tu control</h3>
+        <p data-i18n="sec.4.d">Solo guardamos idioma, moneda y región si lo aceptas, y puedes cambiarlo cuando quieras.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ + CONTACTO -->
+<section class="section" id="contacto">
+  <div class="wrap contact">
+    <div class="reveal">
+      <p class="eyebrow" data-i18n="faq.eyebrow">Preguntas frecuentes</p>
+      <h2 data-i18n="faq.title">Antes de venir.</h2>
+      <div class="faq">
+        <details><summary data-i18n="faq.1.q">¿A qué hora es la entrada y la salida?</summary><p data-i18n="faq.1.a">Entrada desde las 15:00 y salida hasta las 12:00. Con salida tardía, hasta las 16:00.</p></details>
+        <details><summary data-i18n="faq.2.q">¿Puedo cancelar gratis?</summary><p data-i18n="faq.2.a">Sí, hasta 48 horas antes de la llegada sin ningún coste.</p></details>
+        <details><summary data-i18n="faq.3.q">¿Admitís mascotas?</summary><p data-i18n="faq.3.a">Sí, perros y gatos de hasta 15 kg en habitaciones Estándar Jardín.</p></details>
+        <details><summary data-i18n="faq.4.q">¿Hay descuentos por estancias largas?</summary><p data-i18n="faq.4.a">A partir de 7 noches se aplica un 10 % de descuento automáticamente.</p></details>
+      </div>
+    </div>
+
+    <div class="contact-card reveal" data-delay="120">
+      <h2 data-i18n="ct.title">¿Hablamos?</h2>
+      <p data-i18n="ct.sub">Escríbenos y te respondemos en menos de 24 horas.</p>
+      <form id="contactForm" novalidate>
+        <div class="field">
+          <label for="c-name" data-i18n="f.name.short">Nombre</label>
+          <input id="c-name" name="name" type="text" autocomplete="name" maxlength="80" required>
+          <p class="field-msg" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="c-email" data-i18n="f.email">Correo electrónico</label>
+          <input id="c-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" spellcheck="false" required placeholder="nombre@correo.com" data-i18n-attr="placeholder:f.email.ph">
+          <p class="field-msg" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="c-msg" data-i18n="f.msg">Mensaje</label>
+          <textarea id="c-msg" name="message" rows="4" maxlength="1000" required></textarea>
+          <p class="field-msg" aria-live="polite"></p>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="c-website">Website</label>
+          <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <button class="btn btn-block" type="submit" data-i18n="ct.send">Enviar mensaje</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div>
+      <p class="footer-logo">Lumbre Hotel &amp; Spa</p>
+      <p data-i18n="ft.addr">Paseo del Mar 12 · Costa del Sol, España</p>
+    </div>
+    <nav class="footer-nav" aria-label="Pie" data-i18n-attr="aria-label:a11y.footer">
+      <a href="#habitaciones" data-i18n="nav.rooms">Habitaciones</a>
+      <a href="#presupuesto" data-i18n="nav.quote">Presupuesto</a>
+      <a href="#seguridad" data-i18n="nav.security">Seguridad</a>
+      <button type="button" class="linklike" id="openCookies" data-i18n="ft.cookies">Preferencias de cookies</button>
+    </nav>
+    <p class="fine" data-i18n="ft.legal">© 2026 Lumbre Hotel &amp; Spa. Proyecto de demostración.</p>
+  </div>
+</footer>
+
+<!-- Aviso de región -->
+<div class="toast" id="toast" role="status" hidden>
+  <p id="toastText"></p>
+  <button type="button" class="linklike" id="toastAction"></button>
+  <button type="button" class="toast-x" id="toastClose" aria-label="Cerrar" data-i18n-attr="aria-label:a11y.close">×</button>
+</div>
+
+<!-- Cookies -->
+<section class="cookie" id="cookieBanner" role="dialog" aria-labelledby="ckTitle" hidden>
+  <div class="cookie-in">
+    <h2 id="ckTitle" data-i18n="ck.title">Cookies, las justas</h2>
+    <p data-i18n="ck.text">Usamos una cookie necesaria para recordar esta elección y, si aceptas, otra para guardar tu idioma, moneda y la región desde la que nos visitas. Nada de publicidad ni rastreo.</p>
+    <div class="cookie-panel" id="ckPanel" hidden>
+      <label class="check"><input type="checkbox" checked disabled><span data-i18n="ck.necessary">Necesarias (siempre activas)</span></label>
+      <label class="check"><input type="checkbox" id="ckPrefs"><span data-i18n="ck.prefs">Preferencias: idioma, moneda y región</span></label>
+    </div>
+    <div class="cookie-actions">
+      <button class="btn btn-sm" type="button" id="ckAccept" data-i18n="ck.accept">Aceptar todas</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="ckNecessary" data-i18n="ck.only">Solo necesarias</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="ckConfig" data-i18n="ck.config">Configurar</button>
+      <button class="btn btn-sm" type="button" id="ckSave" hidden data-i18n="ck.save">Guardar selección</button>
+    </div>
+  </div>
+</section>
+
+<canvas class="confetti" id="confetti" hidden aria-hidden="true"></canvas>
+
+<noscript><p class="noscript">Activa JavaScript para calcular tu presupuesto y cambiar de idioma.</p></noscript>
+</body>
+</html>
