@@ -27,7 +27,18 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BeachAccess
 import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.DarkMode
+import androidx.compose.material.icons.rounded.LightMode
+import androidx.compose.material.icons.rounded.Sailing
+import androidx.compose.material.icons.rounded.Spa
+import androidx.compose.material.icons.rounded.WbSunny
+import androidx.compose.ui.graphics.luminance
+import com.lumbre.hotel.data.ThemeMode
+import com.lumbre.hotel.ui.components.VibesMarquee
+import com.lumbre.hotel.ui.components.WavesEdge
+import com.lumbre.hotel.ui.components.glass
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.People
 import androidx.compose.material.icons.rounded.Star
@@ -111,6 +122,7 @@ fun HomeScreen(onRoom: (RoomId) -> Unit, onBook: (BookingRoute) -> Unit, onSeeRo
                         Brush.verticalGradient(0f to Color(0x99081E22), 0.4f to Color(0x33081E22), 1f to Color(0xCC081E22))
                     )
                 )
+                WavesEdge(MaterialTheme.colorScheme.background, Modifier.align(Alignment.BottomCenter), height = 72.dp)
                 HeroHeader(onOpenPrefs)
                 MaxWidth(Modifier.align(Alignment.BottomCenter)) {
                     Column(
@@ -133,9 +145,12 @@ fun HomeScreen(onRoom: (RoomId) -> Unit, onBook: (BookingRoute) -> Unit, onSeeRo
         item(key = "quick") {
             MaxWidth(Modifier.offset(y = (-64).dp).padding(horizontal = 16.dp)) { QuickSearch(onBook) }
         }
+        item(key = "vibes") {
+            VibesMarquee(Modifier.offset(y = (-36).dp).appear(4))
+        }
         item(key = "rooms-head") {
             MaxWidth(Modifier.padding(horizontal = 24.dp)) {
-                SectionHeader(t(K.SEC_ROOMS_EYEBROW), t(K.SEC_ROOMS_TITLE), Modifier.appear()) {
+                SectionHeader(t(K.SEC_ROOMS_EYEBROW), t(K.SEC_ROOMS_TITLE), Modifier.appear(), icon = Icons.Rounded.BeachAccess) {
                     TextButton(onClick = onSeeRooms) { Text(t(K.SEE_ALL)) }
                 }
             }
@@ -143,10 +158,14 @@ fun HomeScreen(onRoom: (RoomId) -> Unit, onBook: (BookingRoute) -> Unit, onSeeRo
         }
         item(key = "rooms") { RoomCarousel(onRoom) }
         item(key = "exp") {
-            Spacer(Modifier.height(48.dp))
-            MaxWidth(Modifier.padding(horizontal = 24.dp)) {
+            Spacer(Modifier.height(24.dp))
+            val bg = MaterialTheme.colorScheme.background
+            MaxWidth(
+                Modifier.background(Brush.verticalGradient(listOf(bg, LocalExtras.current.sky, bg)))
+                    .padding(horizontal = 24.dp, vertical = 24.dp)
+            ) {
                 Column {
-                    SectionHeader(t(K.SEC_EXP_EYEBROW), t(K.SEC_EXP_TITLE), Modifier.appear())
+                    SectionHeader(t(K.SEC_EXP_EYEBROW), t(K.SEC_EXP_TITLE), Modifier.appear(), icon = Icons.Rounded.Spa)
                     Spacer(Modifier.height(16.dp))
                     val columns = if (wide) 3 else 2
                     Catalog.experiences.chunked(columns).forEachIndexed { row, chunk ->
@@ -167,7 +186,7 @@ fun HomeScreen(onRoom: (RoomId) -> Unit, onBook: (BookingRoute) -> Unit, onSeeRo
         }
         item(key = "dest") {
             Spacer(Modifier.height(36.dp))
-            MaxWidth(Modifier.padding(horizontal = 24.dp)) { SectionHeader(t(K.SEC_DEST_EYEBROW), t(K.SEC_DEST_TITLE), Modifier.appear()) }
+            MaxWidth(Modifier.padding(horizontal = 24.dp)) { SectionHeader(t(K.SEC_DEST_EYEBROW), t(K.SEC_DEST_TITLE), Modifier.appear(), icon = Icons.Rounded.Sailing) }
             Spacer(Modifier.height(16.dp))
             LazyRow(contentPadding = PaddingValues(horizontal = 24.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                 itemsIndexed(Catalog.destinations) { i, d ->
@@ -182,13 +201,13 @@ fun HomeScreen(onRoom: (RoomId) -> Unit, onBook: (BookingRoute) -> Unit, onSeeRo
         }
         item(key = "reviews") {
             Spacer(Modifier.height(44.dp))
-            MaxWidth(Modifier.padding(horizontal = 24.dp)) { SectionHeader(t(K.SEC_REV_EYEBROW), t(K.SEC_REV_TITLE), Modifier.appear()) }
+            MaxWidth(Modifier.padding(horizontal = 24.dp)) { SectionHeader(t(K.SEC_REV_EYEBROW), t(K.SEC_REV_TITLE), Modifier.appear(), icon = Icons.Rounded.WbSunny) }
             Spacer(Modifier.height(16.dp))
             LazyRow(contentPadding = PaddingValues(horizontal = 24.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                 items(Catalog.reviews) { (text, author) ->
                     Card(
                         Modifier.width(300.dp).appear(),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+                        colors = CardDefaults.cardColors(containerColor = LocalExtras.current.sand),
                         shape = RoundedCornerShape(24.dp),
                     ) {
                         Column(Modifier.padding(20.dp)) {
@@ -216,9 +235,23 @@ fun HomeScreen(onRoom: (RoomId) -> Unit, onBook: (BookingRoute) -> Unit, onSeeRo
 private fun HeroHeader(onOpenPrefs: () -> Unit) {
     val currency = LocalCurrency.current
     val lang = LocalLang.current
+    val repo = AppGraph.repo
+    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
     MaxWidth(Modifier.statusBarsPadding().padding(horizontal = 20.dp, vertical = 12.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Lumbre", color = Color.White, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+            Surface(
+                shape = RoundedCornerShape(50), color = Color.White.copy(alpha = 0.18f), contentColor = Color.White,
+                modifier = Modifier.size(40.dp).border(1.dp, Color.White.copy(alpha = 0.5f), RoundedCornerShape(50))
+                    .bounceClick(scaleDown = 0.85f) { repo.setTheme(if (isDark) ThemeMode.LIGHT else ThemeMode.DARK) },
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    androidx.compose.animation.AnimatedContent(isDark, label = "theme") { dark ->
+                        Icon(if (dark) Icons.Rounded.LightMode else Icons.Rounded.DarkMode, t(K.THEME), modifier = Modifier.size(20.dp))
+                    }
+                }
+            }
+            Spacer(Modifier.width(8.dp))
             Surface(
                 shape = RoundedCornerShape(50), color = Color.White.copy(alpha = 0.18f), contentColor = Color.White,
                 modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.5f), RoundedCornerShape(50)).bounceClick(onClick = onOpenPrefs),
@@ -243,9 +276,9 @@ private fun QuickSearch(onBook: (BookingRoute) -> Unit) {
 
     Card(
         shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-        modifier = Modifier.fillMaxWidth().appear(3, 90f),
+        colors = CardDefaults.cardColors(containerColor = LocalExtras.current.glass),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        modifier = Modifier.fillMaxWidth().appear(3, 90f).glass(RoundedCornerShape(28.dp), Color.Transparent),
     ) {
         Column(Modifier.padding(20.dp)) {
             Row(

@@ -20,7 +20,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BeachAccess
 import androidx.compose.material.icons.rounded.Key
+import androidx.compose.material.icons.rounded.Sailing
+import androidx.compose.material.icons.rounded.WbSunny
+import com.lumbre.hotel.ui.components.FloatingIcon
 import androidx.compose.material.icons.rounded.Smartphone
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -85,6 +89,12 @@ fun TripsScreen(onBook: () -> Unit, onKey: (String) -> Unit) {
         if (mine.isEmpty()) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column(Modifier.fillMaxWidth().padding(top = 48.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(28.dp), modifier = Modifier.appear(0)) {
+                        FloatingIcon(Icons.Rounded.BeachAccess, MaterialTheme.colorScheme.tertiary, size = 30.dp)
+                        FloatingIcon(Icons.Rounded.WbSunny, MaterialTheme.colorScheme.secondary, size = 34.dp, delayMs = 400)
+                        FloatingIcon(Icons.Rounded.Sailing, MaterialTheme.colorScheme.primary, size = 30.dp, delayMs = 800)
+                    }
+                    Spacer(Modifier.height(12.dp))
                     Lumi(Mood.Think, Unit, Modifier.size(120.dp).appear(1))
                     Spacer(Modifier.height(16.dp))
                     Text(t(K.TRIPS_EMPTY), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.appear(2))

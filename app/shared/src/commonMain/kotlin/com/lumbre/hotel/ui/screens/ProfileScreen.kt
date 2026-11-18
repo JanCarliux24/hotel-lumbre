@@ -82,6 +82,8 @@ fun ProfileScreen(onOpenAdmin: () -> Unit) {
             }
 
             Section(t(K.PREFS), 1) {
+                ThemeSelector(prefs.theme) { repo.setTheme(it) }
+                Spacer(Modifier.height(18.dp))
                 LanguageSelector(prefs.lang) { repo.setLang(it) }
                 Spacer(Modifier.height(18.dp))
                 CurrencySelector(prefs.currency) { repo.setCurrency(it) }

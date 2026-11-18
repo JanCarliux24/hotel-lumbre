@@ -188,10 +188,19 @@ fun LumbreButton(
 }
 
 @Composable
-fun SectionHeader(eyebrow: String, title: String, modifier: Modifier = Modifier, action: (@Composable () -> Unit)? = null) {
+fun SectionHeader(
+    eyebrow: String, title: String, modifier: Modifier = Modifier,
+    icon: ImageVector? = null, action: (@Composable () -> Unit)? = null,
+) {
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
         Column(Modifier.weight(1f)) {
-            Text(eyebrow.uppercase(), style = MaterialTheme.typography.labelMedium, color = LocalExtras.current.gold)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (icon != null) {
+                    FloatingIcon(icon, MaterialTheme.colorScheme.secondary, size = 20.dp, delayMs = eyebrow.length * 97)
+                    Spacer(Modifier.width(8.dp))
+                }
+                Text(eyebrow.uppercase(), style = MaterialTheme.typography.labelMedium, color = LocalExtras.current.gold)
+            }
             Spacer(Modifier.height(6.dp))
             Text(title, style = MaterialTheme.typography.headlineMedium)
         }

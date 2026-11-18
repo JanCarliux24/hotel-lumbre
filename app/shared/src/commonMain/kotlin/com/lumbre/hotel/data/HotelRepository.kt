@@ -54,6 +54,7 @@ class HotelRepository(private val store: Settings = Settings()) {
     // ---------- Preferencias ----------
     fun setLang(lang: Lang) = editPrefs { it.copy(lang = lang) }
     fun setCurrency(currency: Currency) = editPrefs { it.copy(currency = currency) }
+    fun setTheme(mode: ThemeMode) = editPrefs { it.copy(theme = mode) }
     fun markRegionNoticeShown() = editPrefs { it.copy(regionNoticeShown = true) }
 
     /** Solo la web puede abrir una sesión administrativa. */

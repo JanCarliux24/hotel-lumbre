@@ -34,26 +34,32 @@ object Palette {
     val Gold = Color(0xFFA9762A)
     val GoldLight = Color(0xFFE9B95C)
     val GoldSoft = Color(0xFFF6E3C0)
-    val Coral = Color(0xFFD9603B)
+    val Coral = Color(0xFFF2704F)
+    val Turquoise = Color(0xFF0A7C86)
+    val Sun = Color(0xFFF5A83A)
+    val Navy = Color(0xFF16313A)
+    val Sky = Color(0xFFE6F6FA)
+    val SandLight = Color(0xFFFFF4E2)
     val Ok = Color(0xFF1F7A4D)
     val Error = Color(0xFFB3261E)
 }
 
+// Tema claro (predeterminado): blanco luminoso, turquesa de mar, sol, coral de atardecer y arena.
 private val LightColors = lightColorScheme(
-    primary = Palette.Sea, onPrimary = Color.White,
-    primaryContainer = Palette.SeaSoft, onPrimaryContainer = Palette.SeaNight,
-    secondary = Palette.Gold, onSecondary = Color.White,
-    secondaryContainer = Palette.GoldSoft, onSecondaryContainer = Color(0xFF3D2A0A),
+    primary = Palette.Turquoise, onPrimary = Color.White,
+    primaryContainer = Color(0xFFD6F3F2), onPrimaryContainer = Color(0xFF00363B),
+    secondary = Palette.Sun, onSecondary = Color(0xFF3A2400),
+    secondaryContainer = Color(0xFFFFE9C7), onSecondaryContainer = Color(0xFF3A2400),
     tertiary = Palette.Coral, onTertiary = Color.White,
-    tertiaryContainer = Color(0xFFFFDBCF), onTertiaryContainer = Color(0xFF3A0B00),
-    background = Palette.Cream, onBackground = Palette.Ink,
-    surface = Palette.Cream, onSurface = Palette.Ink,
-    surfaceVariant = Palette.Sand, onSurfaceVariant = Palette.Muted,
-    surfaceContainerLowest = Color.White, surfaceContainerLow = Color(0xFFF8F2E8),
-    surfaceContainer = Palette.Sand, surfaceContainerHigh = Color(0xFFEDE4D3), surfaceContainerHighest = Palette.SandDeep,
-    outline = Color(0xFFB4AA9A), outlineVariant = Color(0xFFE2D8C6),
+    tertiaryContainer = Color(0xFFFFDDD3), onTertiaryContainer = Color(0xFF3A0B00),
+    background = Color.White, onBackground = Palette.Navy,
+    surface = Color.White, onSurface = Palette.Navy,
+    surfaceVariant = Color(0xFFF1F6F6), onSurfaceVariant = Color(0xFF5B6E73),
+    surfaceContainerLowest = Color.White, surfaceContainerLow = Color(0xFFFBF9F5),
+    surfaceContainer = Color(0xFFF6F1E8), surfaceContainerHigh = Color(0xFFF0E9DC), surfaceContainerHighest = Color(0xFFE9E0CF),
+    outline = Color(0xFFB9C3C4), outlineVariant = Color(0xFFE3E8E8),
     error = Palette.Error, onError = Color.White, errorContainer = Color(0xFFFFDAD6), onErrorContainer = Color(0xFF410002),
-    inverseSurface = Palette.SeaNight, inverseOnSurface = Palette.Cream, inversePrimary = Color(0xFF7FC8C4),
+    inverseSurface = Palette.SeaNight, inverseOnSurface = Color.White, inversePrimary = Color(0xFF7FD8D4),
 )
 
 private val DarkColors = darkColorScheme(
@@ -73,10 +79,10 @@ private val DarkColors = darkColorScheme(
 
 /** Colores semánticos que Material no cubre. */
 @Immutable
-data class Extras(val ok: Color, val okContainer: Color, val gold: Color, val heroScrim: Color)
+data class Extras(val ok: Color, val okContainer: Color, val gold: Color, val heroScrim: Color, val sky: Color, val sand: Color, val glass: Color)
 
 val LocalExtras = staticCompositionLocalOf {
-    Extras(Palette.Ok, Color(0xFFD8F0E1), Palette.Gold, Palette.SeaNight)
+    Extras(Palette.Ok, Color(0xFFD8F0E1), Color(0xFFB87A1E), Palette.SeaNight, Palette.Sky, Palette.SandLight, Color(0xE6FFFFFF))
 }
 
 @Composable
@@ -102,8 +108,8 @@ fun LumbreTheme(dark: Boolean, content: @Composable () -> Unit) {
         bodyLarge = b.bodyLarge.text(), bodyMedium = b.bodyMedium.text(), bodySmall = b.bodySmall.text(),
         labelLarge = b.labelLarge.text(FontWeight.SemiBold), labelMedium = b.labelMedium.text(FontWeight.SemiBold), labelSmall = b.labelSmall.text(FontWeight.SemiBold),
     )
-    val extras = if (dark) Extras(Color(0xFF8FD6AE), Color(0xFF15402A), Palette.GoldLight, Color(0xFF061416))
-    else Extras(Palette.Ok, Color(0xFFD8F0E1), Palette.Gold, Palette.SeaNight)
+    val extras = if (dark) Extras(Color(0xFF8FD6AE), Color(0xFF15402A), Palette.GoldLight, Color(0xFF061416), Color(0xFF12262A), Color(0xFF1F2A2C), Color(0xCC132224))
+    else Extras(Palette.Ok, Color(0xFFD8F0E1), Color(0xFFB87A1E), Palette.SeaNight, Palette.Sky, Palette.SandLight, Color(0xE6FFFFFF))
 
     androidx.compose.runtime.CompositionLocalProvider(LocalExtras provides extras) {
         MaterialTheme(

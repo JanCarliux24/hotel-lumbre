@@ -54,6 +54,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.lumbre.hotel.data.AppGraph
+import com.lumbre.hotel.data.ThemeMode
 import com.lumbre.hotel.i18n.K
 import com.lumbre.hotel.i18n.LocalLang
 import com.lumbre.hotel.i18n.regionName
@@ -95,7 +96,13 @@ fun App() {
     val snackbar = remember { SnackbarHostState() }
     var showPrefs by remember { mutableStateOf(false) }
 
-    LumbreTheme(dark = isSystemInDarkTheme()) {
+    val systemDark = isSystemInDarkTheme()
+    val dark = when (prefs.theme) {
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+        ThemeMode.SYSTEM -> systemDark
+    }
+    LumbreTheme(dark = dark) {
         CompositionLocalProvider(
             LocalLang provides prefs.lang,
             LocalCurrency provides prefs.currency,

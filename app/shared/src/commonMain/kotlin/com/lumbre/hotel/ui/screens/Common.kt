@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BrightnessAuto
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.DarkMode
+import androidx.compose.material.icons.rounded.LightMode
+import androidx.compose.foundation.layout.size
+import com.lumbre.hotel.data.ThemeMode
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.FilterChip
@@ -87,6 +92,8 @@ fun PrefsSheet(onDismiss: () -> Unit) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp).navigationBarsPadding().padding(bottom = 24.dp)) {
             Text(t(K.PREFS_TITLE), style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(20.dp))
+            ThemeSelector(prefs.theme) { repo.setTheme(it) }
+            Spacer(Modifier.height(20.dp))
             LanguageSelector(prefs.lang) { repo.setLang(it) }
             Spacer(Modifier.height(20.dp))
             CurrencySelector(prefs.currency) { repo.setCurrency(it) }
@@ -95,6 +102,27 @@ fun PrefsSheet(onDismiss: () -> Unit) {
                 regionName(prefs.region, prefs.lang)?.let { t(K.REGION, it) } ?: t(K.REGION_UNKNOWN),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+    }
+}
+
+@Composable
+fun ThemeSelector(selected: ThemeMode, onSelect: (ThemeMode) -> Unit) {
+    val options = listOf(
+        Triple(ThemeMode.LIGHT, K.THEME_LIGHT, Icons.Rounded.LightMode),
+        Triple(ThemeMode.DARK, K.THEME_DARK, Icons.Rounded.DarkMode),
+        Triple(ThemeMode.SYSTEM, K.THEME_SYSTEM, Icons.Rounded.BrightnessAuto),
+    )
+    Text(t(K.THEME), style = MaterialTheme.typography.titleSmall)
+    Spacer(Modifier.height(8.dp))
+    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+        options.forEachIndexed { i, (mode, label, icon) ->
+            SegmentedButton(
+                selected = mode == selected,
+                onClick = { onSelect(mode) },
+                shape = SegmentedButtonDefaults.itemShape(i, options.size),
+                icon = { Icon(icon, null, Modifier.size(18.dp)) },
+            ) { Text(t(label)) }
         }
     }
 }

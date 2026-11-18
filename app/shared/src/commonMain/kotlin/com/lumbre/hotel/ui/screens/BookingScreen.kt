@@ -624,6 +624,10 @@ private fun SuccessView(res: Reservation, quote: Quote?, onTrips: () -> Unit, on
                 LumbreButton(t(K.GO_HOME), onHome, Modifier.fillMaxWidth(), kind = BtnKind.Secondary)
             }
         }
+        com.lumbre.hotel.ui.components.WavesEdge(
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            Modifier.align(Alignment.BottomCenter), height = 90.dp,
+        )
         ConfettiBurst(res.ref)
     }
 }

@@ -68,11 +68,16 @@ enum class Currency(val code: String, val symbol: String, val rate: Double) {
 }
 
 @Serializable
+enum class ThemeMode { LIGHT, DARK, SYSTEM }
+
+@Serializable
 data class Prefs(
     val lang: Lang = Lang.ES,
     val currency: Currency = Currency.EUR,
     val region: String? = null,
     val regionNoticeShown: Boolean = false,
+    /** Claro por defecto: es un hotel de playa. */
+    val theme: ThemeMode = ThemeMode.LIGHT,
     /** Sesión de administrador de demostración (solo se puede activar en la web). */
     val admin: Boolean = false,
 )

@@ -24,7 +24,9 @@ app/
 - **Perfil**: idioma (ES, EN, PT, FR) y moneda (EUR, USD, MXN, GBP, BRL, COP), detectados según el idioma y la región del dispositivo o navegador.
 - **Panel administrativo**: indicadores, gráfica de ingresos, gestión de reservas, precios, disponibilidad y promociones. Sus cambios se reflejan al instante en el resto de la app.
 - **Animaciones**: botones con canto que se hunde y rebote elástico, mascota Lumi que reacciona al formulario, confeti, contadores animados, apariciones escalonadas y vibración háptica en móvil.
-- **Diseño adaptable**: barra inferior en móvil y raíl lateral en pantallas anchas; tema claro y oscuro automático.
+- **Ambiente vacacional**: olas animadas al pie de las fotos, tarjetas translúcidas tipo cristal, iconos de playa que flotan (sombrilla, sol, velero) y una cinta continua con los momentos del viaje.
+- **Tema claro por defecto** (blanco, turquesa, sol, coral y arena), con selector Claro, Oscuro o Sistema en el perfil y botón rápido de sol/luna en la portada.
+- **Diseño adaptable**: barra inferior en móvil y raíl lateral en pantallas anchas.
 
 ## Normas por plataforma
 

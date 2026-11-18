@@ -4,7 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #FBF7F0;
+    background: #FFFFFF;
 }
 
 #composeTarget {
@@ -12,6 +12,7 @@ html, body {
     inset: 0;
 }
 
+/* Pantalla de carga: amanecer sobre el mar */
 #splash {
     position: fixed;
     inset: 0;
@@ -19,25 +20,34 @@ html, body {
     display: grid;
     place-content: center;
     justify-items: center;
-    gap: 14px;
-    background: #FBF7F0;
-    color: #1C2B30;
-    font: 600 22px/1.2 Georgia, "Times New Roman", serif;
-    transition: opacity .45s ease, transform .45s ease;
+    gap: 10px;
+    background: linear-gradient(180deg, #E6F6FA 0%, #FFFFFF 55%, #FFF4E2 100%);
+    color: #16313A;
+    font: 600 30px/1.2 Georgia, "Times New Roman", serif;
+    transition: opacity .5s ease, transform .5s ease;
+    overflow: hidden;
 }
 #splash.out { opacity: 0; transform: scale(1.04); pointer-events: none; }
-#splash svg { width: 72px; height: 72px; animation: bob 1.6s ease-in-out infinite; }
 #splash p { margin: 0; letter-spacing: .02em; }
-#splash .bar { width: 140px; height: 6px; border-radius: 6px; background: #E7DCC8; overflow: hidden; }
-#splash .bar span { display: block; width: 40%; height: 100%; border-radius: 6px; background: #0F5F66; animation: load 1.2s cubic-bezier(.65,0,.35,1) infinite; }
-
-@keyframes bob { 50% { transform: translateY(-6px); } }
-@keyframes load { from { transform: translateX(-110%); } to { transform: translateX(260%); } }
-
-@media (prefers-color-scheme: dark) {
-    html, body, #splash { background: #0E1A1C; color: #ECE4D6; }
-    #splash .bar { background: #29393C; }
+#splash .tag { font: 500 13px/1.4 system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #B87A1E; }
+#splash .sun {
+    width: 84px; height: 84px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #FFE29A, #F5A83A 70%);
+    box-shadow: 0 0 0 14px rgba(245, 168, 58, .18), 0 0 0 30px rgba(245, 168, 58, .08);
+    animation: rise 2.4s ease-in-out infinite alternate;
 }
+#splash .bar { margin-top: 10px; width: 160px; height: 6px; border-radius: 6px; background: #E3E8E8; overflow: hidden; }
+#splash .bar span { display: block; width: 40%; height: 100%; border-radius: 6px; background: #0A7C86; animation: load 1.2s cubic-bezier(.65,0,.35,1) infinite; }
+#splash .waves { position: absolute; left: 0; right: 0; bottom: 0; width: 200%; height: 140px; animation: drift 9s linear infinite; }
+#splash .w1 { fill: rgba(10, 124, 134, .18); }
+#splash .w2 { fill: rgba(10, 124, 134, .3); animation: bob 3s ease-in-out infinite alternate; }
+#splash .w3 { fill: rgba(10, 124, 134, .5); }
+
+@keyframes rise { from { transform: translateY(6px); } to { transform: translateY(-8px); } }
+@keyframes load { from { transform: translateX(-110%); } to { transform: translateX(260%); } }
+@keyframes drift { to { transform: translateX(-50%); } }
+@keyframes bob { to { transform: translateY(8px); } }
+
 @media (prefers-reduced-motion: reduce) {
-    #splash svg, #splash .bar span { animation: none; }
+    #splash *, #splash { animation: none !important; }
 }

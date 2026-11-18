@@ -36,6 +36,8 @@ enum class K {
     AD_GUEST, AD_ROOM, AD_DATES, AD_TOTAL, AD_STATUS, ACT_CONFIRM, ACT_CHECKIN, ACT_CANCEL, AD_PRICE, AD_AVAILABLE,
     AD_SAVED, AD_NEW_PROMO, AD_CODE, AD_PERCENT, AD_REV_BY_ROOM, AD_NO_RESULTS, AD_GUARD_TITLE, AD_GUARD_SUB, AD_ENTER,
     AD_EXIT, AD_ACTIVE, PREFS_TITLE,
+    THEME, THEME_LIGHT, THEME_DARK, THEME_SYSTEM,
+    VIBE_BEACH, VIBE_SUN, VIBE_SPA, VIBE_FOOD, VIBE_SAIL, VIBE_SUNSET, VIBE_POOL, VIBE_FAMILY, VIBES_TITLE,
 }
 
 val LocalLang = staticCompositionLocalOf { Lang.ES }
@@ -69,6 +71,7 @@ fun regionName(code: String?, lang: Lang): String? =
     code?.let { regionNames[it]?.get(lang.ordinal) ?: it }
 
 private val ES: Map<K, String> = mapOf(
+    K.THEME to "Tema", K.THEME_LIGHT to "Claro", K.THEME_DARK to "Oscuro", K.THEME_SYSTEM to "Sistema", K.VIBE_BEACH to "Playa a 120 m", K.VIBE_SUN to "320 días de sol", K.VIBE_SPA to "Spa y relax", K.VIBE_FOOD to "Gastronomía", K.VIBE_SAIL to "Rutas en velero", K.VIBE_SUNSET to "Atardeceres", K.VIBE_POOL to "Piscina infinita", K.VIBE_FAMILY to "Ideal en familia", K.VIBES_TITLE to "Tus vacaciones",
     K.TAB_HOME to "Inicio", K.TAB_ROOMS to "Habitaciones", K.TAB_TRIPS to "Reservas", K.TAB_PROFILE to "Perfil", K.TAB_ADMIN to "Admin",
     K.BACK to "Atrás", K.CLOSE to "Cerrar", K.CANCEL to "Cancelar", K.SAVE to "Guardar", K.CONTINUE to "Continuar", K.APPLY to "Aplicar",
     K.CHANGE to "Cambiar", K.ADD to "Añadir", K.DEMO to "Demo", K.SEE_ALL to "Ver todas", K.DELETE to "Eliminar",
@@ -152,6 +155,7 @@ private val ES: Map<K, String> = mapOf(
 )
 
 private val EN: Map<K, String> = mapOf(
+    K.THEME to "Theme", K.THEME_LIGHT to "Light", K.THEME_DARK to "Dark", K.THEME_SYSTEM to "System", K.VIBE_BEACH to "Beach 120 m away", K.VIBE_SUN to "320 sunny days", K.VIBE_SPA to "Spa & relax", K.VIBE_FOOD to "Food", K.VIBE_SAIL to "Sailing trips", K.VIBE_SUNSET to "Sunsets", K.VIBE_POOL to "Infinity pool", K.VIBE_FAMILY to "Family friendly", K.VIBES_TITLE to "Your holiday",
     K.TAB_HOME to "Home", K.TAB_ROOMS to "Rooms", K.TAB_TRIPS to "Trips", K.TAB_PROFILE to "Profile", K.TAB_ADMIN to "Admin",
     K.BACK to "Back", K.CLOSE to "Close", K.CANCEL to "Cancel", K.SAVE to "Save", K.CONTINUE to "Continue", K.APPLY to "Apply",
     K.CHANGE to "Change", K.ADD to "Add", K.DEMO to "Demo", K.SEE_ALL to "See all", K.DELETE to "Delete",
@@ -235,6 +239,7 @@ private val EN: Map<K, String> = mapOf(
 )
 
 private val PT: Map<K, String> = mapOf(
+    K.THEME to "Tema", K.THEME_LIGHT to "Claro", K.THEME_DARK to "Escuro", K.THEME_SYSTEM to "Sistema", K.VIBE_BEACH to "Praia a 120 m", K.VIBE_SUN to "320 dias de sol", K.VIBE_SPA to "Spa e relax", K.VIBE_FOOD to "Gastronomia", K.VIBE_SAIL to "Passeios de veleiro", K.VIBE_SUNSET to "Pores do sol", K.VIBE_POOL to "Piscina infinita", K.VIBE_FAMILY to "Ideal para famílias", K.VIBES_TITLE to "Suas férias",
     K.TAB_HOME to "Início", K.TAB_ROOMS to "Quartos", K.TAB_TRIPS to "Reservas", K.TAB_PROFILE to "Perfil", K.TAB_ADMIN to "Admin",
     K.BACK to "Voltar", K.CLOSE to "Fechar", K.CANCEL to "Cancelar", K.SAVE to "Salvar", K.CONTINUE to "Continuar", K.APPLY to "Aplicar",
     K.CHANGE to "Alterar", K.ADD to "Adicionar", K.DEMO to "Demo", K.SEE_ALL to "Ver todos", K.DELETE to "Excluir",
@@ -318,6 +323,7 @@ private val PT: Map<K, String> = mapOf(
 )
 
 private val FR: Map<K, String> = mapOf(
+    K.THEME to "Thème", K.THEME_LIGHT to "Clair", K.THEME_DARK to "Sombre", K.THEME_SYSTEM to "Système", K.VIBE_BEACH to "Plage à 120 m", K.VIBE_SUN to "320 jours de soleil", K.VIBE_SPA to "Spa et détente", K.VIBE_FOOD to "Gastronomie", K.VIBE_SAIL to "Sorties en voilier", K.VIBE_SUNSET to "Couchers de soleil", K.VIBE_POOL to "Piscine à débordement", K.VIBE_FAMILY to "Idéal en famille", K.VIBES_TITLE to "Vos vacances",
     K.TAB_HOME to "Accueil", K.TAB_ROOMS to "Chambres", K.TAB_TRIPS to "Séjours", K.TAB_PROFILE to "Profil", K.TAB_ADMIN to "Admin",
     K.BACK to "Retour", K.CLOSE to "Fermer", K.CANCEL to "Annuler", K.SAVE to "Enregistrer", K.CONTINUE to "Continuer", K.APPLY to "Appliquer",
     K.CHANGE to "Modifier", K.ADD to "Ajouter", K.DEMO to "Démo", K.SEE_ALL to "Tout voir", K.DELETE to "Supprimer",
