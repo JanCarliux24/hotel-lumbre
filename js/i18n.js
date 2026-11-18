@@ -3,7 +3,7 @@ window.LUMBRE_I18N = {
   es: {
     'meta.title': 'Lumbre Hotel & Spa — Despierta frente al mar',
     'a11y.skip': 'Saltar al contenido', 'a11y.nav': 'Principal', 'a11y.menu': 'Abrir menú', 'a11y.footer': 'Pie de página', 'a11y.close': 'Cerrar',
-    'nav.rooms': 'Habitaciones', 'nav.exp': 'Experiencias', 'nav.quote': 'Presupuesto', 'nav.security': 'Seguridad', 'nav.contact': 'Contacto', 'nav.book': 'Reservar',
+    'nav.rooms': 'Habitaciones', 'nav.exp': 'Experiencias', 'nav.quote': 'Presupuesto', 'nav.security': 'Seguridad', 'nav.contact': 'Contacto', 'nav.book': 'Reservar', 'nav.app': 'App', 'nav.apk': 'Descargar para Android',
     'prefs.title': 'Idioma y moneda', 'prefs.lang': 'Idioma', 'prefs.cur': 'Moneda',
     'prefs.region': 'Región detectada: {region}.', 'prefs.region.unknown': 'No hemos podido detectar tu región.',
     'toast.geo': 'Parece que nos visitas desde {region}: te mostramos la web en {lang} y los precios en {cur}.', 'toast.change': 'Cambiar',
@@ -75,7 +75,7 @@ window.LUMBRE_I18N = {
   en: {
     'meta.title': 'Lumbre Hotel & Spa — Wake up by the sea',
     'a11y.skip': 'Skip to content', 'a11y.nav': 'Main', 'a11y.menu': 'Open menu', 'a11y.footer': 'Footer', 'a11y.close': 'Close',
-    'nav.rooms': 'Rooms', 'nav.exp': 'Experiences', 'nav.quote': 'Quote', 'nav.security': 'Security', 'nav.contact': 'Contact', 'nav.book': 'Book now',
+    'nav.rooms': 'Rooms', 'nav.exp': 'Experiences', 'nav.quote': 'Quote', 'nav.security': 'Security', 'nav.contact': 'Contact', 'nav.book': 'Book now', 'nav.app': 'App', 'nav.apk': 'Download for Android',
     'prefs.title': 'Language & currency', 'prefs.lang': 'Language', 'prefs.cur': 'Currency',
     'prefs.region': 'Detected region: {region}.', 'prefs.region.unknown': 'We could not detect your region.',
     'toast.geo': 'Looks like you are visiting from {region}: showing the site in {lang} with prices in {cur}.', 'toast.change': 'Change',
@@ -147,7 +147,7 @@ window.LUMBRE_I18N = {
   pt: {
     'meta.title': 'Lumbre Hotel & Spa — Acorde de frente para o mar',
     'a11y.skip': 'Ir para o conteúdo', 'a11y.nav': 'Principal', 'a11y.menu': 'Abrir menu', 'a11y.footer': 'Rodapé', 'a11y.close': 'Fechar',
-    'nav.rooms': 'Quartos', 'nav.exp': 'Experiências', 'nav.quote': 'Orçamento', 'nav.security': 'Segurança', 'nav.contact': 'Contato', 'nav.book': 'Reservar',
+    'nav.rooms': 'Quartos', 'nav.exp': 'Experiências', 'nav.quote': 'Orçamento', 'nav.security': 'Segurança', 'nav.contact': 'Contato', 'nav.book': 'Reservar', 'nav.app': 'App', 'nav.apk': 'Baixar para Android',
     'prefs.title': 'Idioma e moeda', 'prefs.lang': 'Idioma', 'prefs.cur': 'Moeda',
     'prefs.region': 'Região detectada: {region}.', 'prefs.region.unknown': 'Não conseguimos detectar a sua região.',
     'toast.geo': 'Parece que você nos visita de {region}: mostramos o site em {lang} e os preços em {cur}.', 'toast.change': 'Alterar',
@@ -219,7 +219,7 @@ window.LUMBRE_I18N = {
   fr: {
     'meta.title': 'Lumbre Hotel & Spa — Réveillez-vous face à la mer',
     'a11y.skip': 'Aller au contenu', 'a11y.nav': 'Principal', 'a11y.menu': 'Ouvrir le menu', 'a11y.footer': 'Pied de page', 'a11y.close': 'Fermer',
-    'nav.rooms': 'Chambres', 'nav.exp': 'Expériences', 'nav.quote': 'Devis', 'nav.security': 'Sécurité', 'nav.contact': 'Contact', 'nav.book': 'Réserver',
+    'nav.rooms': 'Chambres', 'nav.exp': 'Expériences', 'nav.quote': 'Devis', 'nav.security': 'Sécurité', 'nav.contact': 'Contact', 'nav.book': 'Réserver', 'nav.app': 'App', 'nav.apk': 'Télécharger pour Android',
     'prefs.title': 'Langue et devise', 'prefs.lang': 'Langue', 'prefs.cur': 'Devise',
     'prefs.region': 'Région détectée : {region}.', 'prefs.region.unknown': 'Nous n’avons pas pu détecter votre région.',
     'toast.geo': 'Vous semblez nous rendre visite depuis {region} : site affiché en {lang}, prix en {cur}.', 'toast.change': 'Modifier',

@@ -1,0 +1,71 @@
+# Publica en GitHub Pages, en cada push a main:
+#   /        → web del hotel (HTML, CSS y JS)
+#   /app/    → app Kotlin Multiplatform compilada para el navegador (Wasm)
+#   /app/lumbre.apk → APK de Android para instalar en el móvil
+name: Publicar web y app
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Compilar la app web (Kotlin/Wasm)
+        working-directory: app
+        run: |
+          chmod +x gradlew
+          ./gradlew :webApp:wasmJsBrowserDistribution --no-configuration-cache
+
+      - name: Compilar el APK de Android
+        id: apk
+        continue-on-error: true
+        working-directory: app
+        run: ./gradlew :androidApp:assembleDebug --no-configuration-cache
+
+      - name: Preparar el sitio
+        run: |
+          mkdir -p _site/app
+          cp index.html _site/
+          cp -r css js assets _site/
+          cp -r app/webApp/build/dist/wasmJs/productionExecutable/. _site/app/
+          if [ -f app/androidApp/build/outputs/apk/debug/androidApp-debug.apk ]; then
+            cp app/androidApp/build/outputs/apk/debug/androidApp-debug.apk _site/app/lumbre.apk
+          fi
+          touch _site/.nojekyll
+          du -sh _site _site/app
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
