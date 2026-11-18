@@ -2,6 +2,10 @@
 
 Página de un hotel (ficticio) hecha con HTML, CSS y JavaScript sin dependencias ni proceso de build.
 
+## App móvil y web (KMP)
+
+En [`app/`](app/README.md) está la app de Android, iOS y web hecha con Kotlin Multiplatform y Compose Multiplatform: mismo código y diseño en las tres plataformas, panel administrativo solo en web y llave digital solo en móvil.
+
 ## Qué incluye
 
 - **Fotografía real** en hero, habitaciones, experiencias y destino (17 fotos optimizadas en `assets/img`).

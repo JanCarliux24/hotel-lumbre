@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo Lumbre (sol sobre el horizonte) dentro de la zona segura del icono adaptable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:fillColor="#E9B95C" android:pathData="M34,62a20,20 0,0 1,40 0z" />
+    <path android:fillColor="#FBF7F0" android:pathData="M30,63h48a3,3 0,0 1,0 6h-48a3,3 0,0 1,0 -6z" />
+    <path android:fillColor="#FBF7F0" android:pathData="M51,34h6v8h-6z" />
+</vector>
