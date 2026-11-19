@@ -282,7 +282,7 @@ def diagrama_er():
 # ======================================================================================
 # 4. CRITERIOS DE SELECCIÓN
 # ======================================================================================
-CANDIDATOS = ['Cloud Firestore (Firebase)', 'PostgreSQL (Supabase)', 'MySQL 8 (autoalojado)', 'SQL Server Express', 'MongoDB Atlas', 'SQLite']
+CANDIDATOS = ['Firebase (Cloud Firestore + Authentication)', 'PostgreSQL (Supabase)', 'MySQL 8 (autoalojado)', 'SQL Server Express', 'MongoDB Atlas', 'SQLite']
 
 
 def criterios():
@@ -311,7 +311,7 @@ def criterios():
     ], [3, 10, 3], 'Criterios ponderados (suman 100 %)')
     d.h1('3. Candidatos evaluados')
     d.table(['Candidato', 'Tipo', 'Plan gratuito'], [
-        ['Cloud Firestore (Firebase)', 'NoSQL documental gestionado', 'Spark: 1 GiB, 50 000 lecturas y 20 000 escrituras/día, sin tarjeta'],
+        ['Firebase (Cloud Firestore + Authentication)', 'NoSQL documental gestionado', 'Spark: 1 GiB, 50 000 lecturas y 20 000 escrituras/día, sin tarjeta'],
         ['PostgreSQL (Supabase)', 'Relacional gestionado', '500 MB, proyecto pausado tras inactividad'],
         ['MySQL 8 (autoalojado)', 'Relacional', 'Gratis, pero requiere servidor propio (costo de hosting)'],
         ['SQL Server Express', 'Relacional', 'Gratis hasta 10 GB; Windows/servidor propio'],
@@ -344,7 +344,7 @@ def criterios():
     d.h1('5. Matriz de decisión ponderada')
     pesos = [0.20, 0.20, 0.20, 0.15, 0.15, 0.10]
     notas = {
-        'Cloud Firestore (Firebase)': [4, 5, 5, 5, 5, 5],
+        'Firebase (Cloud Firestore + Authentication)': [4, 5, 5, 5, 5, 5],
         'PostgreSQL (Supabase)': [5, 4, 5, 4, 4, 4],
         'MySQL 8 (autoalojado)': [5, 2, 3, 3, 2, 3],
         'SQL Server Express': [5, 2, 3, 2, 2, 3],
@@ -359,7 +359,7 @@ def criterios():
     rows.sort(key=lambda r: -float(r[-1]))
     d.table(['Candidato', 'Téc. 20 %', 'Econ. 20 %', 'Seg. 20 %', 'Escal. 15 %', 'Compat. 15 %', 'Uso 10 %', 'Total (/5)'],
             rows, [4.2, 1.6, 1.6, 1.6, 1.7, 1.8, 1.5, 1.8], 'Matriz de decisión (escala 1 a 5)', 9)
-    d.p('Firestore obtiene la mayor puntuación (4.80) gracias a costo cero, seguridad en el servidor y compatibilidad '
+    d.p('Firebase obtiene la mayor puntuación (4.80) gracias a costo cero, seguridad en el servidor y compatibilidad '
         'multiplataforma; PostgreSQL en Supabase queda muy cerca (4.40) y se conserva como alternativa de migración.')
     d.h1('6. Riesgos y mitigaciones')
     d.table(['Riesgo', 'Mitigación'], [
@@ -369,8 +369,8 @@ def criterios():
     ], [6, 10], 'Riesgos')
     d.h1('7. Conclusión')
     d.p('Los criterios técnicos, económicos, de seguridad, escalabilidad, compatibilidad y facilidad de uso apuntan a '
-        'un SMBD gestionado con seguridad declarativa en servidor y acceso REST multiplataforma. La elección final y '
-        'su justificación detallada están en el Entregable BD 5.')
+        'un SMBD gestionado con seguridad declarativa en servidor y acceso REST multiplataforma. Por eso el SMBD '
+        'seleccionado es Firebase (Cloud Firestore + Authentication); la justificación detallada está en el Entregable BD 5.')
     return d.save()
 
 
@@ -378,16 +378,17 @@ def criterios():
 # 5. ELECCIÓN
 # ======================================================================================
 def eleccion():
-    d = Doc('BD5_Eleccion_del_SMBD.docx', U, 'Entregable BD 5', 'Elección del SMBD: Cloud Firestore',
-            'Justificación con base en los requisitos y cómo se implementó en el proyecto')
+    d = Doc('BD5_Eleccion_del_SMBD.docx', U, 'Entregable BD 5', 'Elección del SMBD: Firebase',
+            'Por qué Firebase (Cloud Firestore + Authentication) es el SMBD del proyecto y cómo se implementó')
     d.toc(['Decisión', 'Justificación frente a cada requisito', 'Cómo se implementó', 'Del modelo relacional a colecciones',
            'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia'])
     d.h1('1. Decisión')
-    d.p('Se selecciona Cloud Firestore (Firebase, plan Spark gratuito), junto con Firebase Authentication, como sistema '
-        'gestor de la base de datos de Lumbre Hotel & Spa. El proyecto se creó como lumbre-hotel, con base de datos '
+    d.p('El sistema gestor de base de datos (SMBD) elegido para Lumbre Hotel & Spa es Firebase, la plataforma de Google, '
+        'en su plan Spark gratuito. Dentro de Firebase, los datos se gestionan con Cloud Firestore (base de datos NoSQL '
+        'documental) y las cuentas con Firebase Authentication. El proyecto se creó como lumbre-hotel, con base de datos '
         '(default) en la ubicación nam5 (Estados Unidos), edición Standard y modo producción (todo cerrado por defecto).')
     d.h1('2. Justificación frente a cada requisito')
-    d.table(['Requisito', 'Cómo lo cumple Firestore', 'Evidencia en el proyecto'], [
+    d.table(['Requisito', 'Cómo lo cumple Firebase', 'Evidencia en el proyecto'], [
         ['R1 Costo cero', 'Plan Spark sin tarjeta.', 'Proyecto creado sin facturación.'],
         ['R2 Multiplataforma', 'API REST consumida con Ktor desde código común KMP.', 'FirestoreApi.kt y FirebaseAuthApi.kt en shared/.'],
         ['R3 Seguridad en servidor', 'Reglas declarativas evaluadas en cada operación con el token del usuario.', 'firebase/firestore.rules publicado.'],
@@ -613,7 +614,7 @@ AUDITORIA(id_auditoria PK, id_usuario FK→USUARIO, fecha_hora, accion, objetivo
     d.h1('6. Script DDL (PostgreSQL)')
     d.code(DDL, 'Script completo; también se guarda en docs/bd/lumbre.sql del repositorio.')
     d.h1('7. Correspondencia con la implementación en Firestore')
-    d.p('La implementación actual usa Cloud Firestore (ver BD 5). Las mismas restricciones del DDL se aplican mediante '
+    d.p('El SMBD del proyecto es Firebase (ver BD 5): los datos viven en Cloud Firestore. Las mismas restricciones del DDL se aplican mediante '
         'reglas de seguridad (rangos, listas de valores, propietario de la reserva) y validaciones en la app. '
         'Las tablas asociativas se representan como arreglos dentro del documento padre porque siempre se leen juntas.')
     return d.save()
