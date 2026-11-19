@@ -1,0 +1,91 @@
+@startuml 02_entidad_relacion
+!include _estilo.iuml
+title Modelo entidad-relación (conceptual) — notación pata de gallo
+hide circle
+hide methods
+
+entity "ROL" as ROL {
+  * id_rol (PK)
+  --
+  nombre
+  nivel
+}
+entity "USUARIO" as USUARIO {
+  * id_usuario (PK)
+  --
+  correo (único)
+  nombre
+  teléfono
+  idioma
+  moneda
+  tema
+  bloqueado
+  fecha_alta
+  último_acceso
+}
+entity "TIPO_HABITACION" as TIPO {
+  * id_tipo (PK)
+  --
+  nombre
+  descripción
+  superficie_m2
+  capacidad
+  precio_noche_eur
+  disponible
+}
+entity "AMENIDAD" as AM {
+  * id_amenidad (PK)
+  --
+  nombre
+}
+entity "PROMOCION" as PROMO {
+  * código (PK)
+  --
+  porcentaje
+  activa
+}
+entity "RESERVA" as RES {
+  * referencia (PK)
+  --
+  nombre_huésped
+  correo_contacto
+  teléfono_contacto
+  fecha_llegada
+  fecha_salida
+  adultos
+  niños
+  total_eur
+  estado
+  notas
+  fecha_creación
+}
+entity "EXTRA" as EXTRA {
+  * id_extra (PK)
+  --
+  nombre
+  precio_eur
+  unidad_cobro
+}
+entity "PARAMETRO" as PARAM {
+  * clave (PK)
+  --
+  valor
+  descripción
+}
+entity "AUDITORIA" as AUD {
+  * id_auditoria (PK)
+  --
+  fecha_hora
+  acción
+  objetivo
+}
+
+ROL ||--o{ USUARIO : "asigna (1:N)"
+USUARIO |o--o{ RES : "realiza (0..1:N)"
+TIPO ||--o{ RES : "se reserva en (1:N)"
+PROMO |o--o{ RES : "se aplica a (0..1:N)"
+RES }o--o{ EXTRA : "incluye (N:M)"
+TIPO }o--o{ AM : "ofrece (N:M)"
+USUARIO ||--o{ AUD : "genera (1:N)"
+USUARIO |o--o{ PARAM : "modifica (0..1:N)"
+@enduml

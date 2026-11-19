@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Sin permisos de red ni de ubicación: la región se deduce del idioma del sistema. -->
+    <!-- Internet: cuentas y sincronización con Firebase. Ubicación aproximada: solo si el usuario
+         la autoriza en la pestaña de Cookies y privacidad, para elegir idioma y moneda. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

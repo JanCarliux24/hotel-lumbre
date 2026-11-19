@@ -1,0 +1,123 @@
+rules_version = '2';
+
+// Reglas de seguridad de Lumbre Hotel & Spa (Cloud Firestore).
+// Roles: GUEST < STAFF < ADMIN < SUPERADMIN, guardados en users/{uid}.role.
+// Nadie puede asignarse un rol a sí mismo: solo SUPERADMIN cambia roles.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- Funciones auxiliares ----------
+    function signedIn() { return request.auth != null; }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function hasProfile() { return exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function level(role) {
+      return role == 'SUPERADMIN' ? 3 : role == 'ADMIN' ? 2 : role == 'STAFF' ? 1 : 0;
+    }
+    function active() { return signedIn() && hasProfile() && me().disabled != true; }
+    function atLeast(role) { return active() && level(me().role) >= level(role); }
+    function isStaff() { return atLeast('STAFF'); }
+    function isAdmin() { return atLeast('ADMIN'); }
+    function isSuper() { return atLeast('SUPERADMIN'); }
+    function onlyChanges(keys) { return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys); }
+    function validLang(v) { return v in ['ES', 'EN', 'PT', 'FR']; }
+    function validCurrency(v) { return v in ['EUR', 'USD', 'MXN', 'GBP', 'BRL', 'COP']; }
+    function validTheme(v) { return v in ['LIGHT', 'DARK', 'SYSTEM']; }
+
+    // ---------- Perfiles de usuario ----------
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isStaff());
+
+      // Alta: solo el propio usuario, siempre como huésped y con datos válidos.
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.role == 'GUEST'
+        && request.resource.data.disabled == false
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.name is string && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 80;
+
+      // El usuario edita su nombre, teléfono y preferencias; nunca su rol ni su estado.
+      allow update: if (signedIn() && request.auth.uid == uid
+          && onlyChanges(['name', 'phone', 'lang', 'currency', 'theme', 'lastLogin'])
+          && (!('lang' in request.resource.data) || validLang(request.resource.data.lang))
+          && (!('currency' in request.resource.data) || validCurrency(request.resource.data.currency))
+          && (!('theme' in request.resource.data) || validTheme(request.resource.data.theme)))
+        // El superusuario cambia roles y bloquea cuentas (pero no a sí mismo).
+        || (isSuper() && request.auth.uid != uid && onlyChanges(['role', 'disabled'])
+            && request.resource.data.role in ['GUEST', 'STAFF', 'ADMIN', 'SUPERADMIN']);
+
+      allow delete: if signedIn() && (request.auth.uid == uid || isSuper());
+    }
+
+    // ---------- Habitaciones: lectura pública, edición de administración ----------
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && roomId in ['STANDARD', 'DELUXE', 'PENTHOUSE']
+        && request.resource.data.nightlyEur is int
+        && request.resource.data.nightlyEur >= 30 && request.resource.data.nightlyEur <= 5000
+        && request.resource.data.capacity is int
+        && request.resource.data.available is bool;
+    }
+
+    // ---------- Promociones ----------
+    match /promos/{code} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && code.matches('^[A-Z0-9]{4,20}$')
+        && request.resource.data.percent is int
+        && request.resource.data.percent >= 5 && request.resource.data.percent <= 50
+        && request.resource.data.active is bool;
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Parámetros del sistema ----------
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isSuper() && docId == 'params'
+        && request.resource.data.taxPercent >= 0 && request.resource.data.taxPercent <= 30
+        && request.resource.data.maxNights >= 1 && request.resource.data.maxNights <= 90
+        && request.resource.data.minPasswordLength >= 8 && request.resource.data.minPasswordLength <= 64;
+    }
+
+    // ---------- Reservas ----------
+    match /reservations/{ref} {
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isStaff());
+
+      // El huésped crea reservas a su nombre, confirmadas y con datos coherentes.
+      allow create: if active() && ref.matches('^LMB-[A-Z2-9]{6}$')
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.ref == ref
+        && request.resource.data.status == 'CONFIRMED'
+        && request.resource.data.room in ['STANDARD', 'DELUXE', 'PENTHOUSE']
+        && request.resource.data.adults is int && request.resource.data.adults >= 1 && request.resource.data.adults <= 6
+        && request.resource.data.children is int && request.resource.data.children >= 0 && request.resource.data.children <= 4
+        && request.resource.data.totalEur is number && request.resource.data.totalEur > 0
+        && request.resource.data.checkIn is string && request.resource.data.checkOut is string
+        && request.resource.data.checkOut > request.resource.data.checkIn
+        && request.resource.data.guestName is string && request.resource.data.guestName.size() <= 80
+        && request.resource.data.email is string && request.resource.data.email.size() <= 254;
+
+      // El huésped solo puede cancelar las suyas; recepción y superiores cambian el estado.
+      allow update: if (signedIn() && resource.data.uid == request.auth.uid
+          && onlyChanges(['status']) && request.resource.data.status == 'CANCELLED')
+        || (isStaff() && onlyChanges(['status'])
+          && request.resource.data.status in ['CONFIRMED', 'CHECKED_IN', 'CANCELLED']);
+
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Auditoría: se escribe una vez y solo la lee el superusuario ----------
+    match /audit/{entryId} {
+      allow read: if isSuper();
+      allow create: if isStaff()
+        && request.resource.data.actor == request.auth.token.email
+        && request.resource.data.action is string && request.resource.data.action.size() <= 60
+        && request.resource.data.target is string && request.resource.data.target.size() <= 120;
+      allow update, delete: if false;
+    }
+
+    // Todo lo demás, cerrado.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

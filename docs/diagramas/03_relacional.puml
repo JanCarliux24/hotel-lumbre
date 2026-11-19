@@ -1,0 +1,112 @@
+@startuml 03_relacional
+!include _estilo.iuml
+title Diagrama relacional normalizado (3FN) — Lumbre Hotel & Spa
+hide circle
+hide methods
+
+entity "rol" as rol {
+  id_rol : SMALLINT <<PK>>
+  --
+  nombre : VARCHAR(20) <<UK, NN>>
+  nivel : SMALLINT <<NN, CHECK 0..3>>
+}
+entity "usuario" as usuario {
+  id_usuario : VARCHAR(128) <<PK>>
+  --
+  correo : VARCHAR(254) <<UK, NN>>
+  nombre : VARCHAR(80) <<NN>>
+  telefono : VARCHAR(22)
+  id_rol : SMALLINT <<FK, NN>>
+  idioma : CHAR(2) <<NN>>
+  moneda : CHAR(3) <<NN>>
+  tema : VARCHAR(6) <<NN>>
+  bloqueado : BOOLEAN <<NN>>
+  fecha_alta : TIMESTAMP <<NN>>
+  ultimo_acceso : TIMESTAMP
+}
+entity "tipo_habitacion" as tipo {
+  id_tipo : VARCHAR(12) <<PK>>
+  --
+  nombre : VARCHAR(40) <<NN>>
+  descripcion : VARCHAR(200)
+  superficie_m2 : SMALLINT <<CHECK positivo>>
+  capacidad : SMALLINT <<NN, CHECK 1..6>>
+  precio_noche_eur : NUMERIC(7,2) <<NN, CHECK 30..5000>>
+  disponible : BOOLEAN <<NN>>
+}
+entity "amenidad" as amenidad {
+  id_amenidad : SMALLINT <<PK>>
+  --
+  nombre : VARCHAR(40) <<UK, NN>>
+}
+entity "tipo_habitacion_amenidad" as tha {
+  id_tipo : VARCHAR(12) <<PK, FK>>
+  id_amenidad : SMALLINT <<PK, FK>>
+  --
+  (clave primaria compuesta)
+}
+entity "promocion" as promocion {
+  codigo : VARCHAR(20) <<PK>>
+  --
+  porcentaje : SMALLINT <<NN, CHECK 5..50>>
+  activa : BOOLEAN <<NN>>
+}
+entity "reserva" as reserva {
+  referencia : CHAR(10) <<PK>>
+  --
+  id_usuario : VARCHAR(128) <<FK>>
+  id_tipo : VARCHAR(12) <<FK, NN>>
+  codigo_promocion : VARCHAR(20) <<FK>>
+  nombre_huesped : VARCHAR(80) <<NN>>
+  correo_contacto : VARCHAR(254) <<NN>>
+  telefono_contacto : VARCHAR(22)
+  fecha_llegada : DATE <<NN>>
+  fecha_salida : DATE <<NN, CHECK posterior a llegada>>
+  adultos : SMALLINT <<NN, CHECK 1..6>>
+  ninos : SMALLINT <<NN, CHECK 0..4>>
+  total_eur : NUMERIC(10,2) <<NN, CHECK positivo>>
+  estado : VARCHAR(12) <<NN, CHECK>>
+  notas : VARCHAR(500)
+  fecha_creacion : TIMESTAMP <<NN>>
+}
+entity "extra" as extra {
+  id_extra : VARCHAR(16) <<PK>>
+  --
+  nombre : VARCHAR(40) <<NN>>
+  precio_eur : NUMERIC(6,2) <<NN>>
+  unidad_cobro : VARCHAR(20) <<NN, CHECK>>
+}
+entity "reserva_extra" as rex {
+  referencia : CHAR(10) <<PK, FK>>
+  id_extra : VARCHAR(16) <<PK, FK>>
+  --
+  importe_eur : NUMERIC(8,2) <<NN>>
+}
+entity "parametro" as parametro {
+  clave : VARCHAR(40) <<PK>>
+  --
+  valor : VARCHAR(160) <<NN>>
+  descripcion : VARCHAR(200)
+  id_usuario_modifica : VARCHAR(128) <<FK>>
+  fecha_modificacion : TIMESTAMP
+}
+entity "auditoria" as auditoria {
+  id_auditoria : BIGINT <<PK>>
+  --
+  id_usuario : VARCHAR(128) <<FK, NN>>
+  fecha_hora : TIMESTAMP <<NN>>
+  accion : VARCHAR(60) <<NN>>
+  objetivo : VARCHAR(120) <<NN>>
+}
+
+rol ||--o{ usuario : id_rol
+usuario |o--o{ reserva : id_usuario
+tipo ||--o{ reserva : id_tipo
+promocion |o--o{ reserva : codigo_promocion
+reserva ||--o{ rex : referencia
+extra ||--o{ rex : id_extra
+tipo ||--o{ tha : id_tipo
+amenidad ||--o{ tha : id_amenidad
+usuario ||--o{ auditoria : id_usuario
+usuario |o--o{ parametro : id_usuario_modifica
+@enduml

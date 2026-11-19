@@ -46,6 +46,10 @@ data class Reservation(
     val status: ReservationStatus = ReservationStatus.CONFIRMED,
     /** true si la hizo quien usa este dispositivo (aparece en "Mis reservas"). */
     val mine: Boolean = false,
+    /** Dueño en Firebase (vacío en modo local). */
+    val uid: String = "",
+    val createdAt: Long = 0,
+    val notes: String = "",
 )
 
 @Serializable
@@ -78,6 +82,62 @@ data class Prefs(
     val regionNoticeShown: Boolean = false,
     /** Claro por defecto: es un hotel de playa. */
     val theme: ThemeMode = ThemeMode.LIGHT,
-    /** Sesión de administrador de demostración (solo se puede activar en la web). */
+    /** Sesión de administrador de demostración (solo sin Firebase y solo en la web). */
     val admin: Boolean = false,
+    val consent: Consent = Consent(),
+)
+
+/** Roles de usuario, de menor a mayor privilegio. */
+@Serializable
+enum class Role(val level: Int) {
+    GUEST(0),       // Huésped: reserva y gestiona sus estancias
+    STAFF(1),       // Recepción: llegadas, salidas y estado de reservas
+    ADMIN(2),       // Administración: precios, disponibilidad y promociones
+    SUPERADMIN(3);  // Superusuario: usuarios, roles, parámetros, auditoría y seguridad
+
+    fun atLeast(other: Role) = level >= other.level
+}
+
+/** Cuenta con sesión iniciada (perfil guardado en Firestore: users/{uid}). */
+@Serializable
+data class Account(
+    val uid: String,
+    val email: String,
+    val name: String = "",
+    val phone: String = "",
+    val role: Role = Role.GUEST,
+    val emailVerified: Boolean = false,
+    val createdAt: Long = 0,
+    val lastLogin: Long = 0,
+    val disabled: Boolean = false,
+)
+
+/** Parámetros del sistema, editables por el superusuario (config/params). */
+@Serializable
+data class Params(
+    val taxPercent: Int = 10,
+    val weekendSurchargePercent: Int = 15,
+    val longStayDiscountPercent: Int = 10,
+    val longStayNights: Int = 7,
+    val maxNights: Int = 30,
+    val maxMonthsAhead: Int = 18,
+    val bookingCooldownSec: Int = 20,
+    val maxLoginAttempts: Int = 5,
+    val lockoutSec: Int = 60,
+    val minPasswordLength: Int = 8,
+    val maintenance: Boolean = false,
+    val maintenanceMessage: String = "",
+)
+
+/** Registro de auditoría de acciones administrativas (audit/{id}). */
+@Serializable
+data class AuditEntry(val at: Long, val actor: String, val action: String, val target: String)
+
+/** Consentimiento de cookies y ubicación. */
+@Serializable
+data class Consent(
+    val decided: Boolean = false,
+    val preferences: Boolean = false,
+    val location: Boolean = false,
+    val decidedAt: Long = 0,
 )

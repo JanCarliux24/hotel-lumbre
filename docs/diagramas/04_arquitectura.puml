@@ -1,0 +1,59 @@
+@startuml 04_arquitectura
+!include _estilo.iuml
+title Arquitectura y componentes reutilizables (Kotlin Multiplatform)
+
+package "Puntos de entrada (finos)" {
+  [androidApp\nMainActivity] as AND
+  [iosApp\nContentView.swift] as IOS
+  [webApp\nmain.kt (Wasm)] as WEB
+}
+
+package "shared (código común)" {
+  package "ui" {
+    [App + navegación\n(Navigation Compose)] as NAV
+    [Pantallas\nInicio, Habitaciones, Ofertas,\nReserva, Mis reservas, Perfil,\nCookies, Recepción, Admin, Superusuario] as SCR
+    [Componentes UI reutilizables\nLumbreButton, Stepper, PhotoCard,\nLumi, Confetti, WavesEdge, VibesMarquee] as UIC
+    [Tema Lumbre\n(colores, tipografía, formas)] as THEME
+  }
+  package "domain" {
+    [Pricing\n(motor de presupuesto)] as PRICE
+    [Validation\n(correo, fechas, contraseña, teléfono)] as VAL
+    [Format\n(moneda y fechas)] as FMT
+  }
+  package "i18n" {
+    [Strings\n(ES, EN, PT, FR)] as I18N
+  }
+  package "data" {
+    [HotelRepository\n(estado reactivo + roles)] as REPO
+    [FirebaseAuthApi\nFirestoreApi (REST)] as FB
+    [Mappers] as MAP
+  }
+  package "platform (expect/actual)" {
+    [Platform + Capabilities] as PLAT
+    [Location\n(permisos y país)] as LOC
+  }
+}
+
+cloud "Firebase (plan Spark)" {
+  [Authentication] as AUTH
+  database "Cloud Firestore" as FSDB
+}
+
+AND --> NAV
+IOS --> NAV
+WEB --> NAV
+NAV --> SCR
+SCR --> UIC
+SCR --> THEME
+SCR --> REPO
+SCR --> PRICE
+SCR --> VAL
+SCR --> I18N
+UIC --> FMT
+REPO --> FB
+REPO --> MAP
+REPO --> PLAT
+SCR --> LOC
+FB --> AUTH
+FB --> FSDB
+@enduml

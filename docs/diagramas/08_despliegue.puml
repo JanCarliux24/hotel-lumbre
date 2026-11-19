@@ -1,0 +1,31 @@
+@startuml 08_despliegue
+!include _estilo.iuml
+title Despliegue: del repositorio a cada plataforma
+
+node "Repositorio GitHub\nJanCarliux24/hotel-lumbre" as GH
+node "GitHub Actions\n(pages.yml)" as CI {
+  [Gradle: wasmJsBrowserDistribution] as B1
+  [Gradle: androidApp:assembleDebug] as B2
+}
+node "GitHub Pages" as PAGES {
+  [/ (web estática)] as SITE
+  [/app/ (app Wasm)] as APPWEB
+  [/app/lumbre.apk] as APK
+}
+node "Dispositivo Android" as ANDR
+node "iPhone (Xcode en macOS)" as IPH
+node "Navegador web" as BR
+cloud "Firebase (lumbre-hotel)" as FBC {
+  [Authentication]
+  database "Firestore + reglas" as DB
+}
+GH --> CI : push a main
+B1 --> APPWEB
+B2 --> APK
+GH --> SITE
+BR --> APPWEB : HTTPS
+ANDR --> APK : descarga e instala
+BR --> FBC : REST + token
+ANDR --> FBC : REST + token
+IPH --> FBC : REST + token
+@enduml

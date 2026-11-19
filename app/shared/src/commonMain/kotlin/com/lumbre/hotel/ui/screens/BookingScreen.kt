@@ -133,7 +133,7 @@ private class BookingState(route: BookingRoute, today: LocalDate, rooms: List<Ro
             ?: RoomId.DELUXE
     )
     var extras by mutableStateOf(setOf<Extra>())
-    var promoInput by mutableStateOf("")
+    var promoInput by mutableStateOf(route.promo?.uppercase() ?: "")
     var promo by mutableStateOf<PromoCode?>(null)
     var promoError by mutableStateOf<K?>(null)
     var name by mutableStateOf("")
@@ -166,9 +166,17 @@ fun BookingScreen(route: BookingRoute, onClose: () -> Unit, onTrips: () -> Unit,
     var lumiTick by remember { mutableIntStateOf(0) }
     fun say(k: K, mood: Mood) { lumiKey = k; lumiMood = mood; lumiTick++ }
 
+    val params by repo.params.collectAsState()
+    val account by repo.account.collectAsState()
+    val role by repo.role.collectAsState()
     val roomCfg = rooms.first { it.id == s.room }
-    val dateError = Validation.dates(s.checkIn, s.checkOut, today)
-    val quote: Quote? = if (dateError == null) Pricing.quote(roomCfg, s.checkIn, s.checkOut, s.adults, s.children, s.extras, s.promo?.percent ?: 0) else null
+    val dateError = Validation.dates(s.checkIn, s.checkOut, today, params)
+    val quote: Quote? = if (dateError == null) Pricing.quote(roomCfg, s.checkIn, s.checkOut, s.adults, s.children, s.extras, s.promo?.percent ?: 0, params) else null
+    val blocked = params.maintenance && !role.atLeast(com.lumbre.hotel.data.Role.STAFF)
+    LaunchedEffect(Unit) {
+        if (s.promoInput.isNotBlank()) repo.findPromo(s.promoInput)?.let { s.promo = it }
+        account?.let { if (s.name.isBlank()) s.name = it.name; if (s.email.isBlank()) s.email = it.email; if (s.phone.isBlank()) s.phone = it.phone }
+    }
 
     LaunchedEffect(quote?.hasLongStay) { if (quote?.hasLongStay == true && s.step == 1) say(K.L_LONG, Mood.Party) }
 
@@ -216,6 +224,7 @@ fun BookingScreen(route: BookingRoute, onClose: () -> Unit, onTrips: () -> Unit,
     }
 
     fun confirm() {
+        if (blocked) { s.formError = K.BK_MAINT; say(K.L_ERR, Mood.Sad); return }
         val okAll = (1..3).all { validate(it) }
         val q = quote
         if (!okAll || q == null) {
@@ -255,6 +264,16 @@ fun BookingScreen(route: BookingRoute, onClose: () -> Unit, onTrips: () -> Unit,
 
         val content: @Composable (Modifier) -> Unit = { mod ->
             Column(mod.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 12.dp)) {
+                if (blocked) Text(
+                    params.maintenanceMessage.ifBlank { t(K.BK_MAINT) },
+                    color = MaterialTheme.colorScheme.onErrorContainer, style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp).clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.errorContainer).padding(14.dp),
+                )
+                if (repo.cloud && account == null && s.step == 3) Text(
+                    t(K.BK_SIGNIN_HINT), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                )
                 LumiSays(t(lumiKey), lumiMood, trigger = lumiTick)
                 Spacer(Modifier.height(20.dp))
                 AnimatedContent(

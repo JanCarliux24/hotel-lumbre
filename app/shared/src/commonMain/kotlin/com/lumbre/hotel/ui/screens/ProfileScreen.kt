@@ -20,6 +20,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.AdminPanelSettings
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Cookie
+import androidx.compose.material.icons.rounded.RoomService
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.Devices
 import androidx.compose.material.icons.rounded.Laptop
@@ -59,11 +61,13 @@ import com.lumbre.hotel.ui.components.bounceClick
 import com.lumbre.hotel.ui.theme.LocalExtras
 
 @Composable
-fun ProfileScreen(onOpenAdmin: () -> Unit) {
+fun ProfileScreen(onOpenAdmin: () -> Unit, onOpenPrivacy: () -> Unit, onOpenReception: () -> Unit) {
     val repo = AppGraph.repo
     val prefs by repo.prefs.collectAsState()
     val all by repo.reservations.collectAsState()
-    val name = all.firstOrNull { it.mine }?.guestName ?: t(K.GUEST)
+    val account by repo.account.collectAsState()
+    val role by repo.role.collectAsState()
+    val name = account?.name?.ifBlank { null } ?: all.firstOrNull { it.mine }?.guestName ?: t(K.GUEST)
     var adminInfo by remember { mutableStateOf(false) }
     var confirmClear by remember { mutableStateOf(false) }
 
@@ -79,6 +83,15 @@ fun ProfileScreen(onOpenAdmin: () -> Unit) {
                     Text(name, style = MaterialTheme.typography.headlineSmall)
                 }
                 Lumi(Mood.Happy, Unit, Modifier.size(60.dp))
+            }
+
+            if (repo.cloud) Section(t(K.ACC_TITLE), 1) { AccountSection() }
+
+            // Accesos rápidos: privacidad para todos; recepción para el personal (también en móvil).
+            Section(t(K.TAB_PRIVACY), 1) {
+                NavRow(Icons.Rounded.Cookie, t(K.PRIV_TITLE), t(K.PRIV_SUB), onOpenPrivacy)
+                if (Capabilities.reception(role)) NavRow(Icons.Rounded.RoomService, t(K.REC_TITLE), t(K.REC_SUB), onOpenReception)
+                if (Capabilities.admin(role)) NavRow(Icons.Rounded.AdminPanelSettings, t(K.AD_TITLE), t(K.AD_SUB), onOpenAdmin)
             }
 
             Section(t(K.PREFS), 1) {
@@ -110,12 +123,12 @@ fun ProfileScreen(onOpenAdmin: () -> Unit) {
                 Spacer(Modifier.height(12.dp))
                 CapRow(K.CAP_BOOK, true)
                 CapRow(K.CAP_KEY, Capabilities.digitalKey)
-                CapRow(K.CAP_ADMIN, Capabilities.adminPanel)
+                CapRow(K.CAP_ADMIN, Capabilities.admin(role))
                 CapRow(K.CAP_SYNC, true, Icons.Rounded.Devices)
             }
 
-            Section(t(K.ADMIN_WEB_ONLY), 3) {
-                if (Capabilities.adminPanel) {
+            if (!repo.cloud || !Capabilities.adminPanel) Section(t(K.ADMIN_WEB_ONLY), 3) {
+                if (Capabilities.adminPanel && !repo.cloud) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Rounded.AdminPanelSettings, null, tint = MaterialTheme.colorScheme.primary)
                         Spacer(Modifier.width(12.dp))
@@ -209,5 +222,21 @@ private fun CapRow(label: K, available: Boolean, icon: ImageVector? = null) {
             style = MaterialTheme.typography.labelMedium,
             color = if (available) LocalExtras.current.ok else MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+@Composable
+private fun NavRow(icon: ImageVector, title: String, sub: String, onClick: () -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).bounceClick(scaleDown = 0.98f, onClick = onClick).padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(icon, null, tint = MaterialTheme.colorScheme.primary)
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Icon(Icons.AutoMirrored.Rounded.KeyboardArrowRight, null)
     }
 }

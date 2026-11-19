@@ -1,0 +1,31 @@
+@startuml 01_contexto
+!include _estilo.iuml
+title Diagrama de contexto (DFD nivel 0) — Lumbre Hotel & Spa
+left to right direction
+rectangle "Huésped" as H #FFF4E2
+rectangle "Recepción\n(rol STAFF)" as R #FFF4E2
+rectangle "Administrador\n(rol ADMIN)" as A #FFF4E2
+rectangle "Superusuario\n(rol SUPERADMIN)" as S #FFF4E2
+usecase "0\nSistema de reservas\nLumbre Hotel & Spa\n(app Android, iOS y web)" as SYS #D6F3F2
+rectangle "Firebase\nAuthentication" as FA #E6F6FA
+rectangle "Cloud Firestore\n(base de datos)" as FS #E6F6FA
+rectangle "Servicio de\ngeolocalización\n(BigDataCloud)" as GEO #E6F6FA
+rectangle "Servicio de correo\nde Firebase" as MAIL #E6F6FA
+
+H --> SYS : datos de registro, fechas, huéspedes,\nhabitación, extras, código promo,\nconsentimiento de cookies y ubicación
+SYS --> H : presupuesto desglosado, confirmación\ny referencia, mis reservas, llave digital
+R --> SYS : registro de llegada,\ncambio de estado de reservas
+SYS --> R : llegadas, huéspedes en el hotel\ny salidas del día
+A --> SYS : precios, disponibilidad,\npromociones
+SYS --> A : indicadores, ingresos por habitación,\nlistado de reservas
+S --> SYS : roles de usuario, bloqueo de cuentas,\nparámetros del sistema
+SYS --> S : usuarios, auditoría,\nestado de seguridad
+SYS --> FA : alta, inicio de sesión,\nrenovación de token
+FA --> SYS : identidad (UID) y\ntoken de sesión
+SYS --> FS : lectura/escritura de perfiles, reservas,\ncatálogo, parámetros y auditoría
+FS --> SYS : documentos autorizados\npor reglas de seguridad
+SYS --> GEO : coordenadas redondeadas (~11 km)
+GEO --> SYS : código de país
+FA --> MAIL : verificación y\nrestablecimiento de contraseña
+MAIL --> H : correo de verificación\no de restablecimiento
+@enduml

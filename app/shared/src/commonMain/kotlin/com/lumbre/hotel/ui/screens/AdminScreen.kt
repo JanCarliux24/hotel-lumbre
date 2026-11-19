@@ -114,12 +114,14 @@ fun AdminScreen(onGoProfile: () -> Unit) {
         Notice(Icons.Rounded.Laptop, t(K.ADMIN_WEB_ONLY_SUB), t(K.ADMIN_WEB_ONLY_TEXT)) {}
         return
     }
-    if (!prefs.admin) {
-        Notice(Icons.Rounded.AdminPanelSettings, t(K.AD_GUARD_TITLE), t(K.AD_GUARD_SUB)) {
-            LumbreButton(t(K.AD_ENTER), { repo.setAdmin(true) }, icon = Icons.Rounded.AdminPanelSettings)
+    val role by repo.role.collectAsState()
+    if (!Capabilities.admin(role)) {
+        Notice(Icons.Rounded.AdminPanelSettings, t(K.AD_GUARD_TITLE), if (repo.cloud) t(K.REC_GUARD) else t(K.AD_GUARD_SUB)) {
+            if (!repo.cloud) LumbreButton(t(K.AD_ENTER), { repo.setAdmin(true) }, icon = Icons.Rounded.AdminPanelSettings)
         }
         return
     }
+    val catalog = Capabilities.manageCatalog(role)
 
     val reservations by repo.reservations.collectAsState()
     val rooms by repo.rooms.collectAsState()
@@ -137,7 +139,7 @@ fun AdminScreen(onGoProfile: () -> Unit) {
                     }
                     Text(t(K.AD_SUB), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                TextButton(onClick = { repo.setAdmin(false); onGoProfile() }) {
+                if (!repo.cloud) TextButton(onClick = { repo.setAdmin(false); onGoProfile() }) {
                     Icon(Icons.Rounded.Logout, null); Spacer(Modifier.width(6.dp)); Text(t(K.AD_EXIT))
                 }
             }
@@ -147,7 +149,7 @@ fun AdminScreen(onGoProfile: () -> Unit) {
             RevenueChart(reservations, Modifier.appear(2))
             Spacer(Modifier.height(24.dp))
             PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
-                listOf(K.AD_TAB_RES, K.AD_TAB_ROOMS, K.AD_TAB_PROMOS).forEachIndexed { i, k ->
+                (if (catalog) listOf(K.AD_TAB_RES, K.AD_TAB_ROOMS, K.AD_TAB_PROMOS) else listOf(K.AD_TAB_RES)).forEachIndexed { i, k ->
                     Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t(k)) })
                 }
             }

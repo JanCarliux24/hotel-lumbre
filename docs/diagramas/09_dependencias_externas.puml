@@ -1,0 +1,49 @@
+@startuml 09_dependencias_externas
+!include _estilo.iuml
+title Componentes de terceros integrados (sin modificar su código)
+
+package "Nuestros componentes (shared)" {
+  [UI y pantallas] as UI
+  [HotelRepository] as REPO
+  [FirebaseAuthApi / FirestoreApi] as FB
+  [Pricing / Validation / Format] as DOM
+  [Location] as LOC
+}
+
+package "Bibliotecas de código abierto" {
+  [Compose Multiplatform 1.11\n(JetBrains, Apache-2.0)] as CMP
+  [Material 3 + Material Icons\n(Google, Apache-2.0)] as M3
+  [Navigation Compose 2.9\n(Apache-2.0)] as NAVL
+  [Ktor Client 3.5\n(JetBrains, Apache-2.0)] as KTOR
+  [kotlinx-serialization 1.9\n(Apache-2.0)] as SER
+  [kotlinx-datetime 0.7\n(Apache-2.0)] as DT
+  [kotlinx-coroutines 1.11\n(Apache-2.0)] as CO
+  [multiplatform-settings 1.3\n(Russell Wolf, Apache-2.0)] as SET
+}
+
+package "Servicios externos" {
+  [Firebase Auth + Firestore REST\n(Google)] as FIRE
+  [BigDataCloud reverse geocode\n(gratuito, sin clave)] as BDC
+}
+
+package "Recursos" {
+  [Inter y Playfair Display\n(SIL OFL 1.1)] as FONTS
+  [Fotografías Unsplash\n(licencia Unsplash)] as PHOTOS
+  [Plantilla KMP-App-Template\n(JetBrains, Apache-2.0)] as TPL
+}
+
+UI --> CMP
+UI --> M3
+UI --> NAVL
+UI --> FONTS
+UI --> PHOTOS
+REPO --> CO
+REPO --> SET
+REPO --> SER
+FB --> KTOR
+FB --> FIRE
+DOM --> DT
+LOC --> BDC
+LOC --> KTOR
+UI ..> TPL : estructura inicial
+@enduml

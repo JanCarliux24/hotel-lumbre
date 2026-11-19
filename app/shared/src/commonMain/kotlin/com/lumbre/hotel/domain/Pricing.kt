@@ -2,6 +2,7 @@ package com.lumbre.hotel.domain
 
 import com.lumbre.hotel.data.Extra
 import com.lumbre.hotel.data.ExtraUnit
+import com.lumbre.hotel.data.Params
 import com.lumbre.hotel.data.RoomConfig
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
@@ -36,16 +37,18 @@ object Pricing {
         children: Int,
         extras: Set<Extra>,
         promoPercent: Int = 0,
+        params: Params = Params(),
     ): Quote? {
         val nights = checkIn.daysUntil(checkOut)
-        if (nights !in 1..MAX_NIGHTS) return null
+        if (nights !in 1..params.maxNights) return null
+        val weekendRate = params.weekendSurchargePercent / 100.0
 
         var base = 0.0
         var weekend = 0.0
         for (i in 0 until nights) {
             val day = checkIn.plus(i, DateTimeUnit.DAY).dayOfWeek
             base += room.nightlyEur
-            if (day == DayOfWeek.FRIDAY || day == DayOfWeek.SATURDAY) weekend += room.nightlyEur * WEEKEND_SURCHARGE
+            if (day == DayOfWeek.FRIDAY || day == DayOfWeek.SATURDAY) weekend += room.nightlyEur * weekendRate
         }
         val lines = mutableListOf(QuoteLine(LineKind.ROOM, base))
         if (weekend > 0) lines += QuoteLine(LineKind.WEEKEND, weekend)
@@ -63,15 +66,15 @@ object Pricing {
         }
 
         val stay = base + weekend
-        val longStay = if (nights >= LONG_STAY_NIGHTS) -stay * LONG_STAY_DISCOUNT else 0.0
-        if (longStay != 0.0) lines += QuoteLine(LineKind.LONG_STAY, longStay, percent = 10)
+        val longStay = if (nights >= params.longStayNights) -stay * params.longStayDiscountPercent / 100.0 else 0.0
+        if (longStay != 0.0) lines += QuoteLine(LineKind.LONG_STAY, longStay, percent = params.longStayDiscountPercent)
 
         val promo = if (promoPercent > 0) -(stay + extrasTotal + longStay) * promoPercent / 100.0 else 0.0
         if (promo != 0.0) lines += QuoteLine(LineKind.PROMO, promo, percent = promoPercent)
 
         val net = stay + extrasTotal + longStay + promo
-        val tax = net * TAX_RATE
-        lines += QuoteLine(LineKind.TAX, tax, percent = 10)
+        val tax = net * params.taxPercent / 100.0
+        lines += QuoteLine(LineKind.TAX, tax, percent = params.taxPercent)
         return Quote(nights, lines, net + tax)
     }
 }

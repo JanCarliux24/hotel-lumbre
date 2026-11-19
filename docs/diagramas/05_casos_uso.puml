@@ -1,0 +1,44 @@
+@startuml 05_casos_uso
+!include _estilo.iuml
+title Casos de uso por rol y plataforma
+left to right direction
+actor "Visitante" as V
+actor "Huésped" as G
+actor "Recepción" as R
+actor "Administrador" as A
+actor "Superusuario" as S
+G -|> V
+R -|> G
+A -|> R
+S -|> A
+
+rectangle "Lumbre Hotel & Spa (Android · iOS · Web)" {
+  usecase "Explorar habitaciones,\nofertas y destino" as UC1
+  usecase "Calcular presupuesto" as UC2
+  usecase "Gestionar cookies y\ndetectar idioma/moneda\npor ubicación" as UC3
+  usecase "Crear cuenta /\niniciar sesión" as UC4
+  usecase "Reservar (3 pasos)" as UC5
+  usecase "Ver y cancelar\nmis reservas" as UC6
+  usecase "Llave digital\n(solo móvil)" as UC7
+  usecase "Registrar llegadas\n(móvil y web)" as UC8
+  usecase "Cambiar estado de\nreservas (web)" as UC9
+  usecase "Editar precios,\ndisponibilidad y\npromociones (web)" as UC10
+  usecase "Gestionar usuarios\ny roles (web)" as UC11
+  usecase "Editar parámetros\ndel sistema (web)" as UC12
+  usecase "Consultar auditoría\ny seguridad (web)" as UC13
+}
+V --> UC1
+V --> UC2
+V --> UC3
+V --> UC4
+G --> UC5
+G --> UC6
+G --> UC7
+R --> UC8
+R --> UC9
+A --> UC10
+S --> UC11
+S --> UC12
+S --> UC13
+UC5 ..> UC2 : <<include>>
+@enduml

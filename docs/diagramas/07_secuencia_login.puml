@@ -1,0 +1,36 @@
+@startuml 07_secuencia_login
+!include _estilo.iuml
+title Secuencia: inicio de sesión, roles y sincronización
+autonumber
+actor Usuario as U
+participant "AccountSection" as UI
+participant "HotelRepository" as REPO
+participant "FirebaseAuthApi" as AUTH
+participant "FirestoreApi" as FS
+
+U -> UI : correo + contraseña
+UI -> REPO : login(correo, contraseña)
+REPO -> REPO : ¿bloqueo por intentos fallidos?
+alt bloqueado
+  REPO --> UI : E_LOCKED (segundos restantes)
+else permitido
+  REPO -> AUTH : signInWithPassword
+  AUTH --> REPO : idToken (1 h) + refreshToken
+  REPO -> FS : get("users/{uid}")
+  FS --> REPO : perfil (rol, idioma, moneda, tema, bloqueado)
+  alt cuenta bloqueada
+    REPO --> UI : E_DISABLED y cierre de sesión
+  else activa
+    REPO -> REPO : aplica preferencias de la nube\nsube reservas locales pendientes
+    REPO -> FS : reservas (propias o todas si STAFF+)
+    opt rol SUPERADMIN
+      REPO -> FS : usuarios, auditoría, datos iniciales
+    end
+    REPO --> UI : sesión iniciada (rol efectivo)
+  end
+end
+note over REPO, AUTH
+  Tras 5 fallos (configurable) se bloquea el acceso 60 s.
+  El token se renueva solo cuando falta menos de 1 minuto.
+end note
+@enduml

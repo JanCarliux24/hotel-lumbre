@@ -1,0 +1,38 @@
+@startuml 10_navegacion
+!include _estilo.iuml
+title Navegación y pantallas por plataforma y rol
+left to right direction
+
+rectangle "Todas las plataformas" as ALL {
+  rectangle "Inicio" as HOME
+  rectangle "Habitaciones" as ROOMS
+  rectangle "Detalle de habitación" as DETAIL
+  rectangle "Ofertas" as OFFERS
+  rectangle "Reserva (3 pasos)" as BOOK
+  rectangle "Mis reservas" as TRIPS
+  rectangle "Perfil + Cuenta" as PROFILE
+  rectangle "Cookies y privacidad" as PRIV
+}
+rectangle "Solo móvil (Android / iOS)" as MOB #FFF4E2 {
+  rectangle "Llave digital" as KEY
+}
+rectangle "Personal (STAFF+), móvil y web" as STAFF #FFF4E2 {
+  rectangle "Recepción" as REC
+}
+rectangle "Solo web" as WEBO #FFF4E2 {
+  rectangle "Panel de administración\n(STAFF: reservas · ADMIN: catálogo)" as ADMIN
+  rectangle "Panel de superusuario\n(SUPERADMIN)" as SUPER
+}
+
+HOME --> ROOMS
+HOME --> BOOK
+ROOMS --> DETAIL
+DETAIL --> BOOK
+OFFERS --> BOOK
+BOOK --> TRIPS
+TRIPS --> KEY
+PROFILE --> PRIV
+PROFILE --> REC
+PROFILE --> ADMIN
+ADMIN --> SUPER
+@enduml

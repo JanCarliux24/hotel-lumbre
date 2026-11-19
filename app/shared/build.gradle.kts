@@ -30,6 +30,8 @@ kotlin {
     // Android
     androidLibrary {
         namespace = "com.lumbre.hotel.shared"
+        // Las pruebas de commonTest se ejecutan en la JVM (más rápido y sin navegador).
+        withHostTest {}
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -54,6 +56,16 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -71,6 +83,9 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.multiplatform.settings)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
     }
 }

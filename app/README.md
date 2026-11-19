@@ -60,12 +60,29 @@ La versión optimizada se genera con `./gradlew :webApp:wasmJsBrowserDistributio
 
 **iOS:** necesita un Mac con Xcode. Abre `iosApp/iosApp.xcodeproj` y ejecuta. El script de Xcode compila el framework con `./gradlew :shared:embedAndSignAppleFrameworkForXcode`. En Windows los destinos iOS se omiten al compilar.
 
-## Datos y siguiente paso
+## Cuentas, roles y nube (Firebase, plan gratuito)
 
-Ahora los datos se guardan en cada dispositivo (SharedPreferences, NSUserDefaults o localStorage) mediante `HotelRepository`. Para que una reserva hecha en el móvil aparezca en el panel web hace falta un backend compartido (Supabase, Firebase o una API propia): basta con sustituir el almacenamiento del repositorio, sin tocar las pantallas. El modo administrador es una demostración sin contraseña; en producción debe ir detrás de un inicio de sesión con roles validado en el servidor.
+- **Firebase Authentication** (correo y contraseña) y **Cloud Firestore**, consumidos por REST con Ktor desde el código común, así que funcionan igual en Android, iOS y web. Configuración en `shared/.../data/firebase/FirebaseConfig.kt`.
+- Al iniciar sesión se descargan perfil, preferencias y reservas; las reservas hechas sin cuenta se suben a la nube.
+- Roles: `GUEST` < `STAFF` (recepción) < `ADMIN` (catálogo) < `SUPERADMIN` (usuarios, parámetros, auditoría). Todo usuario nace como GUEST; el primer superusuario se asigna en la consola de Firestore (`users/{uid}.role = "SUPERADMIN"`).
+- Reglas de seguridad en `firebase/firestore.rules` (publicadas en el proyecto): cada uno lee y escribe solo lo suyo, rangos validados en el servidor y auditoría inmutable.
+- Parámetros editables por el superusuario sin publicar versión: impuestos, recargos, noches máximas, antelación, intentos de inicio de sesión, longitud de contraseña, modo mantenimiento.
+- Pestaña **Cookies y privacidad**: con consentimiento pide la ubicación aproximada (redondeada a ~11 km, no se guarda) para fijar idioma y moneda.
+
+## Pruebas
+
+```
+./gradlew :shared:testAndroidHostTest
+```
+
+14 pruebas de `commonTest` (presupuesto, validaciones, moneda, detección de país, roles, traducciones y códec de Firestore) que se ejecutan en la JVM.
+
+## Documentación
+
+Los entregables (Unidad 2 y Bases de datos), los diagramas en PlantUML/PNG y el script SQL están en `../docs/`. Para regenerarlos: `python docs/generador/build_all.py`.
 
 ## Tecnologías
 
-Kotlin 2.4 · Compose Multiplatform 1.11 · Material 3 · Navigation Compose (rutas tipadas) · kotlinx-datetime · kotlinx-serialization · multiplatform-settings · AGP 9 · Gradle 9.4.
+Kotlin 2.4 · Compose Multiplatform 1.11 · Material 3 · Navigation Compose (rutas tipadas) · Ktor 3.5 · Firebase (REST) · kotlinx-datetime · kotlinx-serialization · multiplatform-settings · AGP 9 · Gradle 9.4.
 
 Fuentes Inter y Playfair Display (SIL Open Font License). Fotografías de Unsplash.

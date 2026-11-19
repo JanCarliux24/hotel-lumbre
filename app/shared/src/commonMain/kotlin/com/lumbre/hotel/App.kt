@@ -72,6 +72,15 @@ import com.lumbre.hotel.ui.navigation.AdminRoute
 import com.lumbre.hotel.ui.navigation.BookingRoute
 import com.lumbre.hotel.ui.navigation.HomeRoute
 import com.lumbre.hotel.ui.navigation.KeyRoute
+import com.lumbre.hotel.ui.navigation.OffersRoute
+import com.lumbre.hotel.ui.navigation.PrivacyRoute
+import com.lumbre.hotel.ui.navigation.ReceptionRoute
+import com.lumbre.hotel.ui.navigation.SuperRoute
+import com.lumbre.hotel.ui.screens.ConsentBanner
+import com.lumbre.hotel.ui.screens.OffersScreen
+import com.lumbre.hotel.ui.screens.PrivacyScreen
+import com.lumbre.hotel.ui.screens.ReceptionScreen
+import com.lumbre.hotel.ui.screens.SuperAdminScreen
 import com.lumbre.hotel.ui.navigation.ProfileRoute
 import com.lumbre.hotel.ui.navigation.RoomDetailRoute
 import com.lumbre.hotel.ui.navigation.RoomsRoute
@@ -114,12 +123,29 @@ fun App() {
                     val nav = rememberNavController()
                     val entry by nav.currentBackStackEntryAsState()
                     val destination = entry?.destination
-                    val tabs = Tab.entries.filter { it != Tab.ADMIN || (Capabilities.adminPanel && prefs.admin) }
-                    val current = tabs.firstOrNull { destination?.hasRoute(it.routeClass) == true }
+                    val role by repo.role.collectAsState()
+                    // Pestañas visibles según plataforma y rol. En móvil, la barra inferior lleva las 5 esenciales;
+                    // en pantallas anchas (web) el raíl lateral muestra todas las que el rol permite.
+                    val allTabs = Tab.entries.filter { tab ->
+                        when (tab) {
+                            Tab.RECEPTION -> Capabilities.reception(role)
+                            Tab.ADMIN -> Capabilities.admin(role)
+                            Tab.SUPER -> Capabilities.superPanel(role)
+                            else -> true
+                        }
+                    }
+                    val bottomTabs = listOf(Tab.HOME, Tab.ROOMS, Tab.OFFERS, Tab.TRIPS, Tab.PROFILE)
+                    val tabs = if (wide) allTabs else bottomTabs
+                    val current = allTabs.firstOrNull { destination?.hasRoute(it.routeClass) == true }
 
-                    // Aviso de región la primera vez: idioma y moneda elegidos según desde dónde se accede.
+                    // Mensajes de sincronización con la nube (errores de red o de permisos).
                     LaunchedEffect(Unit) {
-                        if (!prefs.regionNoticeShown) {
+                        repo.events.collect { k -> snackbar.showSnackbar(tr(repo.prefs.value.lang, k)) }
+                    }
+
+                    // Aviso de región (solo si ya se decidieron las cookies y no se usó la ubicación).
+                    LaunchedEffect(prefs.consent.decided) {
+                        if (prefs.consent.decided && !prefs.consent.location && !prefs.regionNoticeShown) {
                             repo.markRegionNoticeShown()
                             val region = regionName(prefs.region, prefs.lang) ?: return@LaunchedEffect
                             val result = snackbar.showSnackbar(
@@ -164,7 +190,7 @@ fun App() {
                                     NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest) {
                                         tabs.forEach { tab ->
                                             NavigationBarItem(
-                                                selected = current == tab,
+                                                selected = current == tab || (tab == Tab.PROFILE && current in listOf(Tab.PRIVACY, Tab.RECEPTION)),
                                                 onClick = { nav.goToTab(tab) },
                                                 icon = { Icon(tab.icon, null) },
                                                 label = { Text(t(tab.label), maxLines = 1, softWrap = false, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, style = MaterialTheme.typography.labelSmall) },
@@ -180,6 +206,7 @@ fun App() {
                         }
                     }
                     if (showPrefs) PrefsSheet(onDismiss = { showPrefs = false })
+                    ConsentBanner(onConfigure = { nav.goToTab(Tab.PRIVACY) }, modifier = Modifier.align(Alignment.BottomCenter))
                 }
             }
         }
@@ -264,8 +291,18 @@ private fun AppNavHost(nav: NavHostController, onOpenPrefs: () -> Unit) {
                     KeyScreen(ref = backStack.toRoute<KeyRoute>().ref, onClose = { nav.popBackStack() })
                 }
                 composable<ProfileRoute> {
-                    ProfileScreen(onOpenAdmin = { nav.goToTab(Tab.ADMIN) })
+                    ProfileScreen(
+                        onOpenAdmin = { nav.goToTab(Tab.ADMIN) },
+                        onOpenPrivacy = { nav.navigate(PrivacyRoute) },
+                        onOpenReception = { nav.navigate(ReceptionRoute) },
+                    )
                 }
+                composable<OffersRoute> {
+                    CompositionLocalProvider(LocalNavScope provides this) { OffersScreen(onBook = { nav.navigate(it) }) }
+                }
+                composable<PrivacyRoute> { PrivacyScreen() }
+                composable<ReceptionRoute> { ReceptionScreen() }
+                composable<SuperRoute> { SuperAdminScreen() }
                 composable<AdminRoute> {
                     AdminScreen(onGoProfile = { nav.goToTab(Tab.PROFILE) })
                 }

@@ -1,5 +1,6 @@
 package com.lumbre.hotel.domain
 
+import com.lumbre.hotel.data.Params
 import com.lumbre.hotel.i18n.K
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -8,8 +9,6 @@ import kotlinx.datetime.plus
 
 /** Validaciones compartidas. Devuelven la clave del mensaje de error o null si todo es correcto. */
 object Validation {
-    private const val MAX_MONTHS_AHEAD = 18
-
     private val emailRegex = Regex(
         "^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$"
     )
@@ -58,16 +57,44 @@ object Validation {
         return if (digits in 7..15) null else K.E_PHONE
     }
 
-    fun dates(checkIn: LocalDate?, checkOut: LocalDate?, today: LocalDate): K? {
+    fun dates(checkIn: LocalDate?, checkOut: LocalDate?, today: LocalDate, params: Params = Params()): K? {
         if (checkIn == null || checkOut == null) return K.E_PICK_DATES
         if (checkIn < today) return K.E_PAST
-        if (checkIn > today.plus(MAX_MONTHS_AHEAD, DateTimeUnit.MONTH)) return K.E_FAR
+        if (checkIn > today.plus(params.maxMonthsAhead, DateTimeUnit.MONTH)) return K.E_FAR
         if (checkOut <= checkIn) return K.E_ORDER
-        if (checkIn.daysUntil(checkOut) > Pricing.MAX_NIGHTS) return K.E_MAXSTAY
+        if (checkIn.daysUntil(checkOut) > params.maxNights) return K.E_MAXSTAY
         return null
     }
 
-    fun latestBookable(today: LocalDate): LocalDate = today.plus(MAX_MONTHS_AHEAD, DateTimeUnit.MONTH)
+    fun latestBookable(today: LocalDate, params: Params = Params()): LocalDate = today.plus(params.maxMonthsAhead, DateTimeUnit.MONTH)
+
+    /**
+     * Política de contraseñas: longitud mínima configurable, mayúscula, minúscula, número y símbolo,
+     * sin espacios y sin contener la parte local del correo.
+     */
+    fun password(value: String, minLength: Int = 8, email: String = ""): K? {
+        if (value.isEmpty()) return K.E_REQUIRED
+        if (value.length < minLength) return K.E_PASS_LENGTH
+        if (value.length > 128 || value.any { it.isWhitespace() }) return K.E_PASS_RULES
+        val rules = listOf(value.any { it.isUpperCase() }, value.any { it.isLowerCase() }, value.any { it.isDigit() }, value.any { !it.isLetterOrDigit() })
+        if (!rules.all { it }) return K.E_PASS_RULES
+        val local = email.substringBefore('@').lowercase()
+        if (local.length >= 4 && value.lowercase().contains(local)) return K.E_PASS_EMAIL
+        return null
+    }
+
+    /** Fuerza de 0 (muy débil) a 4 (muy fuerte), para el medidor visual. */
+    fun passwordStrength(value: String): Int {
+        if (value.isEmpty()) return 0
+        var score = 0
+        if (value.length >= 8) score++
+        if (value.length >= 12) score++
+        if (value.any { it.isUpperCase() } && value.any { it.isLowerCase() }) score++
+        if (value.any { it.isDigit() } && value.any { !it.isLetterOrDigit() }) score++
+        return score.coerceIn(0, 4)
+    }
+
+    fun passwordsMatch(a: String, b: String): K? = if (b.isEmpty()) K.E_REQUIRED else if (a != b) K.E_PASS_MATCH else null
 
     fun promoCode(value: String): K? =
         if (value.length in 4..20 && value.all { it in 'A'..'Z' || it in '0'..'9' }) null else K.E_CODE

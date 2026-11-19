@@ -10,16 +10,24 @@ expect val platformKind: PlatformKind
 expect fun systemLanguageTag(): String
 
 /**
- * Normas de producto por plataforma. Toda la app comparte el mismo código, y estas
- * banderas deciden qué funciones se ofrecen en cada sitio:
+ * Normas de producto por plataforma y por rol. Toda la app comparte el mismo código, y estas
+ * reglas deciden qué se ofrece en cada sitio (el servidor lo vuelve a comprobar con sus reglas):
  *
- * - El panel administrativo solo existe en la web: requiere pantalla grande, teclado
- *   y un entorno de trabajo controlado (recepción u oficina), no un móvil personal.
- * - La llave digital solo existe en móvil: depende de llevar el dispositivo encima
- *   (NFC/Bluetooth junto a la cerradura) y de la vibración háptica.
+ * - Web: todo, según el rol (panel de administración para recepción y superiores; panel de
+ *   superusuario solo para el superusuario). Es el puesto de trabajo de la oficina.
+ * - Móvil: lo útil sobre la marcha: reservar, mis reservas, llave digital y, para el personal,
+ *   la pantalla de recepción (llegadas y registro rápido). La gestión completa queda en la web.
  */
 object Capabilities {
-    val adminPanel: Boolean get() = platformKind == PlatformKind.WEB
-    val digitalKey: Boolean get() = platformKind != PlatformKind.WEB
+    val isWeb: Boolean get() = platformKind == PlatformKind.WEB
     val isMobile: Boolean get() = platformKind != PlatformKind.WEB
+
+    /** La plataforma admite paneles de gestión (pantalla grande, teclado, puesto fijo). */
+    val adminPanel: Boolean get() = isWeb
+    val digitalKey: Boolean get() = isMobile
+
+    fun reception(role: com.lumbre.hotel.data.Role) = role.atLeast(com.lumbre.hotel.data.Role.STAFF)
+    fun admin(role: com.lumbre.hotel.data.Role) = isWeb && role.atLeast(com.lumbre.hotel.data.Role.STAFF)
+    fun manageCatalog(role: com.lumbre.hotel.data.Role) = isWeb && role.atLeast(com.lumbre.hotel.data.Role.ADMIN)
+    fun superPanel(role: com.lumbre.hotel.data.Role) = isWeb && role == com.lumbre.hotel.data.Role.SUPERADMIN
 }
