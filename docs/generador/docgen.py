@@ -19,7 +19,8 @@ NAVY = RGBColor(0x16, 0x31, 0x3A)
 GOLD = RGBColor(0xB8, 0x7A, 0x1E)
 GREY = RGBColor(0x5B, 0x6E, 0x73)
 
-AUTOR = 'Jan Carlo Prado Anguiano'
+INTEGRANTES = ['Jan Carlo Prado Anguiano', 'Antonio Adame Serrano', 'Dante García Villagómez']
+AUTOR = INTEGRANTES[0]
 REPO = 'https://github.com/JanCarliux24/hotel-lumbre'
 WEB = 'https://jancarliux24.github.io/hotel-lumbre/'
 APPWEB = 'https://jancarliux24.github.io/hotel-lumbre/app/'
@@ -78,7 +79,7 @@ class Doc:
         d.add_paragraph(); d.add_paragraph()
         meta = [
             ('Proyecto', 'Lumbre Hotel & Spa — sistema de reservas multiplataforma (Android, iOS y web)'),
-            ('Integrante(s)', AUTOR + ' (añadir el resto del equipo si aplica)'),
+            ('Integrantes', chr(10).join(INTEGRANTES)),
             ('Repositorio', REPO),
             ('Aplicación web', APPWEB),
             ('Diagramas (zoom)', 'https://jancarliux24.github.io/hotel-lumbre/diagramas/'),
