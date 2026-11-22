@@ -1,4 +1,4 @@
-"""Genera los 16 entregables (U1: 3 · U2 librerías: 6 · U2 bases de datos: 7) y el script SQL."""
+"""Genera los 16 entregables (U1: 3 · U2 librerías: 6 · U4 bases de datos: 7) y el script SQL."""
 import os
 import u1_docs, u2_docs, bd_docs
 from docgen import ROOT

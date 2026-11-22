@@ -92,12 +92,12 @@ alpha = sf[0].makeelement(qn('a:alpha'), {'val': '72000'}); sf[0].append(alpha)
 text(s, Cm(2), Cm(4.5), Cm(30), Cm(1.2), 'TECNM · INSTITUTO TECNOLÓGICO DE MORELIA', 14, SUN, True)
 text(s, Cm(2), Cm(5.6), Cm(30), Cm(3), 'Lumbre Hotel & Spa', 54, WHITE, True, SERIF)
 text(s, Cm(2), Cm(8.6), Cm(28), Cm(2), 'Sistema de reservas multiplataforma: Android · iOS · Web', 22, WHITE)
-text(s, Cm(2), Cm(11.2), Cm(28), Cm(3), ['Unidad 1 · Interfaz centrada en el usuario', 'Unidad 2 · Librerías y componentes · Bases de datos',
+text(s, Cm(2), Cm(11.2), Cm(28), Cm(3), ['Unidad 1 · Interfaz centrada en el usuario', 'Unidad 2 · Librerías y componentes · Unidad 4 · Bases de datos',
                                           'Criterios TAP · Unidades 3 y 5'], 16, WHITE)
 text(s, Cm(2), Cm(16.2), Cm(30), Cm(1), 'Jan Carlo Prado Anguiano · Noviembre de 2026', 14, SUN, True)
 
 # 2 · Oportunidad --------------------------------------------------------------------
-s = slide('Una oportunidad, no un problema', '1 · Contexto', 'U1 §1 · U2_1 Contexto')
+s = slide('Una oportunidad, no un problema', '1 · Contexto', 'U1 §1 · U4_1 Contexto')
 bullets(s, Cm(1.6), Cm(4), Cm(16), Cm(13), [
     'Hoy|reservas por teléfono, correo y hojas de cálculo: duplicados y errores de captura.',
     'Huéspedes de 8 países|necesitan su idioma y su moneda.',
@@ -170,7 +170,7 @@ bullets(s, Cm(22.8), Cm(4), Cm(10.4), Cm(14), [
     'Errores|SharedFlow → Snackbar y resincronización.'], 13)
 
 # 10 · Firebase NoSQL ------------------------------------------------------------------
-s = slide('Firebase: base de datos NoSQL', '9 · Elección del SMBD', 'U2_5 Elección · U2_7 Diccionario')
+s = slide('Firebase: base de datos NoSQL', '9 · Elección del SMBD', 'U4_5 Elección · U4_7 Diccionario')
 pic(s, os.path.join(DIAG, '11_modelo_nosql_firestore.png'), Cm(1.6), Cm(3.6), Cm(20), Cm(14.4), True)
 bullets(s, Cm(22.4), Cm(4), Cm(10.8), Cm(14), [
     'Matriz ponderada|Firebase 4.80 / PostgreSQL 4.40.',
@@ -179,13 +179,13 @@ bullets(s, Cm(22.4), Cm(4), Cm(10.8), Cm(14), [
     'Plan Spark|0 € · 50 000 lecturas/día.'], 13)
 
 # 11 · Modelo de datos --------------------------------------------------------------
-s = slide('Del contexto al modelo relacional', '10 · Bases de datos', 'U2_2 · U2_3 · U2_6')
+s = slide('Del contexto al modelo relacional', '10 · Bases de datos', 'U4_2 · U4_3 · U4_6')
 pic(s, os.path.join(DIAG, '01b_dfd_nivel1.png'), Cm(1.6), Cm(3.6), Cm(15.5), Cm(7), True)
 pic(s, os.path.join(DIAG, '02a_er_chen.png'), Cm(1.6), Cm(11), Cm(15.5), Cm(7), True)
 pic(s, os.path.join(DIAG, '03_relacional.png'), Cm(17.6), Cm(3.6), Cm(15.6), Cm(14.4), True)
 
 # 12 · Seguridad ----------------------------------------------------------------------
-s = slide('Seguridad y privacidad', '11 · Acceso a datos seguro', 'U2_E1 §9 · U2_5 §5')
+s = slide('Seguridad y privacidad', '11 · Acceso a datos seguro', 'U2_E1 §9 · U4_5 §5')
 pic(s, os.path.join(DIAG, '13_reglas_firebase.png'), Cm(1.6), Cm(3.6), Cm(11), Cm(14.4), True)
 pic(s, os.path.join(SHOT, 'escritorio_super_seguridad.jpg'), Cm(13.2), Cm(3.8), Cm(12.5), Cm(7.5), True)
 pic(s, os.path.join(SHOT, 'movil_cookies.jpg'), Cm(26.4), Cm(3.6), Cm(6.8), Cm(14.4), True)

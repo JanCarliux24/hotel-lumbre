@@ -1,14 +1,14 @@
 """Entregables de la Unidad 4 — Bases de datos (7 documentos)."""
 from docgen import Doc, WEB, APPWEB, REPO
 
-U = 'Unidad 2 · Bases de datos'
+U = 'Unidad 4 · Bases de datos'
 
 
 # ======================================================================================
 # 1. CONTEXTO
 # ======================================================================================
 def contexto():
-    d = Doc('U2_BD/U2_1_Contexto.docx', U, 'Entregable U2_1 (Bases de datos)', 'Contexto del problema y propósito de la base de datos',
+    d = Doc('U4_BD/U4_1_Contexto.docx', U, 'Entregable U4_1 (Bases de datos)', 'Contexto del problema y propósito de la base de datos',
             'Por qué Lumbre necesita una base de datos y a qué necesidades del sistema responde')
     d.toc(['Resumen', 'Descripción de la organización', 'Problema actual', 'Propósito de la base de datos',
            'Contexto de uso: quién, dónde y cuándo', 'Necesidades del sistema y datos que las satisfacen',
@@ -107,7 +107,7 @@ def contexto():
         ['Promociones', '2–10', '~20', 'Campañas por temporada.'],
         ['Auditoría', '0', '~3 000', 'Cambios administrativos.'],
     ], [3.5, 3, 3, 6.5], 'Estimación de volumen', 9)
-    d.p('Con este volumen la base de datos cabe holgadamente en el plan gratuito elegido (ver Entregable U2_5): '
+    d.p('Con este volumen la base de datos cabe holgadamente en el plan gratuito elegido (ver Entregable U4_5): '
         '1 GiB de almacenamiento y 50 000 lecturas y 20 000 escrituras diarias.')
 
     d.h1('9. Restricciones y supuestos')
@@ -129,9 +129,9 @@ def contexto():
     ], [10, 6], 'Indicadores')
 
     d.h1('11. Relación con los demás entregables')
-    d.p('Este contexto se representa gráficamente en el diagrama de contexto (U2_2), se modela en el diagrama '
-        'entidad-relación (U2_3), justifica los criterios y la elección del sistema gestor (U2_4 y U2_5), se transforma '
-        'en el diagrama relacional normalizado (U2_6) y se documenta campo a campo en el diccionario de datos (U2_7).')
+    d.p('Este contexto se representa gráficamente en el diagrama de contexto (U4_2), se modela en el diagrama '
+        'entidad-relación (U4_3), justifica los criterios y la elección del sistema gestor (U4_4 y U4_5), se transforma '
+        'en el diagrama relacional normalizado (U4_6) y se documenta campo a campo en el diccionario de datos (U4_7).')
     d.p(f'Aplicación funcionando: {APPWEB} · Código: {REPO}')
     d.h1('12. Partes interesadas')
     d.table(['Parte interesada', 'Interés', 'Influencia en los datos'], [
@@ -160,12 +160,12 @@ def contexto():
         ['S7', 'Los pagos se hacen en el hotel (fuera del alcance).', 'No hay entidades de pago ni factura.'],
         ['S8', 'Todo el personal tiene cuenta individual.', 'La auditoría siempre tiene un autor identificable.'],
         ['S9', 'La ubicación solo sirve para deducir el país y no se guarda.', 'No hay campos de coordenadas; solo idioma y moneda.'],
-        ['S10', 'El volumen cabe en el plan gratuito de Firebase.', 'Se elige Firebase (ver U2_4 y U2_5).'],
+        ['S10', 'El volumen cabe en el plan gratuito de Firebase.', 'Se elige Firebase (ver U4_4 y U4_5).'],
         ['S11', 'La moneda base es el euro; las demás se calculan al mostrar.', 'Importes en EUR; conversión en la app.'],
         ['S12', 'Los textos del catálogo (fotos, amenidades traducidas) cambian poco.', 'Se guardan en la app; la nube solo guarda precio, capacidad y disponibilidad.'],
     ], [1, 7, 8], 'Supuestos', 9)
     d.h1('15. Vista general del contexto')
-    d.diagram('01_contexto.png', 'Diagrama de contexto (detalle en U2_2).', 16)
+    d.diagram('01_contexto.png', 'Diagrama de contexto (detalle en U4_2).', 16)
     d.tap(16, ['Identifica quién usa la interfaz, dónde y cuándo.',
                'Contempla la mala conexión: copia local y sincronización en segundo plano.',
                'Define qué datos necesita cada necesidad del sistema.',
@@ -177,7 +177,7 @@ def contexto():
 # 2. DIAGRAMA DE CONTEXTO
 # ======================================================================================
 def diagrama_contexto():
-    d = Doc('U2_BD/U2_2_Diagrama_de_Contexto.docx', U, 'Entregable U2_2 (Bases de datos)', 'Diagrama de contexto',
+    d = Doc('U4_BD/U4_2_Diagrama_de_Contexto.docx', U, 'Entregable U4_2 (Bases de datos)', 'Diagrama de contexto',
             'DFD nivel 0 y nivel 1: el sistema, sus entidades externas, procesos, almacenes y flujos de datos')
     d.toc(['Objetivo', 'Simbología', 'Diagrama de contexto (nivel 0)', 'Entidades externas', 'Flujos de datos del nivel 0',
            'Límite del sistema', 'DFD nivel 1', 'Procesos del nivel 1', 'Almacenes de datos', 'Balanceo entre niveles',
@@ -185,7 +185,7 @@ def diagrama_contexto():
     d.h1('1. Objetivo')
     d.p('El diagrama de contexto representa todo el sistema como un único proceso (0) y muestra con quién intercambia '
         'información y qué datos fluyen. Se complementa con el DFD de nivel 1, que abre el proceso 0 en seis procesos y '
-        'siete almacenes de datos. Ambos se basan en el contexto (U2_1) y alimentan el modelo E-R (U2_3).')
+        'siete almacenes de datos. Ambos se basan en el contexto (U4_1) y alimentan el modelo E-R (U4_3).')
     d.h1('2. Simbología (notación Yourdon/DeMarco)')
     d.table(['Símbolo', 'Significado', 'Ejemplo en el diagrama'], [
         ['Círculo numerado', 'Proceso (transforma datos)', '0 Sistema de reservas; 3.0 Cotizar y reservar'],
@@ -278,14 +278,14 @@ def diagrama_contexto():
 # 3. DIAGRAMA ENTIDAD-RELACIÓN
 # ======================================================================================
 def diagrama_er():
-    d = Doc('U2_BD/U2_3_Diagrama_Entidad_Relacion.docx', U, 'Entregable U2_3 (Bases de datos)', 'Diagrama entidad-relación',
+    d = Doc('U4_BD/U4_3_Diagrama_Entidad_Relacion.docx', U, 'Entregable U4_3 (Bases de datos)', 'Diagrama entidad-relación',
             'Entidades, atributos, claves, relaciones y cardinalidades del problema')
     d.toc(['Método seguido', 'Diagrama E-R', 'Entidades y atributos', 'Relaciones y cardinalidades',
            'Reglas de negocio que justifican las cardinalidades', 'Resolución de relaciones N:M',
            'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Cómo leer la notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Criterios TAP'])
     d.h1('1. Método seguido')
     d.bullets([
-        'Se extrajeron sustantivos del contexto (U2_1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
+        'Se extrajeron sustantivos del contexto (U4_1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
         'Se descartaron conceptos que son atributos (idioma, moneda, estado) o que no se almacenan (ubicación exacta).',
         'Se identificó la clave primaria de cada entidad priorizando identificadores naturales estables (código de promoción, referencia de reserva).',
         'Se definieron relaciones con su cardinalidad mínima y máxima a partir de reglas de negocio verificables.',
@@ -338,7 +338,7 @@ def diagrama_er():
         'RN-05: cada cambio administrativo genera un registro de auditoría con su autor.',
     ])
     d.h1('6. Resolución de relaciones N:M')
-    d.p('Las dos relaciones N:M se transforman en el modelo relacional (U2_6) en tablas asociativas: RESERVA_EXTRA '
+    d.p('Las dos relaciones N:M se transforman en el modelo relacional (U4_6) en tablas asociativas: RESERVA_EXTRA '
         '(con el atributo propio importe_eur, que congela el precio cobrado) y TIPO_HABITACION_AMENIDAD.')
     d.h1('7. Atributos calculados y derivados')
     d.table(['Atributo', 'Se calcula a partir de', '¿Se almacena?'], [
@@ -377,7 +377,7 @@ CANDIDATOS = ['Firebase (Cloud Firestore + Authentication)', 'PostgreSQL (Supaba
 
 
 def criterios():
-    d = Doc('U2_BD/U2_4_Criterios_de_Seleccion_SMBD.docx', U, 'Entregable U2_4 (Bases de datos)', 'Criterios de selección de un SMBD',
+    d = Doc('U4_BD/U4_4_Criterios_de_Seleccion_SMBD.docx', U, 'Entregable U4_4 (Bases de datos)', 'Criterios de selección de un SMBD',
             'Análisis técnico, económico, de seguridad, escalabilidad, compatibilidad y facilidad de uso')
     d.toc(['Requisitos que condicionan la elección', 'Criterios y su peso', 'Candidatos evaluados',
            'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión', 'Relacional frente a NoSQL', 'Criterios TAP'])
@@ -456,12 +456,12 @@ def criterios():
     d.table(['Riesgo', 'Mitigación'], [
         ['Sin integridad referencial nativa en NoSQL', 'Reglas de Firestore que validan tipos, rangos y relaciones; validación duplicada en el cliente.'],
         ['Superar el plan gratuito', 'Consultas filtradas por usuario, caché local; alertas de uso en la consola.'],
-        ['Dependencia de proveedor', 'Modelo relacional documentado (U2_6) y DDL listo para PostgreSQL; repositorio de datos aislado en el código.'],
+        ['Dependencia de proveedor', 'Modelo relacional documentado (U4_6) y DDL listo para PostgreSQL; repositorio de datos aislado en el código.'],
     ], [6, 10], 'Riesgos')
     d.h1('7. Conclusión')
     d.p('Los criterios técnicos, económicos, de seguridad, escalabilidad, compatibilidad y facilidad de uso apuntan a '
         'un SMBD gestionado con seguridad declarativa en servidor y acceso REST multiplataforma. Por eso el SMBD '
-        'seleccionado es Firebase (Cloud Firestore + Authentication); la justificación detallada está en el Entregable U2_5.')
+        'seleccionado es Firebase (Cloud Firestore + Authentication); la justificación detallada está en el Entregable U4_5.')
     d.h1('8. Relacional frente a NoSQL documental')
     d.table(['Aspecto', 'Relacional (PostgreSQL, MySQL)', 'NoSQL documental (Firebase Firestore)'], [
         ['Estructura', 'Tablas con esquema fijo', 'Colecciones de documentos JSON con esquema flexible'],
@@ -483,7 +483,7 @@ def criterios():
 # 5. ELECCIÓN
 # ======================================================================================
 def eleccion():
-    d = Doc('U2_BD/U2_5_Eleccion_del_SMBD_Firebase.docx', U, 'Entregable U2_5 (Bases de datos)', 'Elección del SMBD: Firebase',
+    d = Doc('U4_BD/U4_5_Eleccion_del_SMBD_Firebase.docx', U, 'Entregable U4_5 (Bases de datos)', 'Elección del SMBD: Firebase',
             'Por qué Firebase (Cloud Firestore + Authentication) es el SMBD del proyecto y cómo se implementó')
     d.toc(['Decisión', 'Justificación frente a cada requisito', 'Cómo se implementó', 'Del modelo relacional a colecciones',
            'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia', 'Modelo de datos NoSQL en Firebase', 'Cómo protege Firebase cada operación', 'Acceso a datos desde la app', 'Criterios TAP'])
@@ -511,7 +511,7 @@ def eleccion():
         'Modo local de respaldo: si Firebase no está configurado, la app funciona con almacenamiento del dispositivo.',
     ])
     d.h1('4. Del modelo relacional a colecciones')
-    d.table(['Tabla (U2_6)', 'Colección / documento', 'Decisión'], [
+    d.table(['Tabla (U4_6)', 'Colección / documento', 'Decisión'], [
         ['usuario + rol', 'users/{uid} (campo role)', 'El rol se guarda como texto en el usuario: lectura en una sola consulta para las reglas.'],
         ['tipo_habitacion', 'rooms/{STANDARD|DELUXE|PENTHOUSE}', 'Contenido editorial (fotos, amenidades) en la app; precio y disponibilidad en la nube.'],
         ['promocion', 'promos/{CODIGO}', 'La clave del documento es el código.'],
@@ -543,7 +543,7 @@ match /audit/{id} { allow read: if isSuper(); allow create: if isStaff(); allow 
     ], [3.5, 4.5, 4, 4], 'Capacidad')
     d.h1('7. Plan de migración')
     d.p('Si el hotel necesitara consultas analíticas complejas o integridad referencial estricta, el modelo relacional '
-        'normalizado (U2_6) y su DDL para PostgreSQL permiten migrar a Supabase o a un PostgreSQL propio. En el código '
+        'normalizado (U4_6) y su DDL para PostgreSQL permiten migrar a Supabase o a un PostgreSQL propio. En el código '
         'solo cambiaría la implementación del repositorio de datos; las pantallas no se tocan.')
     d.h1('8. Evidencia')
     d.bullets([f'Aplicación web: {APPWEB}', f'Repositorio: {REPO} (carpeta app/firebase y app/shared/.../data/firebase)',
@@ -659,7 +659,7 @@ CREATE INDEX idx_auditoria_fecha ON auditoria(fecha_hora DESC);'''
 
 
 def relacional():
-    d = Doc('U2_BD/U2_6_Diagrama_Relacional.docx', U, 'Entregable U2_6 (Bases de datos)', 'Diagrama relacional normalizado',
+    d = Doc('U4_BD/U4_6_Diagrama_Relacional.docx', U, 'Entregable U4_6 (Bases de datos)', 'Diagrama relacional normalizado',
             'Transformación del modelo E-R a tablas en 3FN con claves primarias, foráneas y restricciones')
     d.toc(['Reglas de transformación aplicadas', 'Diagrama relacional', 'Esquema relacional en notación textual',
            'Normalización paso a paso', 'Integridad referencial y acciones', 'Script DDL (PostgreSQL)',
@@ -732,7 +732,7 @@ AUDITORIA(id_auditoria PK, id_usuario FK→USUARIO, fecha_hora, accion, objetivo
     d.h1('6. Script DDL (PostgreSQL)')
     d.code(DDL, 'Script completo; también se guarda en docs/bd/lumbre.sql del repositorio.')
     d.h1('7. Correspondencia con la implementación en Firestore')
-    d.p('El SMBD del proyecto es Firebase (ver U2_5): los datos viven en Cloud Firestore. Las mismas restricciones del DDL se aplican mediante '
+    d.p('El SMBD del proyecto es Firebase (ver U4_5): los datos viven en Cloud Firestore. Las mismas restricciones del DDL se aplican mediante '
         'reglas de seguridad (rangos, listas de valores, propietario de la reserva) y validaciones en la app. '
         'Las tablas asociativas se representan como arreglos dentro del documento padre porque siempre se leen juntas.')
     d.h1('8. Del modelo relacional al modelo NoSQL de Firebase')
@@ -887,7 +887,7 @@ FS_DICT = [
 
 
 def diccionario():
-    d = Doc('U2_BD/U2_7_Diccionario_de_Datos.docx', U, 'Entregable U2_7 (Bases de datos)', 'Diccionario de datos',
+    d = Doc('U4_BD/U4_7_Diccionario_de_Datos.docx', U, 'Entregable U4_7 (Bases de datos)', 'Diccionario de datos',
             'Cada tabla y campo con descripción, tipo, tamaño, restricciones y relación')
     d.toc(['Convenciones', 'Resumen de tablas'] + [f'Tabla {t}' for t in DICT] + ['Parámetros del sistema', 'Dominios y listas de valores', 'Diccionario NoSQL de Firebase', 'Criterios TAP'])
     d.h1('1. Convenciones')
