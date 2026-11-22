@@ -5,7 +5,7 @@ import math, os
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUT = os.path.join(ROOT, 'docs', 'diagramas')
 TEAL, NAVY, SUN, GREY = '#0A7C86', '#16313A', '#D9A441', '#5B6E73'
-STY = {'ext': ('#FFF4E2', '#B87A1E'), 'svc': ('#E6F6FA', '#0A7C86'), 'proc': ('#D6F3F2', '#0A7C86'), 'store': ('#FFFCF5', '#B87A1E')}
+STY = {'sys': ('#D6F3F2', '#0A7C86'), 'box': ('#FFFFFF', '#16313A'), 'ext': ('#FFF4E2', '#B87A1E'), 'svc': ('#E6F6FA', '#0A7C86'), 'proc': ('#D6F3F2', '#0A7C86'), 'store': ('#FFFCF5', '#B87A1E')}
 
 
 def esc(t):
@@ -40,6 +40,11 @@ class Dia:
             self.front.append(f'<line x1="{x0 + 80}" y1="{y0}" x2="{x0 + 80}" y2="{y0 + h}" stroke="{s}" stroke-width="2"/>')
             self.text(x0 + 40, y, title, 22, 700, '#8A5A12')
             self.text(x0 + 80 + (w - 80) / 2, y, lines, 21, 600)
+        elif kind in ('sys', 'box'):
+            x0, y0 = x - w / 2, y - h / 2
+            rx = 36 if kind == 'sys' else 6
+            self.front.append(f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="{rx}" fill="{f}" stroke="{s}" stroke-width="3"/>')
+            self.text(x, y, lines, 30 if kind == 'sys' else 26, 700 if kind == 'sys' else 600, s if kind == 'sys' else NAVY)
         else:
             x0, y0 = x - w / 2, y - h / 2
             self.front.append(f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="10" fill="{f}" stroke="{s}" stroke-width="3"/>')
@@ -206,5 +211,43 @@ def nivel1():
     d.save('01b_dfd_nivel1')
 
 
-nivel0(); nivel1()
+# ====================================================================================== CONTEXTO (vista simple)
+def contexto_simple():
+    """Misma información que el nivel 0, con el estilo clásico: caja del sistema al centro, entidades alrededor
+    y flechas en ángulo recto con un nombre de dato cada una. Se puede empezar a leer desde cualquier caja."""
+    d = Dia(2400, 1560, 'Diagrama de contexto — vista simplificada',
+            'Cada flecha dice qué dato viaja y hacia dónde · el detalle numerado F1–F14 está en el diagrama completo', 30)
+    C = (1200, 760)
+    d.node('sys', *C, 460, 230, '', ['Sistema de Reservas', 'Lumbre Hotel & Spa'])
+    B = {'H': (260, 760), 'R': (430, 200), 'A': (1970, 200), 'S': (1000, 1330), 'G': (2140, 760), 'F': (1960, 1330), 'M': (260, 1330)}
+    names = {'H': ['Huésped'], 'R': ['Recepción'], 'A': ['Administrador'], 'S': ['Superusuario'], 'G': ['Servicio de', 'geolocalización'],
+             'F': ['Firebase', 'Authentication'], 'M': ['Correo', 'de Firebase']}
+    for k, (x, y) in B.items():
+        d.node('box', x, y, 300, 130, '', names[k])
+    sx0, sx1, sy0, sy1 = 1200 - 230, 1200 + 230, 760 - 115, 760 + 115
+    # Huésped ↔ sistema
+    d.edge([(410, 715), (sx0, 715)], 'Datos de reserva y de cuenta', (690, 690))
+    d.edge([(sx0, 805), (410, 805)], 'Presupuesto y confirmación', (690, 830))
+    # Recepción (arriba izquierda)
+    d.edge([(580, 175), (1110, 175), (1110, sy0)], 'Registro de llegada', (815, 150))
+    d.edge([(1050, sy0), (1050, 230), (580, 230)], 'Llegadas y salidas del día', (815, 256))
+    # Administrador (arriba derecha)
+    d.edge([(1820, 175), (1290, 175), (1290, sy0)], 'Precios y promociones', (1585, 150))
+    d.edge([(1350, sy0), (1350, 230), (1820, 230)], 'Indicadores de ventas', (1585, 256))
+    # Superusuario (abajo)
+    d.edge([(960, 1265), (960, 1060), (1080, 1060), (1080, sy1)], ['Roles y', 'parámetros'], (860, 1120))
+    d.edge([(1160, sy1), (1160, 1120), (1040, 1120), (1040, 1265)], ['Usuarios y', 'auditoría'], (1180, 1190))
+    # Geolocalización (derecha)
+    d.edge([(sx1, 715), (1990, 715)], 'Ubicación aproximada', (1700, 690))
+    d.edge([(1990, 805), (sx1, 805)], 'País', (1700, 830))
+    # Firebase (abajo derecha)
+    d.edge([(1400, sy1), (1400, 1300), (1810, 1300)], 'Usuario y contraseña', (1610, 1275))
+    d.edge([(1810, 1360), (1300, 1360), (1300, sy1)], 'Sesión iniciada', (1600, 1385))
+    # Firebase → correo → huésped
+    d.edge([(1960, 1395), (1960, 1480), (260, 1480), (260, 1395)], 'Solicitud de correo de verificación', (1100, 1480))
+    d.edge([(260, 1265), (260, 825)], ['Correo con', 'enlace'], (160, 1050))
+    d.save('01c_contexto_simple')
+
+
+nivel0(); nivel1(); contexto_simple()
 print('ok')

@@ -196,6 +196,11 @@ def diagrama_contexto():
     ], [3.5, 5, 7.5], 'Simbología')
     d.h1('3. Diagrama de contexto (nivel 0)')
     d.diagram('01_contexto.png', 'Diagrama de contexto con flujos numerados F1–F14.', 16.5)
+    d.h2('3.1 Vista simplificada (se lee desde cualquier caja)')
+    d.p('Misma información con el estilo clásico: el sistema en una caja al centro y cada entidad en un rectángulo. '
+        'Cada flecha lleva el nombre del dato que viaja y su sentido, así que se puede empezar por cualquier caja: '
+        'por ejemplo, desde Recepción se lee "Registro de llegada" hacia el sistema y "Llegadas y salidas del día" de vuelta.')
+    d.diagram('01c_contexto_simple.png', 'Diagrama de contexto, vista simplificada.', 16.5)
     d.h1('4. Entidades externas')
     d.table(['Id', 'Entidad', 'Tipo', 'Descripción', 'Frecuencia de interacción'], [
         ['E1', 'Huésped / visitante', 'Persona', 'Explora, cotiza, reserva, consulta y cancela; usa la llave digital en móvil.', 'Diaria, picos en vacaciones'],
