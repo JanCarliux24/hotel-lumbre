@@ -1,0 +1,24 @@
+@startsalt 18_wf3_reserva_fechas
+title Pantalla 3 · Reserva paso 1 (captura)
+skinparam defaultFontName "Segoe UI"
+{+
+  { <&x> | <b>Tu reserva</b> }
+  { <color:#0A7C86><b>● Fechas</b> | ○ Habitación | ○ Tus datos }
+  ---
+  { <&person> Lumi: "¡Hola! ¿Cuándo vienes?" }
+  { Llegada | "2 dic    " | Salida | "5 dic    " }
+  { <color:#0A7C86>3 noches }
+  { Adultos | [-] | 2 | [+] }
+  { Niños (2 a 12) | [-] | 0 | [+] }
+  ---
+  {+
+    { <b>Tu presupuesto</b> }
+    { Suite Deluxe × 3 noches | MX$11,286 }
+    { Suplemento fin de semana | MX$564 }
+    { Código LUMBRE10 (−10 %) | −MX$1,185 }
+    { Impuestos (10 %) | MX$1,067 }
+    { <b>Total</b> | <b>MX$11,732</b> }
+  }
+  { [          Continuar          ] }
+}
+@endsalt

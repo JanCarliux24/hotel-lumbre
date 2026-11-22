@@ -1,5 +1,6 @@
 """Entregables de la Unidad 2 (6 documentos)."""
-from docgen import Doc, WEB, APPWEB, APK, REPO
+import os
+from docgen import Doc, WEB, APPWEB, APK, REPO, ROOT
 
 U = 'Unidad 2 · Librerías, componentes y su aplicación'
 
@@ -8,11 +9,11 @@ U = 'Unidad 2 · Librerías, componentes y su aplicación'
 # E1. ESPECIFICACIONES
 # ======================================================================================
 def e1():
-    d = Doc('U2_E1_Especificaciones.docx', U, 'Entregable 1', 'Especificaciones del sistema',
+    d = Doc('U2_Librerias/U2_E1_Especificaciones.docx', U, 'Entregable 1', 'Especificaciones del sistema',
             'Requisitos funcionales y no funcionales, actores, casos de uso, reglas y criterios de aceptación')
     d.toc(['Introducción y alcance', 'Visión del producto', 'Actores y roles', 'Plataformas y norma "móvil útil / web completa"',
            'Requisitos funcionales', 'Requisitos no funcionales', 'Reglas de negocio y parámetros', 'Validaciones de entrada',
-           'Seguridad', 'Cookies, ubicación, idioma y moneda', 'Casos de uso', 'Arquitectura', 'Navegación', 'Criterios de aceptación', 'Glosario'])
+           'Seguridad', 'Cookies, ubicación, idioma y moneda', 'Casos de uso', 'Arquitectura', 'Navegación', 'Criterios de aceptación', 'Glosario', 'Modelo de clases y estados', 'Criterios TAP'])
 
     d.h1('1. Introducción y alcance')
     d.p('Este documento especifica el sistema de reservas de Lumbre Hotel & Spa: una sola aplicación escrita con Kotlin '
@@ -107,7 +108,7 @@ def e1():
         ['Intentos de inicio de sesión* / bloqueo*', '5 intentos / 60 s'],
         ['Longitud mínima de contraseña*', '8'],
         ['Modo mantenimiento*', 'Pausa reservas de huéspedes con mensaje'],
-        ['Extras', 'Desayuno 18 €/persona y noche (niños 50 %), Spa 45 €/adulto, Traslado 60 €/estancia, Parking 15 €/noche, Salida tardía 35 €/estancia'],
+        ['Extras', 'Desayuno 18 €/persona y noche (niños 50 %), Spa 45 €/adulto, Traslado 60 €/estancia, Parking 15 €/noche, Salida tardía 30 €/estancia'],
         ['Capacidad', 'Estándar 2, Deluxe 3, Ático 6 huéspedes'],
     ], [6.5, 9.5], 'Reglas y parámetros')
 
@@ -116,12 +117,12 @@ def e1():
         ['Nombre', '2–80 caracteres, letras (con acentos), espacios, apóstrofo, punto y guion.', 'Solo letras, mínimo 2.'],
         ['Correo', 'Formato RFC simplificado, sin puntos dobles, TLD alfabético; sugerencia de dominio (gmial → gmail).', '¿Quisiste decir ana@gmail.com?'],
         ['Teléfono', 'Opcional; 7–15 dígitos; admite + ( ) . - y espacios.', 'Usa entre 7 y 15 dígitos.'],
-        ['Fechas', 'Llegada ≥ hoy; salida > llegada; ≤ 30 noches; ≤ 18 meses.', 'La salida debe ser después de la llegada.'],
+        ['Fechas', 'Llegada ≥ hoy; salida > llegada; ≤ 30 noches; ≤ 18 meses.', 'La salida debe ser posterior a la llegada.'],
         ['Huéspedes', 'Adultos 1–6, niños 0–4, total ≤ capacidad.', 'Esta habitación admite hasta N.'],
-        ['Contraseña', '≥ 8, mayúscula, minúscula, número y símbolo; no contener el usuario del correo; medidor de fuerza 0–4.', 'Mínimo 8 caracteres, con mayúscula, minúscula, número y símbolo.'],
+        ['Contraseña', '≥ 8, mayúscula, minúscula, número y símbolo; no contener el usuario del correo; medidor de fuerza 0–4.', 'Mínimo 8 caracteres. / Usa mayúscula, minúscula, número y símbolo, sin espacios.'],
         ['Repetir contraseña', 'Igual a la anterior.', 'Las contraseñas no coinciden.'],
-        ['Código promocional', '4–20 mayúsculas o dígitos y existir activo.', 'Código no válido.'],
-        ['Términos', 'Casilla obligatoria al reservar y al crear cuenta.', 'Debes aceptar para continuar.'],
+        ['Código promocional', '4–20 mayúsculas o dígitos y existir activo.', 'Ese código no es válido.'],
+        ['Términos', 'Casilla obligatoria al reservar y al crear cuenta.', 'Necesitamos tu consentimiento. / Debes aceptar las condiciones.'],
     ], [3, 8, 5], 'Validaciones')
     d.shot('web_07_validaciones.jpg', 'Validaciones en vivo en el paso "Tus datos" (nombre, sugerencia de correo, teléfono y casilla).')
 
@@ -188,6 +189,15 @@ def e1():
         ['Regla de seguridad', 'Condición evaluada por Firestore en el servidor antes de aceptar una lectura o escritura.'],
         ['Cooldown', 'Tiempo mínimo entre dos acciones iguales.'],
     ], [4, 12], 'Glosario')
+    d.h1('16. Modelo de clases y estados')
+    d.diagram('16_clases_dominio.png', 'Diagrama de clases del dominio (código común).', 16)
+    d.diagram('17_estados_reserva.png', 'Ciclo de vida de una reserva.', 12)
+    d.diagram('19_arquitectura_modulos.png', 'Arquitectura por módulos (basada en gitdiagram.com).', 16)
+    d.diagram('14_concurrencia.png', 'Trabajo síncrono y asíncrono sin bloquear la interfaz.', 15)
+    d.tap(17, ['Especifica pantallas, navegación, validaciones y retroalimentación (RF-01…RF-18).',
+               'Especifica qué operaciones son inmediatas y cuáles asíncronas (red, sincronización, animaciones).',
+               'Especifica las operaciones de consulta, alta y actualización con reglas en el servidor.',
+               'Define actores, plataformas y la norma "móvil útil / web completa".'])
     return d.save()
 
 
@@ -275,10 +285,10 @@ OWN = [
 
 
 def e2():
-    d = Doc('U2_E2_Librerias_y_Componentes.docx', U, 'Entregable 2', 'Librerías y componentes',
+    d = Doc('U2_Librerias/U2_E2_Librerias_y_Componentes.docx', U, 'Entregable 2', 'Librerías y componentes',
             'Documentación de cada librería y componente: propósito, requisitos, instalación, configuración, uso, E/S, ejemplos y limitaciones')
     d.toc(['Mapa de dependencias', 'Entorno de desarrollo', 'Fichas de librerías externas', 'Componentes propios del equipo',
-           'Ejemplo integrado', 'Guía de instalación del proyecto completo', 'Compatibilidad de versiones', 'Licencias'])
+           'Ejemplo integrado', 'Guía de instalación del proyecto completo', 'Compatibilidad de versiones', 'Licencias', 'Componentes síncronos y asíncronos', 'Criterios TAP'])
     d.h1('1. Mapa de dependencias')
     d.diagram('09_dependencias_externas.png', 'Librerías y servicios externos usados por cada módulo.', 15.5)
     d.h1('2. Entorno de desarrollo')
@@ -329,6 +339,23 @@ def e2():
         ['Firebase (servicio)', 'Términos de Google Firebase, plan Spark gratuito'], ['BigDataCloud client API', 'Uso gratuito con atribución'],
         ['Fotografías', 'Licencia Unsplash'], ['Fuentes Playfair Display e Inter', 'SIL Open Font License'], ['PlantUML (diagramas)', 'MIT'],
     ], [8, 8], 'Licencias')
+    d.h1('9. Componentes síncronos y asíncronos')
+    d.table(['Componente / librería', 'Tipo', 'Uso en el proyecto'], [
+        ['Pricing, Validation, Format', 'Síncrono (funciones puras)', 'Cálculo y validación instantáneos en el hilo de la UI'],
+        ['MutableStateFlow / StateFlow', 'Asíncrono reactivo', 'Estado observable; collectAsState() recompone la UI'],
+        ['MutableSharedFlow (events)', 'Asíncrono (eventos)', 'Mensajes de error/éxito hacia el Snackbar'],
+        ['combine()', 'Asíncrono reactivo', 'El rol se deriva de cuenta + modo demo'],
+        ['CoroutineScope(SupervisorJob + Dispatchers.Default)', 'Concurrencia estructurada', 'Escrituras remotas independientes; un fallo no cancela las demás'],
+        ['suspend fun (34)', 'Asíncrono', 'Llamadas a Firebase y geolocalización sin bloquear'],
+        ['Ktor HttpClient', 'E/S no bloqueante', 'Motores OkHttp, Darwin y JS'],
+        ['LaunchedEffect / rememberCoroutineScope', 'Asíncrono ligado a la UI', 'Animaciones, temporizadores (delay) y acciones de botones'],
+    ], [5.5, 3.5, 7], 'Clasificación síncrono/asíncrono', 9)
+    d.diagram('14_concurrencia.png', 'Secuencia de una reserva: parte síncrona y parte asíncrona.', 15)
+    d.diagram('16_clases_dominio.png', 'Clases de los componentes propios.', 16)
+    d.tap(10, ['Documenta los componentes visuales reutilizables (LumbreButton, Stepper, Lumi…).',
+               'Clasifica cada librería y componente como síncrono o asíncrono y explica la concurrencia.',
+               'Documenta Ktor, Firebase Auth y Firestore como capa de acceso a datos.',
+               'Muestra que las librerías elegidas son multiplataforma para la app móvil.'])
     return d.save()
 
 
@@ -336,10 +363,10 @@ def e2():
 # E3. APLICACIÓN DEL EQUIPO
 # ======================================================================================
 def e3():
-    d = Doc('U2_E3_Aplicacion_del_Equipo.docx', U, 'Entregable 3', 'Aplicación desarrollada por el equipo',
+    d = Doc('U2_Librerias/U2_E3_Aplicacion_del_Equipo.docx', U, 'Entregable 3', 'Aplicación desarrollada por el equipo',
             'Lumbre Hotel & Spa: descripción, módulos, pantallas, pruebas, publicación y manual de uso')
     d.toc(['Descripción', 'Tecnologías', 'Estructura del proyecto', 'Pantallas y funciones', 'Diferencias móvil y web',
-           'Cuentas, roles y paneles', 'Pruebas', 'Integración continua y publicación', 'Manual rápido de uso', 'Métricas del proyecto'])
+           'Cuentas, roles y paneles', 'Pruebas', 'Integración continua y publicación', 'Manual rápido de uso', 'Métricas del proyecto', 'Arquitectura y documentación técnica', 'Criterios TAP'])
     d.h1('1. Descripción')
     d.p('Aplicación de reservas para un hotel boutique frente al mar, con estética vacacional (fotos de playa, piscinas, '
         'gastronomía y excursiones; paleta turquesa, arena y sol) y una mascota guía. Funciona en Android, iOS y web desde un '
@@ -411,6 +438,27 @@ def e3():
     d.h1('10. Métricas del proyecto')
     d.table(['Métrica', 'Valor'], [['Líneas de Kotlin en shared', '≈ 7 300'], ['Pantallas', '14'], ['Claves de texto traducidas', '> 400 × 4 idiomas'],
                                    ['Plataformas', 'Android, iOS, web'], ['Pruebas unitarias', '14'], ['Costo de operación', '0 €']], [8, 8], 'Métricas')
+    d.h1('11. Arquitectura y documentación técnica')
+    d.diagram('19_arquitectura_modulos.png', 'Arquitectura por módulos del repositorio (basada en gitdiagram.com).', 16)
+    d.diagram('08_despliegue.png', 'Despliegue: GitHub Pages, APK y Firebase.', 15)
+    d.h2('11.1 Paneles por rol (capturas reales)')
+    for f, c in (('escritorio_admin_panel.jpg', 'Administración: indicadores e ingresos por habitación.'),
+                 ('escritorio_admin_catalogo.jpg', 'Catálogo: precio por noche y disponibilidad.'),
+                 ('escritorio_recepcion.jpg', 'Recepción del día.'),
+                 ('escritorio_super_parametros.jpg', 'Superusuario: parámetros.'),
+                 ('escritorio_super_seguridad.jpg', 'Superusuario: estado de seguridad.')):
+        d.shot(f, c, 15)
+    d.h2('11.2 Flujo móvil completo')
+    d.shots([('movil_reserva_paso1.jpg', 'Fechas'), ('movil_reserva_extras.jpg', 'Habitación y extras'), ('movil_reserva_paso3.jpg', 'Datos')], 4.6)
+    d.shots([('movil_confirmacion.jpg', 'Confirmación'), ('movil_mis_reservas.jpg', 'Mis reservas'), ('movil_cancelar_dialogo.jpg', 'Cancelar')], 4.6, 'Reserva completa en el teléfono.')
+    d.h2('11.3 Reglas de seguridad de Firestore (archivo completo)')
+    d.code(open(os.path.join(ROOT, 'app', 'firebase', 'firestore.rules'), encoding='utf-8').read(), 'app/firebase/firestore.rules')
+    d.h2('11.4 Integración y despliegue continuo')
+    d.code(open(os.path.join(ROOT, '.github', 'workflows', 'pages.yml'), encoding='utf-8').read(), '.github/workflows/pages.yml')
+    d.tap(12, ['Muestra todas las pantallas web y móvil y los paneles por rol.',
+               'Describe la sincronización en segundo plano y la actualización optimista.',
+               'Incluye las reglas de seguridad completas que protegen el acceso a datos.',
+               'Demuestra la app funcionando en el teléfono con las funciones útiles.'])
     return d.save()
 
 
@@ -418,10 +466,10 @@ def e3():
 # E4. APLICACIÓN CON COMPONENTES EXTERNOS + FEEDBACK
 # ======================================================================================
 def e4():
-    d = Doc('U2_E4_Componentes_Externos_y_Feedback.docx', U, 'Entregable 4', 'Aplicación con componentes externos y retroalimentación',
+    d = Doc('U2_Librerias/U2_E4_Componentes_Externos_y_Feedback.docx', U, 'Entregable 4', 'Aplicación con componentes externos y retroalimentación',
             'Integración de componentes de la web y repositorios públicos, vistos como oportunidad, y feedback sobre ellos')
     d.toc(['Planteamiento', 'Componentes externos integrados', 'Proceso de integración', 'Problemas encontrados y oportunidades',
-           'Retroalimentación para los autores de los componentes', 'Retroalimentación recibida sobre nuestra aplicación', 'Mejoras aplicadas', 'Conclusión'])
+           'Retroalimentación para los autores de los componentes', 'Retroalimentación recibida sobre nuestra aplicación', 'Mejoras aplicadas', 'Conclusión', 'Criterios TAP'])
     d.h1('1. Planteamiento')
     d.p('La actividad propone integrar componentes desarrollados por otro equipo. En este proyecto no se usaron componentes '
         'de otro equipo del grupo; en su lugar se integraron componentes publicados en la web y en repositorios abiertos '
@@ -490,6 +538,10 @@ def e4():
     d.p('Integrar componentes externos requirió las mismas habilidades que integrar los de otro equipo: leer documentación '
         'ajena, aislar el componente, adaptarlo sin modificarlo y comunicar mejoras de forma constructiva. Cada problema '
         'encontrado dejó una lección aplicable a proyectos futuros.')
+    d.tap(9, ['Los componentes externos de UI (Compose, Material 3) se integraron sin perder consistencia.',
+              'Ktor y las corrutinas de Kotlin se integraron para no bloquear la app.',
+              'Firebase se integró por REST como capa de acceso a datos segura.',
+              'La integración externa hizo posible la app móvil multiplataforma.'])
     return d.save()
 
 
@@ -497,10 +549,10 @@ def e4():
 # E5. APLICACIÓN CON COMPONENTES PROPORCIONADOS + PREGUNTAS DE FEEDBACK
 # ======================================================================================
 def e5():
-    d = Doc('U2_E5_Componentes_Proporcionados_y_Preguntas.docx', U, 'Entregable 5', 'Aplicación con los componentes proporcionados',
+    d = Doc('U2_Librerias/U2_E5_Componentes_Proporcionados_y_Preguntas.docx', U, 'Entregable 5', 'Aplicación con los componentes proporcionados',
             'Reutilización de los componentes documentados en tres aplicaciones y cuestionario de retroalimentación')
     d.toc(['Objetivo', 'Componentes proporcionados', 'Aplicaciones construidas con ellos', 'Matriz de reutilización',
-           'Cuestionario de retroalimentación', 'Respuestas y análisis', 'Cambios derivados', 'Conclusión'])
+           'Cuestionario de retroalimentación', 'Respuestas y análisis', 'Cambios derivados', 'Conclusión', 'Criterios TAP'])
     d.h1('1. Objetivo')
     d.p('Demostrar que los componentes documentados en el Entregable 2 son realmente reutilizables: con ellos, sin escribir '
         'lógica nueva, se ensamblan tres aplicaciones (Android, iOS y web) y la página informativa reutiliza las mismas '
@@ -568,6 +620,10 @@ def e5():
     d.h1('8. Conclusión')
     d.p('Los componentes cumplieron su propósito: tres aplicaciones comparten el 100 % de la lógica y de la interfaz, y la '
         'retroalimentación confirmó que la documentación permite usarlos de forma autónoma.')
+    d.tap(9, ['Los componentes de UI se reutilizan en 3 plataformas con el mismo aspecto.',
+              'Los componentes síncronos (Pricing) y asíncronos (repositorio) se probaron por separado.',
+              'El repositorio proporcionado concentra todo el acceso a datos.',
+              'Las tres apps construidas confirman la propuesta móvil.'])
     return d.save()
 
 
@@ -575,10 +631,10 @@ def e5():
 # E6. REFLEXIONES Y CONCLUSIONES
 # ======================================================================================
 def e6():
-    d = Doc('U2_E6_Reflexiones_y_Conclusiones.docx', U, 'Entregable 6', 'Reflexiones y conclusiones',
+    d = Doc('U2_Librerias/U2_E6_Reflexiones_y_Conclusiones.docx', U, 'Entregable 6', 'Reflexiones y conclusiones',
             'Lo aprendido al documentar, crear, integrar y evaluar librerías y componentes')
     d.toc(['Resumen del trabajo', 'Reflexión sobre las librerías', 'Reflexión sobre los componentes propios',
-           'Reflexión sobre la integración externa', 'Lecciones aprendidas', 'Qué haríamos diferente', 'Trabajo futuro', 'Conclusiones'])
+           'Reflexión sobre la integración externa', 'Lecciones aprendidas', 'Qué haríamos diferente', 'Trabajo futuro', 'Conclusiones', 'Criterios TAP'])
     d.h1('1. Resumen del trabajo')
     d.table(['Entregable', 'Resultado'], [
         ['E1 Especificaciones', '18 requisitos funcionales, 10 no funcionales, reglas, validaciones, seguridad, casos de uso y diagramas.'],
@@ -617,6 +673,10 @@ def e6():
     d.p('El proyecto demostró que con librerías bien elegidas y componentes propios bien documentados es posible construir, '
         'sin costo, una aplicación profesional para tres plataformas con cuentas, roles, seguridad y privacidad. La '
         'documentación no fue un trámite final, sino la herramienta que hizo posible reutilizar, integrar y mejorar.')
+    d.tap(9, ['Reflexión sobre la calidad de la interfaz y la retroalimentación al usuario.',
+              'Lección: separar lo síncrono de lo asíncrono hace la app fluida y fácil de probar.',
+              'Lección: la seguridad de los datos debe vivir en el servidor.',
+              'Conclusión sobre la viabilidad de la propuesta móvil sin costo.'])
     return d.save()
 
 

@@ -1,0 +1,85 @@
+@startuml 19_arquitectura_modulos
+!include _estilo.iuml
+title Arquitectura por módulos del repositorio hotel-lumbre\n<size:12>Basado en el análisis automático de gitdiagram.com/jancarliux24/hotel-lumbre, traducido y ampliado</size>
+top to bottom direction
+skinparam componentStyle rectangle
+
+actor "Huésped" as guest
+rectangle "Página web estática\n[js/app.js · index.html]" as static #FFF4E2
+
+package "Puntos de entrada (1 por plataforma)" #FFFCF5 {
+  [Android\nMainActivity.kt] as android
+  [iOS\nMainViewController.kt] as ios
+  [Web (Wasm)\nmain.kt] as web
+  [App compartida y navegación\nApp.kt · Routes.kt] as app
+}
+package "Experiencia del huésped (ui/screens)" #E6F6FA {
+  [Inicio\nHomeScreen] as home
+  [Habitaciones\nRoomsScreen] as rooms
+  [Detalle\nRoomDetailScreen] as detail
+  [Ofertas\nOffersScreen] as offers
+  [Reserva 3 pasos\nBookingScreen] as booking
+  [Mis reservas\nTripsScreen] as trips
+  [Perfil y cuenta\nProfileScreen · AccountSection] as profile
+  [Cookies y privacidad\nPrivacyScreen] as privacy
+  [Llave digital (móvil)\nKeyScreen] as key
+}
+package "Operación del hotel (según rol)" #FFF4E2 {
+  [Recepción · STAFF\nReceptionScreen] as reception
+  [Administración · STAFF/ADMIN\nAdminScreen] as admin
+  [Superusuario · SUPERADMIN\nSuperAdminScreen] as superadmin
+}
+package "Servicios compartidos (data · domain · i18n · ui/components)" #E6F6FA {
+  [HotelRepository\n(estado con StateFlow)] as repo
+  [Pricing\n(presupuesto)] as pricing
+  [Validation\n(formularios)] as validation
+  [Format\n(moneda y fechas)] as format
+  [Catalog\n(fotos, amenidades)] as catalog
+  [Strings\n(ES · EN · PT · FR)] as strings
+  [Lumi\n(mascota animada)] as lumi
+}
+package "Servicios externos" #FFFCF5 {
+  [FirebaseApi.kt\n(Auth + Firestore REST con Ktor)] as fbapi
+  database "Firebase\nCloud Firestore" as firestore
+  [Location.kt\n(expect/actual)] as location
+  [BigDataCloud\n(geocodificación inversa)] as geocoder
+}
+
+guest ..> android : abre
+guest ..> ios : abre
+guest ..> web : abre
+guest ..> static : visita
+android --> app : lanza
+ios --> app : incrusta
+web --> app : lanza
+app --> home
+app --> rooms
+app --> detail
+app --> offers
+app --> booking
+app --> trips
+app --> profile
+app --> privacy
+app --> key
+app --> reception
+app --> admin
+app --> superadmin
+app --> strings : traducciones
+app --> lumi : mascota
+booking --> pricing : calcula presupuesto
+booking --> validation : valida datos
+booking --> repo : registra reserva
+home --> catalog
+rooms --> catalog
+detail --> catalog
+trips --> repo
+profile --> repo : cuenta
+privacy --> location : ubicación
+reception --> repo
+admin --> repo
+superadmin --> repo : roles y parámetros
+repo --> format
+repo --> fbapi : llamadas suspend
+fbapi --> firestore : lee y escribe
+location --> geocoder : país
+@enduml

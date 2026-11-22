@@ -1,0 +1,95 @@
+@startchen 02a_er_chen
+left to right direction
+title Modelo entidad-relación conceptual (notación de Chen) — Lumbre Hotel & Spa
+
+entity ROL {
+  id_rol <<key>>
+  nombre
+  nivel
+}
+entity USUARIO {
+  id_usuario <<key>>
+  correo
+  nombre
+  telefono
+}
+entity TIPO_HABITACION {
+  id_tipo <<key>>
+  nombre
+  capacidad
+  precio_noche_eur
+  disponible
+}
+entity AMENIDAD {
+  id_amenidad <<key>>
+  nombre
+}
+entity PROMOCION {
+  codigo <<key>>
+  porcentaje
+  activa
+}
+entity RESERVA {
+  referencia <<key>>
+  fecha_llegada
+  fecha_salida
+  adultos
+  ninos
+  noches <<derived>>
+  total_eur
+  estado
+}
+entity EXTRA {
+  id_extra <<key>>
+  nombre
+  precio_eur
+  unidad_cobro
+}
+entity PARAMETRO {
+  clave <<key>>
+  valor
+  descripcion
+}
+entity AUDITORIA {
+  id_auditoria <<key>>
+  fecha_hora
+  accion
+  objetivo
+}
+
+relationship ASIGNA {
+}
+relationship REALIZA {
+}
+relationship SE_RESERVA_EN {
+}
+relationship SE_APLICA_A {
+}
+relationship INCLUYE {
+  importe_eur
+}
+relationship OFRECE {
+}
+relationship GENERA {
+}
+relationship MODIFICA {
+  fecha_modificacion
+}
+
+ROL -1- ASIGNA
+ASIGNA =N= USUARIO
+USUARIO -1- REALIZA
+REALIZA -N- RESERVA
+TIPO_HABITACION -1- SE_RESERVA_EN
+SE_RESERVA_EN =N= RESERVA
+PROMOCION -1- SE_APLICA_A
+SE_APLICA_A -N- RESERVA
+RESERVA -N- INCLUYE
+INCLUYE -M- EXTRA
+TIPO_HABITACION -N- OFRECE
+OFRECE -M- AMENIDAD
+USUARIO -1- GENERA
+GENERA =N= AUDITORIA
+USUARIO -1- MODIFICA
+MODIFICA -N- PARAMETRO
+@endchen

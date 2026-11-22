@@ -1,0 +1,97 @@
+@startuml 11_modelo_nosql_firestore
+!include _estilo.iuml
+title Modelo de datos NoSQL en Firebase Cloud Firestore (colecciones → documentos → campos)
+hide circle
+hide methods
+left to right direction
+skinparam ClassHeaderBackgroundColor #FFF4E2
+
+package "Cloud Firestore · proyecto lumbre-hotel · base (default) · nam5" {
+  class "users/{uid}" as users <<colección>> {
+    uid = UID de Firebase Auth (id del documento)
+    --
+    name : string
+    email : string
+    phone : string
+    role : string  GUEST | STAFF | ADMIN | SUPERADMIN
+    disabled : boolean
+    lang : string  ES | EN | PT | FR
+    currency : string  EUR | USD | MXN | GBP | BRL | COP
+    theme : string  LIGHT | DARK | SYSTEM
+    createdAt : integer (ms)
+    lastLogin : integer (ms)
+  }
+  class "reservations/{ref}" as res <<colección>> {
+    ref = LMB-XXXXXX (id del documento)
+    --
+    uid : string  (dueño, referencia a users)
+    guestName : string
+    email : string
+    phone : string
+    room : string  STANDARD | DELUXE | PENTHOUSE
+    checkIn : string  AAAA-MM-DD
+    checkOut : string  AAAA-MM-DD
+    adults : integer 1..6
+    children : integer 0..4
+    extras : array<string>  (embebido)
+    promo : string | null
+    totalEur : double
+    status : string  CONFIRMED | CHECKED_IN | CANCELLED
+    notes : string
+    createdAt : integer (ms)
+  }
+  class "rooms/{roomId}" as rooms <<colección>> {
+    roomId = STANDARD | DELUXE | PENTHOUSE
+    --
+    nightlyEur : integer 30..5000
+    capacity : integer 1..6
+    available : boolean
+  }
+  class "promos/{code}" as promos <<colección>> {
+    code = LUMBRE10 … (id del documento)
+    --
+    percent : integer 5..50
+    active : boolean
+  }
+  class "config/params" as params <<documento único>> {
+    taxPercent : integer
+    weekendSurchargePercent : integer
+    longStayDiscountPercent : integer
+    longStayNights : integer
+    maxNights : integer
+    maxMonthsAhead : integer
+    bookingCooldownSec : integer
+    maxLoginAttempts : integer
+    lockoutSec : integer
+    minPasswordLength : integer
+    maintenance : boolean
+    maintenanceMessage : string
+  }
+  class "audit/{autoId}" as audit <<colección>> {
+    autoId = id automático
+    --
+    at : integer (ms)
+    actor : string  (correo del token)
+    action : string
+    target : string ≤ 120
+  }
+}
+
+users "1" ..> "0..*" res : uid (referencia lógica,\nno hay FK nativa)
+rooms "1" ..> "0..*" res : room
+promos "1" ..> "0..*" res : promo
+users "1" ..> "0..*" audit : actor
+
+note right of res
+  <b>Desnormalización deliberada</b>
+  • extras embebidos como arreglo (se leen siempre con la reserva)
+  • nombre/correo de contacto copiados (dato histórico)
+  • totalEur congelado al reservar
+  <b>Consultas</b>: runQuery uid == auth.uid (huésped);
+  listado completo solo para STAFF+
+end note
+note bottom of params
+  Un solo documento → una sola lectura
+  para obtener todas las reglas de negocio.
+end note
+@enduml

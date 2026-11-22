@@ -1,0 +1,39 @@
+@startuml 14_concurrencia
+!include _estilo.iuml
+title Programación síncrona y asíncrona: corrutinas, Flows y hilos al reservar
+autonumber
+actor "Huésped" as U
+participant "BookingScreen\n(hilo principal / UI)" as UI
+participant "HotelRepository\n(lógica síncrona)" as REPO
+participant "scope: CoroutineScope\n(SupervisorJob + Dispatchers.Default)" as SC
+participant "Ktor HttpClient\n(motor OkHttp / Darwin / JS)" as KT
+participant "Cloud Firestore" as FS
+
+U -> UI : pulsa "Confirmar reserva"
+UI -> REPO : book(draft)  <i>síncrono</i>
+REPO -> REPO : validar cooldown y mantenimiento
+REPO -> REPO : _reservations.value += reserva\n(MutableStateFlow, actualización optimista)
+REPO --> UI : Reservation  (retorna en microsegundos)
+UI -> U : confeti + referencia LMB-XXXXXX\n(la UI nunca se bloquea)
+REPO ->> SC : remote { … }  → scope.launch  <i>asíncrono</i>
+activate SC
+SC -> KT : suspend set("reservations/ref")
+activate KT
+KT -> FS : HTTPS PATCH (no bloqueante)
+FS --> KT : 200 OK / 403
+deactivate KT
+alt éxito
+  SC -> SC : audit(...) en la misma corrutina
+else error de red o regla
+  SC ->> REPO : _events.tryEmit(mensaje) (SharedFlow)
+  SC -> REPO : refreshAll() (resincroniza el estado)
+  REPO ->> UI : StateFlow emite → collectAsState() recompone
+  UI -> U : Snackbar con mensaje comprensible
+end
+deactivate SC
+note over UI, SC
+  <b>Síncrono</b>: validaciones, cálculo de presupuesto (Pricing.quote) y actualización del estado local.
+  <b>Asíncrono</b>: red (34 funciones suspend), animaciones (LaunchedEffect), temporizadores (delay).
+  SupervisorJob evita que el fallo de una corrutina cancele a las demás.
+end note
+@enduml

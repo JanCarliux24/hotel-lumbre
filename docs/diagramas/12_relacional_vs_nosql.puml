@@ -1,0 +1,40 @@
+@startuml 12_relacional_vs_nosql
+!include _estilo.iuml
+title Del modelo relacional (3FN) al modelo NoSQL documental de Firebase
+left to right direction
+
+package "Modelo relacional (diseño lógico, PostgreSQL)" #FFFCF5 {
+  rectangle "rol" as r1
+  rectangle "usuario" as r2
+  rectangle "tipo_habitacion" as r3
+  rectangle "amenidad +\ntipo_habitacion_amenidad" as r4
+  rectangle "promocion" as r5
+  rectangle "reserva" as r6
+  rectangle "extra +\nreserva_extra" as r7
+  rectangle "parametro" as r8
+  rectangle "auditoria" as r9
+}
+package "Firebase Cloud Firestore (implementación NoSQL)" #E6F6FA {
+  rectangle "users/{uid}\ncampo role (texto)" as f1
+  rectangle "rooms/{id}\nprecio, capacidad, disponible" as f3
+  rectangle "Catálogo en la app\n(fotos y amenidades traducidas)" as f4
+  rectangle "promos/{code}" as f5
+  rectangle "reservations/{ref}\nextras: array embebido" as f6
+  rectangle "config/params\n(un documento)" as f8
+  rectangle "audit/{autoId}" as f9
+}
+r1 --> f1 : se integra como atributo\n(4 valores fijos)
+r2 --> f1 : 1 tabla → 1 colección
+r3 --> f3 : solo datos editables
+r4 --> f4 : contenido estático
+r5 --> f5 : clave natural = id
+r6 --> f6 : documento por reserva
+r7 --> f6 : tabla asociativa → arreglo
+r8 --> f8 : filas clave-valor → campos
+r9 --> f9 : solo inserción
+note bottom
+  <b>Reglas de transformación</b>: (1) cada tabla con identidad propia → colección; (2) catálogos pequeños y fijos → atributo;
+  (3) relaciones N:M que se leen siempre con el padre → arreglo embebido; (4) la integridad referencial y los CHECK
+  del DDL se trasladan a las <b>reglas de seguridad</b> de Firestore y a las validaciones de la app.
+end note
+@enduml

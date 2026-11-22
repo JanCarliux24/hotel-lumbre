@@ -1,0 +1,13 @@
+@startuml 17_estados_reserva
+!include _estilo.iuml
+title Ciclo de vida de una reserva (diagrama de estados)
+[*] --> CONFIRMED : book() válido\n(huésped o visitante)
+CONFIRMED --> CHECKED_IN : Recepción registra llegada\n(STAFF+, día de llegada)
+CONFIRMED --> CANCELLED : huésped cancela\no Recepción cancela
+CHECKED_IN --> CANCELLED : Recepción (incidencia)
+CHECKED_IN --> [*] : fecha de salida pasada\n(aparece en "Pasadas")
+CANCELLED --> [*]
+CONFIRMED : referencia LMB-XXXXXX\ntotal congelado
+CHECKED_IN : llave digital activa (móvil)
+CANCELLED : se conserva por historial\n(no se borra)
+@enduml

@@ -1,0 +1,30 @@
+@startuml 13_reglas_firebase
+!include _estilo.iuml
+title Evaluación de una escritura en Firebase (autenticación + reglas de seguridad)
+start
+:La app (Android · iOS · web) envía\nPATCH /documents/reservations/LMB-WPAEW3\ncon Authorization: Bearer idToken;
+if (¿idToken válido y no caducado?) then (no)
+  :HTTP 401 → la app renueva el token\ncon refreshToken y reintenta;
+  stop
+else (sí)
+endif
+:Firestore carga request.auth (uid, email)\ny request.resource.data;
+:get(/users/$(uid)) → rol y disabled;
+if (¿cuenta activa (disabled == false)?) then (no)
+  :HTTP 403 PERMISSION_DENIED;
+  stop
+else (sí)
+endif
+if (¿es creación?) then (sí)
+  :uid == request.auth.uid\nref ~ ^LMB-[A-Z2-9]{6}$\nstatus == CONFIRMED\nadults 1..6, children 0..4\ncheckOut > checkIn;
+else (actualización)
+  :dueño → solo status = CANCELLED\no rol STAFF+ → cambio de estado;
+endif
+if (¿todas las condiciones se cumplen?) then (sí)
+  #D6F3F2:Documento guardado (HTTP 200);
+  :La app actualiza su StateFlow\ny la UI se recompone;
+else (no)
+  #FFE2E2:HTTP 403 → la app muestra mensaje claro\ny resincroniza (refreshAll);
+endif
+stop
+@enduml

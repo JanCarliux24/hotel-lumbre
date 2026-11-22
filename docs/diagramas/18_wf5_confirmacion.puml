@@ -1,0 +1,18 @@
+@startsalt 18_wf5_confirmacion
+title Pantalla 5 · Confirmación (retroalimentación)
+skinparam defaultFontName "Segoe UI"
+{+
+  { <size:20><&check></size> }
+  { <size:16><b>¡Reserva confirmada!</b> }
+  { Referencia }
+  { <size:14><b>LMB-WPAEW3</b> | [Copiar] }
+  ---
+  { Suite Deluxe Mar }
+  { 2 dic – 5 dic · 3 noches · 2 adultos }
+  { Total pagado al llegar | <b>MX$11,732</b> }
+  ---
+  { Lumi: "¡Te esperamos frente al mar!" }
+  { [   Ver mis reservas   ] }
+  { [   Volver al inicio   ] }
+}
+@endsalt

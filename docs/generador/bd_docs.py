@@ -1,19 +1,19 @@
 """Entregables de la Unidad 4 — Bases de datos (7 documentos)."""
 from docgen import Doc, WEB, APPWEB, REPO
 
-U = 'Unidad 4 · Bases de datos'
+U = 'Unidad 2 · Bases de datos'
 
 
 # ======================================================================================
 # 1. CONTEXTO
 # ======================================================================================
 def contexto():
-    d = Doc('BD1_Contexto.docx', U, 'Entregable BD 1', 'Contexto del problema y propósito de la base de datos',
+    d = Doc('U2_BD/U2_1_Contexto.docx', U, 'Entregable U2_1 (Bases de datos)', 'Contexto del problema y propósito de la base de datos',
             'Por qué Lumbre necesita una base de datos y a qué necesidades del sistema responde')
     d.toc(['Resumen', 'Descripción de la organización', 'Problema actual', 'Propósito de la base de datos',
            'Contexto de uso: quién, dónde y cuándo', 'Necesidades del sistema y datos que las satisfacen',
            'Requisitos de datos', 'Volumen y crecimiento estimado', 'Restricciones y supuestos',
-           'Indicadores de éxito', 'Relación con los demás entregables'])
+           'Indicadores de éxito', 'Relación con los demás entregables', 'Partes interesadas', 'Escenarios de uso del contexto', 'Supuestos del contexto', 'Vista general del contexto', 'Criterios TAP'])
 
     d.h1('1. Resumen')
     d.p('Lumbre Hotel & Spa es un hotel boutique de 86 habitaciones en la Costa del Sol que recibe huéspedes de México, '
@@ -107,7 +107,7 @@ def contexto():
         ['Promociones', '2–10', '~20', 'Campañas por temporada.'],
         ['Auditoría', '0', '~3 000', 'Cambios administrativos.'],
     ], [3.5, 3, 3, 6.5], 'Estimación de volumen', 9)
-    d.p('Con este volumen la base de datos cabe holgadamente en el plan gratuito elegido (ver Entregable BD 5): '
+    d.p('Con este volumen la base de datos cabe holgadamente en el plan gratuito elegido (ver Entregable U2_5): '
         '1 GiB de almacenamiento y 50 000 lecturas y 20 000 escrituras diarias.')
 
     d.h1('9. Restricciones y supuestos')
@@ -129,10 +129,47 @@ def contexto():
     ], [10, 6], 'Indicadores')
 
     d.h1('11. Relación con los demás entregables')
-    d.p('Este contexto se representa gráficamente en el diagrama de contexto (BD 2), se modela en el diagrama '
-        'entidad-relación (BD 3), justifica los criterios y la elección del sistema gestor (BD 4 y BD 5), se transforma '
-        'en el diagrama relacional normalizado (BD 6) y se documenta campo a campo en el diccionario de datos (BD 7).')
+    d.p('Este contexto se representa gráficamente en el diagrama de contexto (U2_2), se modela en el diagrama '
+        'entidad-relación (U2_3), justifica los criterios y la elección del sistema gestor (U2_4 y U2_5), se transforma '
+        'en el diagrama relacional normalizado (U2_6) y se documenta campo a campo en el diccionario de datos (U2_7).')
     d.p(f'Aplicación funcionando: {APPWEB} · Código: {REPO}')
+    d.h1('12. Partes interesadas')
+    d.table(['Parte interesada', 'Interés', 'Influencia en los datos'], [
+        ['Dirección del hotel', 'Ocupación, ingresos, imagen', 'Define precios, promociones y parámetros'],
+        ['Recepción', 'Llegadas sin errores', 'Cambia estados de reserva'],
+        ['Huéspedes', 'Reserva rápida, privacidad', 'Crean reservas y perfiles'],
+        ['TI / superusuario', 'Seguridad y continuidad', 'Gestiona roles, reglas y auditoría'],
+        ['Autoridades (protección de datos)', 'Cumplimiento legal', 'Exigen consentimiento y derecho a borrar datos'],
+    ], [4, 5, 7], 'Partes interesadas')
+    d.h1('13. Escenarios de uso del contexto')
+    for t, txt in (
+        ('E1 · Reserva desde el celular', 'Mariana (34, Guadalajara) abre la app un martes en la noche, acepta cookies, ve precios en MXN, reserva 3 noches en Suite Deluxe con desayuno y recibe LMB-XXXXXX. Se crea un documento en reservations con su uid.'),
+        ('E2 · Llegada al hotel', 'El viernes a las 15:00 la recepcionista abre Recepción en el móvil del turno, ve a Mariana en "Llegadas de hoy" y registra su llegada: status pasa a CHECKED_IN y se crea un registro en audit.'),
+        ('E3 · Ajuste comercial', 'El lunes la administradora sube el precio del Ático de 340 a 360 € desde la web: se actualiza rooms/PENTHOUSE y se audita ROOM_UPDATE; las reservas ya hechas conservan su total.'),
+        ('E4 · Temporada alta', 'Dirección pide subir el recargo de fin de semana al 20 %: el superusuario cambia config/params sin publicar una versión nueva.'),
+    ):
+        d.p(txt, bold_prefix=t + ':')
+    d.h1('14. Supuestos del contexto')
+    d.table(['#', 'Supuesto', 'Consecuencia en el diseño de la base de datos'], [
+        ['S1', 'La disponibilidad se gestiona por tipo de habitación, no por número físico.', 'No existe la entidad HABITACION física; RESERVA referencia a TIPO_HABITACION.'],
+        ['S2', 'Una reserva es de un solo tipo de habitación.', 'Relación 1:N TIPO_HABITACION–RESERVA.'],
+        ['S3', 'Se puede reservar sin cuenta.', 'RESERVA.id_usuario admite nulo (participación parcial).'],
+        ['S4', 'Solo un código promocional por reserva.', 'FK simple codigo_promocion, nula si no hay código.'],
+        ['S5', 'El precio aceptado no cambia aunque cambien tarifas.', 'total_eur se almacena (desnormalización controlada).'],
+        ['S6', 'Las contraseñas las gestiona Firebase Authentication.', 'Ningún campo de contraseña en la base de datos.'],
+        ['S7', 'Los pagos se hacen en el hotel (fuera del alcance).', 'No hay entidades de pago ni factura.'],
+        ['S8', 'Todo el personal tiene cuenta individual.', 'La auditoría siempre tiene un autor identificable.'],
+        ['S9', 'La ubicación solo sirve para deducir el país y no se guarda.', 'No hay campos de coordenadas; solo idioma y moneda.'],
+        ['S10', 'El volumen cabe en el plan gratuito de Firebase.', 'Se elige Firebase (ver U2_4 y U2_5).'],
+        ['S11', 'La moneda base es el euro; las demás se calculan al mostrar.', 'Importes en EUR; conversión en la app.'],
+        ['S12', 'Los textos del catálogo (fotos, amenidades traducidas) cambian poco.', 'Se guardan en la app; la nube solo guarda precio, capacidad y disponibilidad.'],
+    ], [1, 7, 8], 'Supuestos', 9)
+    d.h1('15. Vista general del contexto')
+    d.diagram('01_contexto.png', 'Diagrama de contexto (detalle en U2_2).', 16)
+    d.tap(16, ['Identifica quién usa la interfaz, dónde y cuándo.',
+               'Contempla la mala conexión: copia local y sincronización en segundo plano.',
+               'Define qué datos necesita cada necesidad del sistema.',
+               'Ubica el uso móvil (huésped y recepción) frente al uso web (administración).'])
     return d.save()
 
 
@@ -140,67 +177,100 @@ def contexto():
 # 2. DIAGRAMA DE CONTEXTO
 # ======================================================================================
 def diagrama_contexto():
-    d = Doc('BD2_Diagrama_de_Contexto.docx', U, 'Entregable BD 2', 'Diagrama de contexto',
-            'El sistema, sus actores externos y los flujos de información que intercambian')
-    d.toc(['Objetivo del diagrama', 'Diagrama de contexto (nivel 0)', 'Simbología utilizada', 'Actores externos',
-           'Flujos de información', 'Límites del sistema', 'Reglas de lectura y coherencia', 'Supuestos'])
-    d.h1('1. Objetivo del diagrama')
-    d.p('El diagrama de contexto (Diagrama de Flujo de Datos de nivel 0) muestra el sistema completo como un único '
-        'proceso y lo rodea de todas las entidades externas con las que intercambia información. Sirve para delimitar '
-        'el alcance: todo lo que está dentro del círculo es responsabilidad del sistema y su base de datos; todo lo de '
-        'fuera son personas o servicios con los que se comunica.')
-    d.h1('2. Diagrama de contexto (nivel 0)')
-    d.diagram('01_contexto.png', 'Diagrama de contexto de Lumbre Hotel & Spa (DFD nivel 0, notación Yourdon/DeMarco).')
-    d.h1('3. Simbología utilizada')
-    d.table(['Símbolo', 'Significado', 'En este diagrama'], [
-        ['Óvalo (proceso 0)', 'El sistema completo como una caja negra.', 'Sistema de reservas Lumbre (app Android, iOS y web + base de datos).'],
-        ['Rectángulo crema', 'Entidad externa humana (actor).', 'Huésped, Recepción, Administrador, Superusuario.'],
-        ['Rectángulo azul', 'Sistema o servicio externo.', 'Firebase Authentication, Cloud Firestore, geolocalización, correo.'],
-        ['Flecha con etiqueta', 'Flujo de datos y su sentido.', 'Qué información viaja y hacia dónde.'],
-    ], [3.5, 5.5, 7], 'Simbología')
-    d.h1('4. Actores externos')
-    d.table(['Actor', 'Tipo', 'Rol en el sistema'], [
-        ['Huésped', 'Persona', 'Explora, presupuesta, reserva, consulta y cancela; usa la llave digital en móvil.'],
-        ['Recepción (STAFF)', 'Persona', 'Registra llegadas y cambia estados de reserva (móvil y web).'],
-        ['Administrador (ADMIN)', 'Persona', 'Gestiona precios, disponibilidad y promociones (web).'],
-        ['Superusuario (SUPERADMIN)', 'Persona', 'Gestiona usuarios, roles, parámetros, auditoría (web).'],
-        ['Firebase Authentication', 'Servicio', 'Autentica y emite tokens de sesión; gestiona contraseñas.'],
-        ['Cloud Firestore', 'Servicio', 'Almacena los datos y aplica reglas de seguridad.'],
-        ['Geolocalización (BigDataCloud)', 'Servicio', 'Convierte coordenadas aproximadas en código de país.'],
-        ['Correo de Firebase', 'Servicio', 'Envía verificación de correo y restablecimiento de contraseña.'],
-    ], [4.5, 2.5, 9], 'Actores externos')
-    d.h1('5. Flujos de información')
-    d.table(['#', 'Origen → destino', 'Flujo de datos', 'Descripción'], [
-        ['F1', 'Huésped → Sistema', 'Datos de reserva', 'Fechas, huéspedes, habitación, extras, código promocional, nombre, correo, teléfono.'],
-        ['F2', 'Huésped → Sistema', 'Consentimiento', 'Elección de cookies (necesarias, preferencias, ubicación).'],
-        ['F3', 'Sistema → Huésped', 'Presupuesto y confirmación', 'Desglose con impuestos, referencia LMB-XXXXXX, mis reservas, llave digital.'],
-        ['F4', 'Recepción → Sistema', 'Cambios de estado', 'Registro de llegada, cancelación.'],
-        ['F5', 'Sistema → Recepción', 'Listas del día', 'Llegadas, huéspedes en el hotel y salidas.'],
-        ['F6', 'Administrador → Sistema', 'Catálogo', 'Precio por noche, disponibilidad, promociones.'],
-        ['F7', 'Sistema → Administrador', 'Indicadores', 'Reservas activas, ingresos, ocupación, ticket medio.'],
-        ['F8', 'Superusuario → Sistema', 'Gobierno', 'Roles, bloqueo de cuentas, parámetros del sistema.'],
-        ['F9', 'Sistema → Superusuario', 'Supervisión', 'Lista de usuarios, auditoría, estado de seguridad.'],
-        ['F10', 'Sistema ↔ Firebase Auth', 'Credenciales / token', 'Alta, inicio de sesión, renovación; devuelve UID y token de 1 h.'],
-        ['F11', 'Sistema ↔ Firestore', 'Documentos', 'Lectura/escritura autorizada por reglas según el rol.'],
-        ['F12', 'Sistema ↔ Geolocalización', 'País', 'Envía coordenadas redondeadas a ~11 km; recibe el código de país.'],
-        ['F13', 'Auth → Correo → Huésped', 'Mensajes', 'Verificación de correo y restablecimiento de contraseña.'],
-    ], [1, 4, 3.5, 7.5], 'Flujos de información del diagrama', 9)
-    d.h1('6. Límites del sistema')
-    d.bullets([
-        'Dentro: interfaz de las tres plataformas, reglas de negocio (presupuesto y validaciones), sincronización y base de datos.',
-        'Fuera: identidad (Firebase Authentication), envío de correos, servicio de geocodificación inversa.',
-        'No incluido en esta versión: pagos en línea, asignación de número físico de habitación, facturación electrónica.',
-    ])
-    d.h1('7. Reglas de lectura y coherencia')
-    d.bullets([
-        'Cada flecha tiene un nombre que describe el dato, no la acción.',
-        'Ningún flujo conecta dos entidades externas sin pasar por el sistema, salvo el correo, que lo origina el servicio de autenticación (se muestra porque llega al huésped).',
-        'Los mismos actores y servicios aparecen en el diagrama E-R y en el diccionario de datos con los mismos nombres.',
-        'Cada flujo de entrada tiene al menos un flujo de salida que da respuesta al actor.',
-    ])
-    d.h1('8. Supuestos')
-    d.bullets(['El personal usa cuentas individuales; no hay cuentas compartidas.',
-               'Los servicios externos usados son gratuitos y no requieren tarjeta.'])
+    d = Doc('U2_BD/U2_2_Diagrama_de_Contexto.docx', U, 'Entregable U2_2 (Bases de datos)', 'Diagrama de contexto',
+            'DFD nivel 0 y nivel 1: el sistema, sus entidades externas, procesos, almacenes y flujos de datos')
+    d.toc(['Objetivo', 'Simbología', 'Diagrama de contexto (nivel 0)', 'Entidades externas', 'Flujos de datos del nivel 0',
+           'Límite del sistema', 'DFD nivel 1', 'Procesos del nivel 1', 'Almacenes de datos', 'Balanceo entre niveles',
+           'Supuestos y restricciones', 'Reglas de construcción aplicadas', 'Criterios TAP'])
+    d.h1('1. Objetivo')
+    d.p('El diagrama de contexto representa todo el sistema como un único proceso (0) y muestra con quién intercambia '
+        'información y qué datos fluyen. Se complementa con el DFD de nivel 1, que abre el proceso 0 en seis procesos y '
+        'siete almacenes de datos. Ambos se basan en el contexto (U2_1) y alimentan el modelo E-R (U2_3).')
+    d.h1('2. Simbología (notación Yourdon/DeMarco)')
+    d.table(['Símbolo', 'Significado', 'Ejemplo en el diagrama'], [
+        ['Óvalo', 'Proceso (transforma datos)', '0 Sistema de reservas; 3.0 Cotizar y reservar'],
+        ['Rectángulo crema', 'Entidad externa humana', 'E1 Huésped, E2 Recepción, E3 Administrador, E4 Superusuario'],
+        ['Rectángulo azul', 'Entidad externa sistema/servicio', 'E5 Firebase Auth, E6 Geolocalización, E7 Correo, E8 SO/navegador'],
+        ['Cilindro', 'Almacén de datos (nivel 1)', 'D1 users … D7 almacenamiento local'],
+        ['Flecha etiquetada Fn', 'Flujo de datos con sentido', 'F1 datos de reserva'],
+    ], [3.5, 5, 7.5], 'Simbología')
+    d.h1('3. Diagrama de contexto (nivel 0)')
+    d.diagram('01_contexto.png', 'Diagrama de contexto con flujos numerados F1–F14.', 16.5)
+    d.h1('4. Entidades externas')
+    d.table(['Id', 'Entidad', 'Tipo', 'Descripción', 'Frecuencia de interacción'], [
+        ['E1', 'Huésped / visitante', 'Persona', 'Explora, cotiza, reserva, consulta y cancela; usa la llave digital en móvil.', 'Diaria, picos en vacaciones'],
+        ['E2', 'Recepción (STAFF)', 'Persona', 'Registra llegadas y cancela; consulta las listas del día.', 'Continua (turnos 24 h)'],
+        ['E3', 'Administrador (ADMIN)', 'Persona', 'Precios, disponibilidad, promociones e indicadores.', 'Semanal'],
+        ['E4', 'Superusuario (SUPERADMIN)', 'Persona', 'Roles, bloqueo de cuentas, parámetros, auditoría.', 'Ocasional'],
+        ['E5', 'Firebase Authentication', 'Servicio', 'Alta, inicio de sesión, tokens, verificación y restablecimiento.', 'Cada inicio de sesión y cada hora'],
+        ['E6', 'BigDataCloud', 'Servicio', 'País a partir de coordenadas redondeadas.', 'Al aceptar ubicación'],
+        ['E7', 'Correo de Firebase', 'Servicio', 'Envía enlaces de verificación y restablecimiento.', 'Al registrarse o recuperar'],
+        ['E8', 'SO / navegador', 'Sistema', 'Concede o niega el permiso de ubicación.', 'Una vez por dispositivo'],
+    ], [1, 3.4, 1.8, 6.3, 3.5], 'Entidades externas', 8.5)
+    d.h1('5. Flujos de datos del nivel 0')
+    d.table(['Flujo', 'Origen → destino', 'Contenido (estructura de datos)', 'Ejemplo'], [
+        ['F1', 'E1 → 0', 'Datos de reserva = fechas + huéspedes + habitación + extras + código + contacto', '6–9 dic, 2 adultos, DELUXE, BREAKFAST, LUMBRE10, Mariana López'],
+        ['F2', 'E1 → 0', 'Consentimiento + credenciales + preferencias', 'Solo necesarias; idioma ES; moneda MXN'],
+        ['F3', '0 → E1', 'Presupuesto + referencia + mis reservas + avisos', 'Total MX$14,767; LMB-7MSZSJ'],
+        ['F4', 'E2 → 0', 'Cambio de estado = referencia + nuevo estado', 'LMB-7QK2PA → CHECKED_IN'],
+        ['F5', '0 → E2', 'Listas del día (llegadas, en el hotel, salidas)', '2 huéspedes en el hotel'],
+        ['F6', 'E3 → 0', 'Catálogo = tipo + precio + disponibilidad; promoción', 'PENTHOUSE 360 €; VERANO15 15 %'],
+        ['F7', '0 → E3', 'Indicadores = activas + ingresos + ocupación + ticket medio', '5 activas; MX$97,988'],
+        ['F8', 'E4 → 0', 'Gobierno = rol / bloqueo / parámetros', 'usuario → STAFF; recargo 20 %'],
+        ['F9', '0 → E4', 'Usuarios + auditoría + estado de seguridad', '300 registros recientes'],
+        ["F10 / F10'", '0 ↔ E5', 'Correo + contraseña → UID + idToken (1 h) + refreshToken', 'uid kQ3…Zp2'],
+        ["F11 / F11'", '0 ↔ E6', 'lat/lon con 1 decimal → código ISO', '19.7, −101.2 → MX'],
+        ['F12', 'E5 → E7', 'Solicitud de correo', 'VERIFY_EMAIL'],
+        ['F13', 'E7 → E1', 'Correo con enlace', 'Verifica tu correo'],
+        ["F14 / F14'", '0 ↔ E8', 'Solicitud de permiso → coordenadas o rechazo', 'Permitir / Bloquear'],
+    ], [1.6, 2.2, 6.6, 5.6], 'Flujos del nivel 0', 8.5)
+    d.h1('6. Límite del sistema')
+    d.p('Dentro del proceso 0 quedan las interfaces de Android, iOS y web, las reglas de negocio (presupuesto, '
+        'validaciones, roles), la sincronización y la base de datos Firebase Cloud Firestore con sus reglas de seguridad. '
+        'La base de datos se considera parte del sistema porque el equipo diseña su estructura y sus reglas; Firebase '
+        'Authentication, el correo y la geolocalización son servicios externos que no controlamos.')
+    d.h1('7. DFD nivel 1')
+    d.diagram('01b_dfd_nivel1.png', 'DFD nivel 1: seis procesos y siete almacenes.', 16.5)
+    d.h1('8. Procesos del nivel 1')
+    d.table(['Proceso', 'Entradas', 'Salidas', 'Lógica principal'], [
+        ['1.0 Gestionar cuenta y sesión', 'Credenciales, perfil, UID/tokens', 'Perfil en D1, token en D7', 'Registro como GUEST, bloqueo tras 5 fallos, renovación de token'],
+        ['2.0 Consentimiento, idioma y moneda', 'Elección de cookies, país', 'Preferencias en D7', 'Solo pide ubicación si el usuario la activa; redondea coordenadas'],
+        ['3.0 Cotizar y reservar', 'Fechas, huéspedes, extras, código; D2, D3, D5', 'Reserva en D4 y D7; presupuesto', 'Pricing.quote, validaciones, cooldown, referencia única'],
+        ['4.0 Operar recepción', 'Acción de recepción; D4', 'Estado en D4; registro en D6', 'Filtra llegadas/en hotel/salidas por fecha'],
+        ['5.0 Administrar catálogo', 'Precio, disponibilidad, promo; D4', 'D2, D3, D6; indicadores', 'Rangos 30–5000 € y 5–50 %'],
+        ['6.0 Gobernar y auditar', 'Rol, bloqueo, parámetros; D6', 'D1, D5, D6; listados', 'Solo SUPERADMIN; no puede cambiarse a sí mismo'],
+    ], [3.4, 4, 3.6, 5], 'Procesos', 8.5)
+    d.h1('9. Almacenes de datos')
+    d.table(['Almacén', 'Implementación', 'Contenido', 'Procesos que lo usan'], [
+        ['D1 users', 'Firestore users/{uid}', 'Perfil, rol, preferencias', '1.0, 6.0'],
+        ['D2 rooms', 'Firestore rooms/{id}', 'Precio, capacidad, disponibilidad', '3.0, 5.0'],
+        ['D3 promos', 'Firestore promos/{code}', 'Códigos y porcentaje', '3.0, 5.0'],
+        ['D4 reservations', 'Firestore reservations/{ref}', 'Reservas', '3.0, 4.0, 5.0'],
+        ['D5 config/params', 'Firestore config/params', 'Reglas de negocio', '3.0, 6.0'],
+        ['D6 audit', 'Firestore audit/{autoId}', 'Registro inmutable', '4.0, 5.0, 6.0'],
+        ['D7 almacenamiento local', 'multiplatform-settings', 'Token, preferencias, copia de reservas', '1.0, 2.0, 3.0'],
+    ], [3.2, 4.4, 4.6, 3.8], 'Almacenes', 9)
+    d.h1('10. Balanceo entre niveles')
+    d.p('Cada flujo del nivel 0 aparece en el nivel 1: F1–F3 en los procesos 2.0 y 3.0; F4–F5 en 4.0; F6–F7 en 5.0; '
+        'F8–F9 en 6.0; F10 en 1.0; F11 y F14 en 2.0. Ningún flujo nuevo cruza el límite del sistema en el nivel 1.')
+    d.h1('11. Supuestos y restricciones')
+    d.table(['#', 'Supuesto / restricción'], [
+        ['1', 'El personal usa cuentas individuales; no hay cuentas compartidas.'],
+        ['2', 'Todos los servicios externos usados son gratuitos y no requieren tarjeta.'],
+        ['3', 'Firebase Authentication es la única fuente de identidad; la app nunca guarda contraseñas.'],
+        ['4', 'El correo lo envía Firebase; el sistema solo lo solicita (por eso F12 va de E5 a E7).'],
+        ['5', 'Si no hay conexión, los procesos 2.0 y 3.0 funcionan con D7 y sincronizan después.'],
+        ['6', 'Los pagos no forman parte del sistema en esta versión.'],
+        ['7', 'Las coordenadas nunca se almacenan (no hay almacén para ellas).'],
+    ], [1, 15], 'Supuestos')
+    d.h1('12. Reglas de construcción aplicadas')
+    d.bullets(['Un solo proceso en el nivel 0, numerado 0.', 'Flujos nombrados con sustantivos (datos), no con verbos.',
+               'Ningún flujo directo entre entidades externas salvo el correo, que origina el servicio de Firebase.',
+               'Cada entrada produce al menos una salida al actor.', 'Los mismos nombres se usan en el E-R y en el diccionario.'])
+    d.tap(13, ['Los flujos F1–F9 corresponden a pantallas concretas de la interfaz.',
+               'Los flujos F10, F11 y F14 son asíncronos (red y permisos) y no bloquean la UI.',
+               'El nivel 1 muestra exactamente qué proceso lee y escribe cada almacén.',
+               'E1 y E2 usan el móvil; E3 y E4 la web (norma del producto).'])
     return d.save()
 
 
@@ -208,14 +278,14 @@ def diagrama_contexto():
 # 3. DIAGRAMA ENTIDAD-RELACIÓN
 # ======================================================================================
 def diagrama_er():
-    d = Doc('BD3_Diagrama_Entidad_Relacion.docx', U, 'Entregable BD 3', 'Diagrama entidad-relación',
+    d = Doc('U2_BD/U2_3_Diagrama_Entidad_Relacion.docx', U, 'Entregable U2_3 (Bases de datos)', 'Diagrama entidad-relación',
             'Entidades, atributos, claves, relaciones y cardinalidades del problema')
     d.toc(['Método seguido', 'Diagrama E-R', 'Entidades y atributos', 'Relaciones y cardinalidades',
            'Reglas de negocio que justifican las cardinalidades', 'Resolución de relaciones N:M',
-           'Atributos calculados y derivados', 'Validación del modelo con casos reales'])
+           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Modelo conceptual en notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Criterios TAP'])
     d.h1('1. Método seguido')
     d.bullets([
-        'Se extrajeron sustantivos del contexto (BD 1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
+        'Se extrajeron sustantivos del contexto (U2_1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
         'Se descartaron conceptos que son atributos (idioma, moneda, estado) o que no se almacenan (ubicación exacta).',
         'Se identificó la clave primaria de cada entidad priorizando identificadores naturales estables (código de promoción, referencia de reserva).',
         'Se definieron relaciones con su cardinalidad mínima y máxima a partir de reglas de negocio verificables.',
@@ -261,7 +331,7 @@ def diagrama_er():
         'RN-05: cada cambio administrativo genera un registro de auditoría con su autor.',
     ])
     d.h1('6. Resolución de relaciones N:M')
-    d.p('Las dos relaciones N:M se transforman en el modelo relacional (BD 6) en tablas asociativas: RESERVA_EXTRA '
+    d.p('Las dos relaciones N:M se transforman en el modelo relacional (U2_6) en tablas asociativas: RESERVA_EXTRA '
         '(con el atributo propio importe_eur, que congela el precio cobrado) y TIPO_HABITACION_AMENIDAD.')
     d.h1('7. Atributos calculados y derivados')
     d.table(['Atributo', 'Se calcula a partir de', '¿Se almacena?'], [
@@ -276,6 +346,19 @@ def diagrama_er():
         ['Recepción registra llegada', 'RESERVA.estado = CHECKED_IN, AUDITORIA nueva', 'Válido, con autor.'],
         ['Superusuario sube a alguien a ADMIN', 'USUARIO.id_rol cambia; AUDITORIA registra', 'Válido.'],
     ], [4.5, 7, 4.5], 'Validación por escenarios')
+    d.h1('9. Modelo conceptual en notación de Chen')
+    d.p('El mismo modelo en notación de Chen: rectángulos = entidades, rombos = relaciones, óvalos = atributos '
+        '(subrayado = clave, punteado = derivado), líneas gruesas = participación total, 1/N/M = cardinalidad.')
+    d.diagram('02a_er_chen.png', 'Modelo E-R conceptual en notación de Chen.', 16.5)
+    d.h1('10. Ciclo de vida de la entidad RESERVA')
+    d.diagram('17_estados_reserva.png', 'Estados permitidos de una reserva.', 12)
+    d.h1('11. Supuestos del modelo')
+    d.bullets(['Disponibilidad por tipo de habitación (no por número).', 'Un código promocional como máximo por reserva.',
+               'Visitantes sin cuenta pueden reservar.', 'La auditoría siempre tiene autor.', 'Las amenidades y extras son catálogos estables.'])
+    d.tap(12, ['Las entidades corresponden a pantallas (habitaciones, reservas, perfil, paneles).',
+               'El estado de RESERVA se actualiza de forma asíncrona y se refleja en la UI.',
+               'Las relaciones definen qué consultas hará la app (mis reservas, llegadas del día).',
+               'USUARIO y RESERVA son el núcleo del uso móvil.'])
     return d.save()
 
 
@@ -286,10 +369,10 @@ CANDIDATOS = ['Firebase (Cloud Firestore + Authentication)', 'PostgreSQL (Supaba
 
 
 def criterios():
-    d = Doc('BD4_Criterios_de_Seleccion_SMBD.docx', U, 'Entregable BD 4', 'Criterios de selección de un SMBD',
+    d = Doc('U2_BD/U2_4_Criterios_de_Seleccion_SMBD.docx', U, 'Entregable U2_4 (Bases de datos)', 'Criterios de selección de un SMBD',
             'Análisis técnico, económico, de seguridad, escalabilidad, compatibilidad y facilidad de uso')
     d.toc(['Requisitos que condicionan la elección', 'Criterios y su peso', 'Candidatos evaluados',
-           'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión'])
+           'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión', 'Relacional frente a NoSQL', 'Criterios TAP'])
     d.h1('1. Requisitos que condicionan la elección')
     d.bullets([
         ('R1 Costo cero', 'sin licencias ni servidores de pago.'),
@@ -365,12 +448,26 @@ def criterios():
     d.table(['Riesgo', 'Mitigación'], [
         ['Sin integridad referencial nativa en NoSQL', 'Reglas de Firestore que validan tipos, rangos y relaciones; validación duplicada en el cliente.'],
         ['Superar el plan gratuito', 'Consultas filtradas por usuario, caché local; alertas de uso en la consola.'],
-        ['Dependencia de proveedor', 'Modelo relacional documentado (BD 6) y DDL listo para PostgreSQL; repositorio de datos aislado en el código.'],
+        ['Dependencia de proveedor', 'Modelo relacional documentado (U2_6) y DDL listo para PostgreSQL; repositorio de datos aislado en el código.'],
     ], [6, 10], 'Riesgos')
     d.h1('7. Conclusión')
     d.p('Los criterios técnicos, económicos, de seguridad, escalabilidad, compatibilidad y facilidad de uso apuntan a '
         'un SMBD gestionado con seguridad declarativa en servidor y acceso REST multiplataforma. Por eso el SMBD '
-        'seleccionado es Firebase (Cloud Firestore + Authentication); la justificación detallada está en el Entregable BD 5.')
+        'seleccionado es Firebase (Cloud Firestore + Authentication); la justificación detallada está en el Entregable U2_5.')
+    d.h1('8. Relacional frente a NoSQL documental')
+    d.table(['Aspecto', 'Relacional (PostgreSQL, MySQL)', 'NoSQL documental (Firebase Firestore)'], [
+        ['Estructura', 'Tablas con esquema fijo', 'Colecciones de documentos JSON con esquema flexible'],
+        ['Integridad', 'FK y CHECK en el motor', 'Reglas de seguridad + validación en la app'],
+        ['Consultas', 'SQL completo, JOIN', 'Consultas por campo e índices; sin JOIN (se desnormaliza)'],
+        ['Transacciones', 'ACID completas', 'Transacciones y escrituras por lotes atómicas'],
+        ['Escalado', 'Vertical (más servidor)', 'Horizontal automático'],
+        ['Acceso desde la app', 'Requiere API propia', 'REST/SDK directo con reglas'],
+        ['Tiempo real', 'Requiere componentes extra', 'Integrado'],
+    ], [3.2, 6.2, 6.6], 'Comparativa de paradigmas', 9)
+    d.tap(9, ['Los criterios priorizan respuestas rápidas para una interfaz fluida.',
+              'Se valora el acceso no bloqueante (REST asíncrono) desde corrutinas.',
+              'Se evalúan seguridad, integridad y costo del acceso a datos.',
+              'Se exige compatibilidad con Android, iOS y web.'])
     return d.save()
 
 
@@ -378,10 +475,10 @@ def criterios():
 # 5. ELECCIÓN
 # ======================================================================================
 def eleccion():
-    d = Doc('BD5_Eleccion_del_SMBD.docx', U, 'Entregable BD 5', 'Elección del SMBD: Firebase',
+    d = Doc('U2_BD/U2_5_Eleccion_del_SMBD_Firebase.docx', U, 'Entregable U2_5 (Bases de datos)', 'Elección del SMBD: Firebase',
             'Por qué Firebase (Cloud Firestore + Authentication) es el SMBD del proyecto y cómo se implementó')
     d.toc(['Decisión', 'Justificación frente a cada requisito', 'Cómo se implementó', 'Del modelo relacional a colecciones',
-           'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia'])
+           'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia', 'Modelo de datos NoSQL en Firebase', 'Cómo protege Firebase cada operación', 'Acceso a datos desde la app', 'Criterios TAP'])
     d.h1('1. Decisión')
     d.p('El sistema gestor de base de datos (SMBD) elegido para Lumbre Hotel & Spa es Firebase, la plataforma de Google, '
         'en su plan Spark gratuito. Dentro de Firebase, los datos se gestionan con Cloud Firestore (base de datos NoSQL '
@@ -406,7 +503,7 @@ def eleccion():
         'Modo local de respaldo: si Firebase no está configurado, la app funciona con almacenamiento del dispositivo.',
     ])
     d.h1('4. Del modelo relacional a colecciones')
-    d.table(['Tabla (BD 6)', 'Colección / documento', 'Decisión'], [
+    d.table(['Tabla (U2_6)', 'Colección / documento', 'Decisión'], [
         ['usuario + rol', 'users/{uid} (campo role)', 'El rol se guarda como texto en el usuario: lectura en una sola consulta para las reglas.'],
         ['tipo_habitacion', 'rooms/{STANDARD|DELUXE|PENTHOUSE}', 'Contenido editorial (fotos, amenidades) en la app; precio y disponibilidad en la nube.'],
         ['promocion', 'promos/{CODIGO}', 'La clave del documento es el código.'],
@@ -438,11 +535,24 @@ match /audit/{id} { allow read: if isSuper(); allow create: if isStaff(); allow 
     ], [3.5, 4.5, 4, 4], 'Capacidad')
     d.h1('7. Plan de migración')
     d.p('Si el hotel necesitara consultas analíticas complejas o integridad referencial estricta, el modelo relacional '
-        'normalizado (BD 6) y su DDL para PostgreSQL permiten migrar a Supabase o a un PostgreSQL propio. En el código '
+        'normalizado (U2_6) y su DDL para PostgreSQL permiten migrar a Supabase o a un PostgreSQL propio. En el código '
         'solo cambiaría la implementación del repositorio de datos; las pantallas no se tocan.')
     d.h1('8. Evidencia')
     d.bullets([f'Aplicación web: {APPWEB}', f'Repositorio: {REPO} (carpeta app/firebase y app/shared/.../data/firebase)',
                'Consola de Firebase: proyecto lumbre-hotel (acceso del propietario).'])
+    d.h1('9. Modelo de datos NoSQL en Firebase')
+    d.p('Firebase Cloud Firestore es una base de datos NoSQL documental: los datos se guardan en documentos (pares '
+        'campo-valor) agrupados en colecciones, sin tablas ni JOIN. Este es el modelo real del proyecto:')
+    d.diagram('11_modelo_nosql_firestore.png', 'Modelo NoSQL del proyecto en Firebase Cloud Firestore.', 16.5)
+    d.diagram('12_relacional_vs_nosql.png', 'Transformación del modelo relacional al modelo documental.', 16.5)
+    d.h1('10. Cómo protege Firebase cada operación')
+    d.diagram('13_reglas_firebase.png', 'Evaluación de autenticación y reglas en cada escritura.', 12)
+    d.h1('11. Acceso a datos desde la app')
+    d.diagram('14_concurrencia.png', 'La app escribe en Firebase de forma asíncrona sin bloquear la interfaz.', 15)
+    d.tap(12, ['La UI refleja al instante cada cambio (actualización optimista).',
+               'Todas las llamadas a Firebase son suspend y se ejecutan en un CoroutineScope propio.',
+               'Firebase consulta, guarda y actualiza con reglas por rol en el servidor.',
+               'El mismo acceso a datos funciona en Android, iOS y web.'])
     return d.save()
 
 
@@ -541,11 +651,11 @@ CREATE INDEX idx_auditoria_fecha ON auditoria(fecha_hora DESC);'''
 
 
 def relacional():
-    d = Doc('BD6_Diagrama_Relacional.docx', U, 'Entregable BD 6', 'Diagrama relacional normalizado',
+    d = Doc('U2_BD/U2_6_Diagrama_Relacional.docx', U, 'Entregable U2_6 (Bases de datos)', 'Diagrama relacional normalizado',
             'Transformación del modelo E-R a tablas en 3FN con claves primarias, foráneas y restricciones')
     d.toc(['Reglas de transformación aplicadas', 'Diagrama relacional', 'Esquema relacional en notación textual',
            'Normalización paso a paso', 'Integridad referencial y acciones', 'Script DDL (PostgreSQL)',
-           'Correspondencia con la implementación en Firestore'])
+           'Correspondencia con la implementación en Firestore', 'Del relacional al NoSQL de Firebase', 'Criterios TAP'])
     d.h1('1. Reglas de transformación aplicadas')
     d.table(['Regla', 'Aplicación en el modelo'], [
         ['Cada entidad fuerte → tabla con su clave primaria', 'rol, usuario, tipo_habitacion, amenidad, promocion, reserva, extra, parametro, auditoria.'],
@@ -614,9 +724,16 @@ AUDITORIA(id_auditoria PK, id_usuario FK→USUARIO, fecha_hora, accion, objetivo
     d.h1('6. Script DDL (PostgreSQL)')
     d.code(DDL, 'Script completo; también se guarda en docs/bd/lumbre.sql del repositorio.')
     d.h1('7. Correspondencia con la implementación en Firestore')
-    d.p('El SMBD del proyecto es Firebase (ver BD 5): los datos viven en Cloud Firestore. Las mismas restricciones del DDL se aplican mediante '
+    d.p('El SMBD del proyecto es Firebase (ver U2_5): los datos viven en Cloud Firestore. Las mismas restricciones del DDL se aplican mediante '
         'reglas de seguridad (rangos, listas de valores, propietario de la reserva) y validaciones en la app. '
         'Las tablas asociativas se representan como arreglos dentro del documento padre porque siempre se leen juntas.')
+    d.h1('8. Del modelo relacional al modelo NoSQL de Firebase')
+    d.diagram('12_relacional_vs_nosql.png', 'Cómo se implementa este esquema relacional en Firebase.', 16.5)
+    d.diagram('11_modelo_nosql_firestore.png', 'Resultado: colecciones y campos en Firestore.', 16.5)
+    d.tap(9, ['Las restricciones CHECK coinciden con las validaciones que ve el usuario.',
+              'Las escrituras que respetan estas restricciones se hacen en segundo plano.',
+              'El DDL documenta el acceso a datos y permite migrar a PostgreSQL.',
+              'El modelo soporta las funciones móviles (mis reservas, recepción).'])
     return d.save()
 
 
@@ -708,11 +825,63 @@ DICT = {
     ]),
 }
 
+FS_DICT = [
+    ('users/{uid}', 'Un documento por persona con cuenta. El id del documento es el UID de Firebase Authentication.', [
+        ('name', 'string', 'Sí', 'Nombre y apellidos', 'App: 2–80 letras', 'Mariana López'),
+        ('email', 'string', 'Sí', 'Correo de la cuenta', 'Regla: igual a request.auth.token.email al crear', 'mariana@correo.com'),
+        ('phone', 'string', 'No', 'Teléfono de contacto', 'App: 7–15 dígitos', '+52 33 1234 5678'),
+        ('role', 'string', 'Sí', 'Rol de permisos', 'Regla: GUEST al crear; solo SUPERADMIN lo cambia', 'GUEST'),
+        ('disabled', 'boolean', 'Sí', 'Cuenta bloqueada', 'Regla: solo SUPERADMIN', 'false'),
+        ('lang', 'string', 'Sí', 'Idioma preferido', 'Regla: ES|EN|PT|FR', 'ES'),
+        ('currency', 'string', 'Sí', 'Moneda preferida', 'Regla: EUR|USD|MXN|GBP|BRL|COP', 'MXN'),
+        ('theme', 'string', 'Sí', 'Tema visual', 'Regla: LIGHT|DARK|SYSTEM', 'LIGHT'),
+        ('createdAt', 'integer', 'Sí', 'Alta (ms desde 1970)', '—', '1795061032319'),
+        ('lastLogin', 'integer', 'No', 'Último acceso (ms)', 'Lo actualiza el propio usuario', '1795061064473'),
+    ]),
+    ('reservations/{ref}', 'Una reserva por documento; el id es la referencia visible.', [
+        ('uid', 'string', 'Sí*', 'Dueño (UID); * en la nube siempre, en local puede faltar', 'Regla: == request.auth.uid al crear', 'kQ3…Zp2'),
+        ('guestName', 'string', 'Sí', 'Titular', 'App: nombre válido', 'Mariana López'),
+        ('email', 'string', 'Sí', 'Correo de contacto', 'App: formato válido', 'mariana@correo.com'),
+        ('phone', 'string', 'No', 'Teléfono de contacto', 'App: 7–15 dígitos', '+52 33 1234 5678'),
+        ('room', 'string', 'Sí', 'Tipo de habitación', 'Regla: STANDARD|DELUXE|PENTHOUSE', 'DELUXE'),
+        ('checkIn', 'string', 'Sí', 'Fecha de llegada (ISO)', 'App: ≥ hoy, ≤ 18 meses', '2026-12-06'),
+        ('checkOut', 'string', 'Sí', 'Fecha de salida (ISO)', 'Regla: checkOut > checkIn', '2026-12-09'),
+        ('adults', 'integer', 'Sí', 'Adultos', 'Regla: 1..6', '2'),
+        ('children', 'integer', 'Sí', 'Niños 2–12 años', 'Regla: 0..4', '0'),
+        ('extras', 'array<string>', 'No', 'Extras contratados', 'Valores de Extra', '["BREAKFAST"]'),
+        ('promo', 'string|null', 'No', 'Código aplicado', 'App: código activo', 'LUMBRE10'),
+        ('totalEur', 'double', 'Sí', 'Total congelado en EUR', 'Regla: > 0', '746.0'),
+        ('status', 'string', 'Sí', 'Estado', 'Regla: CONFIRMED al crear; dueño solo CANCELLED', 'CONFIRMED'),
+        ('notes', 'string', 'No', 'Peticiones especiales', 'App: ≤ 500', 'Cuna, por favor'),
+        ('createdAt', 'integer', 'Sí', 'Momento de la reserva (ms)', '—', '1795061100000'),
+    ]),
+    ('rooms/{roomId}', 'Datos editables de cada tipo de habitación (lo editorial vive en la app).', [
+        ('nightlyEur', 'integer', 'Sí', 'Precio base por noche', 'Regla: 30..5000; solo ADMIN+', '190'),
+        ('capacity', 'integer', 'Sí', 'Huéspedes máximos', 'Regla: 1..6', '3'),
+        ('available', 'boolean', 'Sí', 'Abierta a reserva', 'Solo ADMIN+', 'true'),
+    ]),
+    ('promos/{code}', 'Códigos de descuento; el id es el código.', [
+        ('percent', 'integer', 'Sí', 'Porcentaje de descuento', 'Regla: 5..50; id ^[A-Z0-9]{4,20}$', '10'),
+        ('active', 'boolean', 'Sí', 'Vigente', 'Solo ADMIN+', 'true'),
+    ]),
+    ('config/params', 'Documento único con las reglas de negocio (ver tabla de parámetros).', [
+        ('taxPercent … minPasswordLength', 'integer', 'Sí', '10 parámetros numéricos', 'Regla: rangos por campo; solo SUPERADMIN', '10, 15, 10, 7, 30, 18, 20, 5, 60, 8'),
+        ('maintenance', 'boolean', 'Sí', 'Pausa reservas de huéspedes', 'Solo SUPERADMIN', 'false'),
+        ('maintenanceMessage', 'string', 'No', 'Mensaje mostrado', '≤ 160', 'Volvemos a las 18:00'),
+    ]),
+    ('audit/{autoId}', 'Registro inmutable de acciones administrativas.', [
+        ('at', 'integer', 'Sí', 'Momento (ms)', '—', '1795061200000'),
+        ('actor', 'string', 'Sí', 'Correo del autor', 'Regla: == correo del token', 'recepcion@lumbre.com'),
+        ('action', 'string', 'Sí', 'Tipo de acción', 'ROOM_UPDATE, ROLE_CHANGE, …', 'RES_STATUS'),
+        ('target', 'string', 'Sí', 'Elemento afectado', '≤ 120 caracteres', 'LMB-7QK2PA → CHECKED_IN'),
+    ]),
+]
+
 
 def diccionario():
-    d = Doc('BD7_Diccionario_de_Datos.docx', U, 'Entregable BD 7', 'Diccionario de datos',
+    d = Doc('U2_BD/U2_7_Diccionario_de_Datos.docx', U, 'Entregable U2_7 (Bases de datos)', 'Diccionario de datos',
             'Cada tabla y campo con descripción, tipo, tamaño, restricciones y relación')
-    d.toc(['Convenciones', 'Resumen de tablas'] + [f'Tabla {t}' for t in DICT] + ['Parámetros del sistema', 'Dominios y listas de valores'])
+    d.toc(['Convenciones', 'Resumen de tablas'] + [f'Tabla {t}' for t in DICT] + ['Parámetros del sistema', 'Dominios y listas de valores', 'Diccionario NoSQL de Firebase', 'Criterios TAP'])
     d.h1('1. Convenciones')
     d.table(['Abreviatura', 'Significado'], [
         ['PK', 'Clave primaria'], ['FK', 'Clave foránea'], ['UK', 'Valor único'], ['NULO = NO', 'Campo obligatorio'],
@@ -754,6 +923,21 @@ def diccionario():
         ['Tema', 'LIGHT, DARK, SYSTEM'],
         ['Unidad de cobro de extra', 'PERSONA_NOCHE (niños al 50 %), ADULTO, ESTANCIA, NOCHE'],
     ], [4.5, 11.5], 'Dominios')
+    n += 1
+    d.h1(f'{n}. Diccionario del modelo NoSQL en Firebase (implementación real)')
+    d.p('Diccionario de las colecciones tal como existen en Firebase Cloud Firestore. "Regla" indica la validación que '
+        'aplica el servidor (firestore.rules); "App" la que aplica la interfaz.')
+    for col, desc, campos in FS_DICT:
+        d.h2(col)
+        d.p(desc)
+        d.table(['Campo', 'Tipo Firestore', 'Obligatorio', 'Descripción', 'Regla / validación', 'Ejemplo'],
+                [list(c) for c in campos], [2.4, 2.1, 1.5, 3.7, 3.7, 2.6], f'Diccionario de {col}', 8)
+    d.diagram('11_modelo_nosql_firestore.png', 'Modelo NoSQL documentado en este diccionario.', 16)
+    n += 1
+    d.tap(n, ['Cada campo indica el mensaje de validación que ve el usuario.',
+              'Los campos de fecha en milisegundos permiten ordenar eventos asíncronos.',
+              'Documenta exactamente qué se consulta y guarda en cada colección.',
+              'Incluye los datos que usa la app móvil (reservas, perfil, preferencias).'])
     return d.save()
 
 

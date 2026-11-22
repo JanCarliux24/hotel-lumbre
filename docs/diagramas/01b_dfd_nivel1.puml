@@ -1,0 +1,67 @@
+@startuml 01b_dfd_nivel1
+!include _estilo.iuml
+title DFD nivel 1 — explosión del proceso 0 (procesos, almacenes y flujos)
+left to right direction
+
+rectangle "E1 Huésped" as H #FFF4E2
+rectangle "E2 Recepción" as R #FFF4E2
+rectangle "E3 Administrador" as A #FFF4E2
+rectangle "E4 Superusuario" as S #FFF4E2
+rectangle "E5 Firebase Auth" as FA #E6F6FA
+rectangle "E6 Geolocalización" as GEO #E6F6FA
+
+usecase "1.0\nGestionar cuenta\ny sesión" as P1 #D6F3F2
+usecase "2.0\nConsentimiento,\nidioma y moneda" as P2 #D6F3F2
+usecase "3.0\nCotizar y\nreservar" as P3 #D6F3F2
+usecase "4.0\nOperar\nrecepción" as P4 #D6F3F2
+usecase "5.0\nAdministrar\ncatálogo" as P5 #D6F3F2
+usecase "6.0\nGobernar sistema\ny auditar" as P6 #D6F3F2
+
+database "D1 users" as D1
+database "D2 rooms" as D2
+database "D3 promos" as D3
+database "D4 reservations" as D4
+database "D5 config/params" as D5
+database "D6 audit" as D6
+database "D7 almacenamiento\nlocal (Settings)" as D7
+
+H --> P1 : credenciales, perfil
+P1 --> FA : signUp / signIn / refresh
+FA --> P1 : UID, tokens
+P1 --> D1 : crear perfil GUEST,\nactualizar preferencias
+D1 --> P1 : rol, preferencias
+P1 --> D7 : refreshToken, intentos fallidos
+
+H --> P2 : elección de cookies
+P2 --> GEO : coordenadas redondeadas
+GEO --> P2 : país
+P2 --> D7 : consentimiento, idioma, moneda
+P2 --> H : idioma y moneda aplicados
+
+H --> P3 : fechas, huéspedes, habitación,\nextras, código, contacto
+D2 --> P3 : precio, capacidad, disponibilidad
+D3 --> P3 : % de descuento
+D5 --> P3 : impuestos, recargos, límites
+P3 --> D4 : reserva CONFIRMED
+P3 --> D7 : copia local de la reserva
+P3 --> H : presupuesto, referencia
+
+R --> P4 : registrar llegada / cancelar
+D4 --> P4 : reservas del día
+P4 --> D4 : nuevo estado
+P4 --> D6 : RES_STATUS
+
+A --> P5 : precio, disponibilidad, promo
+P5 --> D2 : rooms actualizados
+P5 --> D3 : promos actualizadas
+P5 --> D6 : ROOM_UPDATE / PROMO_SAVE / PROMO_DELETE
+D4 --> P5 : reservas (indicadores)
+P5 --> A : ingresos, ticket medio
+
+S --> P6 : rol, bloqueo, parámetros
+P6 --> D1 : role / disabled
+P6 --> D5 : parámetros
+P6 --> D6 : ROLE_CHANGE / PARAMS_UPDATE
+D6 --> P6 : registros de auditoría
+P6 --> S : usuarios, auditoría
+@enduml

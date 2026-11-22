@@ -1,0 +1,23 @@
+@startsalt 18_wf2_habitaciones
+title Pantalla 2 · Habitaciones (listado)
+skinparam defaultFontName "Segoe UI"
+{+
+  { <size:16><b>Habitaciones</b> }
+  { Todas con vistas, desayuno opcional y cancelación flexible }
+  ---
+  {+
+   { <&image> FOTO | <b>Estándar Jardín</b> ★4.8 }
+   { . | Hasta 2 · 24 m² | <b>MX$2,376</b> /noche }
+  }
+  {+
+   { <&image> FOTO | <b>Suite Deluxe Mar</b> ★4.9 | "La favorita" }
+   { . | Hasta 3 · 42 m² | <b>MX$3,762</b> /noche }
+  }
+  {+
+   { <&image> FOTO | <b>Ático Lumbre</b> ★5.0 }
+   { . | Hasta 6 · 95 m² | <b>MX$6,732</b> /noche }
+  }
+  ---
+  { Inicio | (Habitaciones) | Ofertas | Reservas | Perfil }
+}
+@endsalt

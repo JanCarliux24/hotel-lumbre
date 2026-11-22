@@ -1,0 +1,40 @@
+@startuml 15_user_flow
+!include _estilo.iuml
+title User Flow principal — de la primera visita a la reserva confirmada
+start
+:Abrir la app (web, Android o iOS);
+if (¿Primera visita?) then (sí)
+  :Aviso de cookies y ubicación;
+  if (¿Aceptar todo?) then (sí)
+    :Permiso de ubicación del sistema;
+    :País detectado → idioma y moneda;
+  else (solo necesarias / configurar)
+    :Idioma del dispositivo;
+  endif
+else (no)
+endif
+:Inicio: buscador de fechas y huéspedes;
+:Pulsar "Ver precios";
+:Paso 1 · Fechas y huéspedes\n(presupuesto en vivo);
+if (¿Fechas válidas?) then (no)
+  #FFE2E2:Mensaje: "La salida debe ser\ndespués de la llegada";
+  detach
+else (sí)
+endif
+:Paso 2 · Habitación y extras;
+:Paso 3 · Tus datos (nombre, correo,\nteléfono, peticiones, aceptación);
+if (¿Datos válidos?) then (no)
+  #FFE2E2:Campos marcados en rojo\ncon mensaje y sugerencia;
+  detach
+else (sí)
+endif
+:Confirmar reserva;
+#D6F3F2:Confirmación con referencia LMB-XXXXXX,\nconfeti y Lumi feliz;
+if (¿Quiere verla en otro dispositivo?) then (sí)
+  :Perfil → Crear cuenta / Iniciar sesión;
+  :Reservas sincronizadas en la nube;
+else (no)
+endif
+:Mis reservas → ver, cancelar, llave digital (móvil);
+stop
+@enduml

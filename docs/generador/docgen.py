@@ -193,10 +193,50 @@ class Doc:
     def shot(self, name, caption, width_cm=15):
         self.image(os.path.join(SHOTS, name), caption, width_cm)
 
+    def shots(self, items, width_cm=5.2, caption=None):
+        """Varias capturas en una fila: items = [(archivo, pie), ...]."""
+        t = self.d.add_table(rows=2, cols=len(items)); t.alignment = WD_TABLE_ALIGNMENT.CENTER
+        for i, (name, cap) in enumerate(items):
+            path = os.path.join(SHOTS, name)
+            c = t.rows[0].cells[i]; c.text = ''
+            par = c.paragraphs[0]; par.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            if os.path.exists(path):
+                par.add_run().add_picture(path, width=Cm(width_cm))
+            c2 = t.rows[1].cells[i]; c2.text = ''
+            p2 = c2.paragraphs[0]; p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            r = p2.add_run(cap); r.italic = True; r.font.size = Pt(8.5); r.font.color.rgb = GREY
+        if caption:
+            self._fig += 1
+            cp = self.d.add_paragraph(); cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            r = cp.add_run(f'Figura {self._fig}. {caption}'); r.italic = True; r.font.size = Pt(9.5); r.font.color.rgb = GREY
+        else:
+            self.d.add_paragraph()
+
+    def tap(self, num, rows):
+        """Sección común: cumplimiento de los criterios de TAP (Unidades 3 y 5) en este entregable.
+        rows = 4 textos de evidencia propios del documento (interfaz, síncrono/asíncrono, datos, propuesta móvil)."""
+        self.h1(f'{num}. Cumplimiento de los criterios de evaluación (TAP · Unidades 3 y 5)')
+        self.p('Todos los entregables del proyecto se alinean con los cuatro criterios de evaluación (25 % cada uno). '
+               'La tabla indica cómo se cumple cada criterio en el proyecto y qué aporta este documento en particular.')
+        base = [
+            ('Interfaz gráfica de usuario', 'Interfaz clara, consistente y que responde a cada acción: 14 pantallas en Compose, '
+             'retroalimentación inmediata (presupuesto en vivo, mensajes, confeti), diseño adaptable móvil/escritorio.'),
+            ('Componentes y librerías síncronos y asíncronos', 'Lógica síncrona (validación, presupuesto, estado local) y '
+             'asíncrona con corrutinas: 34 funciones suspend, CoroutineScope con SupervisorJob, StateFlow/SharedFlow, '
+             'Ktor no bloqueante y LaunchedEffect para animaciones; la UI nunca se bloquea.'),
+            ('Acceso a datos', 'Consulta, guarda y actualiza datos de forma segura en Firebase (Authentication + Cloud '
+             'Firestore) con reglas en el servidor, actualización optimista, resincronización ante errores y copia local.'),
+            ('Propuesta de aplicación móvil', 'Problema/oportunidad, personas usuarias, funciones principales y relación '
+             'con programación móvil (KMP, Android/iOS) y concurrente definidos en E1 y U1.'),
+        ]
+        self.table(['Criterio', 'Cómo lo cumple el proyecto', 'Aporte de este documento'],
+                   [[c, g, r] for (c, g), r in zip(base, rows)], [3.4, 7.3, 5.3], 'Matriz de criterios TAP', 8.5)
+
     def page_break(self):
         self.d.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 
     def save(self):
         path = os.path.join(OUT, self.filename)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         self.d.save(path)
         return path

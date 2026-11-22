@@ -1,0 +1,134 @@
+@startuml 16_clases_dominio
+!include _estilo.iuml
+title Diagrama de clases del dominio (módulo shared, código común Kotlin)
+hide empty members
+skinparam ClassFontSize 12
+
+package data {
+  class Reservation <<data>> {
+    ref : String
+    guestName : String
+    email : String
+    phone : String
+    room : RoomId
+    checkIn : LocalDate
+    checkOut : LocalDate
+    adults : Int
+    children : Int
+    extras : Set<Extra>
+    promo : String?
+    totalEur : Double
+    status : ReservationStatus
+    uid : String?
+    createdAt : Long
+    notes : String
+  }
+  class RoomConfig <<data>> {
+    id : RoomId
+    nightlyEur : Int
+    capacity : Int
+    available : Boolean
+  }
+  class PromoCode <<data>> {
+    code : String
+    percent : Int
+    active : Boolean
+  }
+  class Account <<data>> {
+    uid, email, name, phone
+    role : Role
+    disabled : Boolean
+  }
+  class Params <<data>> {
+    taxPercent = 10
+    weekendSurchargePercent = 15
+    longStayDiscountPercent = 10
+    longStayNights = 7
+    maxNights = 30
+    maxMonthsAhead = 18
+    bookingCooldownSec = 20
+    maxLoginAttempts = 5
+    lockoutSec = 60
+    minPasswordLength = 8
+    maintenance : Boolean
+  }
+  class Prefs <<data>> {
+    lang : Lang
+    currency : Currency
+    theme : ThemeMode
+    consent : Consent
+  }
+  enum Role {
+    GUEST(0)
+    STAFF(1)
+    ADMIN(2)
+    SUPERADMIN(3)
+    +atLeast(r) : Boolean
+  }
+  enum ReservationStatus {
+    CONFIRMED
+    CHECKED_IN
+    CANCELLED
+  }
+  enum Extra {
+    BREAKFAST(18, PER_PERSON_NIGHT)
+    SPA(45, PER_ADULT)
+    TRANSFER(60, PER_STAY)
+    PARKING(15, PER_NIGHT)
+    LATE_CHECKOUT(30, PER_STAY)
+  }
+  enum RoomId {
+    STANDARD
+    DELUXE
+    PENTHOUSE
+  }
+  class HotelRepository {
+    +prefs, rooms, promos, reservations,\n params, account, role : StateFlow
+    +events : SharedFlow<K>
+    +register() / login() / logout()
+    +book(draft) : Reservation?
+    +setStatus(ref, status)
+    +updateRoom() / upsertPromo()
+    +setUserRole() / setParams()
+    -remote(block) : lanza corrutina
+  }
+}
+package domain {
+  class Pricing <<object>> {
+    +quote(room, checkIn, checkOut,\n adults, children, extras,\n promoPercent, params) : Quote?
+  }
+  class Validation <<object>> {
+    +email() / name() / phone()
+    +dates() / password()
+    +passwordStrength() : Int
+  }
+  class Quote <<data>> {
+    nights : Int
+    lines : List<QuoteLine>
+    totalEur : Double
+  }
+}
+package "data.firebase" {
+  class FirebaseAuthApi <<object>>
+  class FirestoreApi {
+    +get/set/update/delete/list
+    +whereEquals()
+  }
+}
+Reservation --> RoomId
+Reservation --> ReservationStatus
+Reservation --> "0..*" Extra
+Account --> Role
+RoomConfig --> RoomId
+HotelRepository o--> "0..*" Reservation
+HotelRepository o--> "3" RoomConfig
+HotelRepository o--> "0..*" PromoCode
+HotelRepository --> Params
+HotelRepository --> Prefs
+HotelRepository --> Account
+HotelRepository ..> FirebaseAuthApi
+HotelRepository ..> FirestoreApi
+Pricing ..> Quote
+Pricing ..> RoomConfig
+Pricing ..> Params
+@enduml

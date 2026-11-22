@@ -1,0 +1,23 @@
+@startsalt 18_wf1_inicio
+title Pantalla 1 · Inicio (buscador)
+skinparam defaultFontName "Segoe UI"
+{+
+  { <b>Lumbre</b> | . | . | [ Tema ] | [ ES · MXN ] }
+  ---
+  { <&image> FOTO DEL HOTEL FRENTE AL MAR }
+  { <size:9>COSTA DEL SOL · 5 ESTRELLAS }
+  { <size:16><b>Despierta donde el sol toca el mar</b> }
+  { Hotel boutique frente al mar, con spa y cocina de autor }
+  ---
+  {+
+    { <&calendar> Fechas | "2 dic – 5 dic" | <color:#0A7C86>3 noches }
+    { <&people> Huéspedes | [-] | 2 | [+] }
+    { [         Ver precios          ] }
+  }
+  ---
+  { <b>Habitaciones destacadas</b> | [Ver todas >] }
+  { [Foto] Estándar | [Foto] Deluxe | [Foto] Ático }
+  ---
+  { (Inicio) | Habitaciones | Ofertas | Reservas | Perfil }
+}
+@endsalt
