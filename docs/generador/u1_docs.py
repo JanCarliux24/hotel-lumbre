@@ -139,6 +139,15 @@ def e1():
         ['Enlaces', f'Web: {APPWEB} · APK: {APK} · Código: {REPO}'],
     ], [3.5, 12.5], 'Ficha de la aplicación')
     d.diagram('19_arquitectura_modulos.png', 'Arquitectura por módulos (basada en gitdiagram.com).', 16)
+    d.h2('8.1 Móvil frente a web')
+    d.table(['', 'Móvil', 'Web'], [
+        ['Se usa para', 'Reservar sobre la marcha, consultar, llave digital, recepción', 'Planear con calma y administrar'],
+        ['Navegación', 'Barra inferior (5 pestañas)', 'Riel lateral con todas las pestañas del rol'],
+        ['Presupuesto', 'Plegable en "Desglose"', 'Siempre visible al lado'],
+    ], [3, 6.5, 6.5], 'Qué cambia según el dispositivo', 9)
+    d.h2('8.2 Ventajas y desventajas de una sola app multiplataforma')
+    d.pros_cons(['Misma experiencia en todos los dispositivos', 'Un cambio llega a Android, iOS y web', 'Menos código que mantener'],
+                ['La web tarda más en la primera carga', 'Algunas funciones dependen de la plataforma (ubicación en iOS pendiente)'])
 
     # 9 -------------------------------------------------------------------------------
     d.h1('9. Capturas de las pantallas desarrolladas')
@@ -441,6 +450,8 @@ def e3():
     d.h1('1. Herramienta y alcance')
     d.p('Los wireframes se elaboraron con PlantUML Salt (texto que genera bocetos), una herramienta gratuita que permite '
         'versionar el prototipo junto con el código. Se diseñaron 6 pantallas (mínimo pedido: 4).')
+    d.pros_cons(['Gratis y versionado junto al código', 'Cambios rápidos en texto', 'Mismo estilo en todos los bocetos'],
+                ['Menos libertad visual que Figma', 'No es interactivo (no se puede "hacer clic")'], 'Prototipar con PlantUML Salt')
     d.h1('2. Wireframes pantalla por pantalla')
     wf = [
         ('18_wf1_inicio.png', 'Pantalla 1 · Inicio', 'Buscador de fechas y huéspedes sobre la foto del hotel; destacados; barra inferior.', 'Jerarquía: título grande y botón "Ver precios" como acción única.'),

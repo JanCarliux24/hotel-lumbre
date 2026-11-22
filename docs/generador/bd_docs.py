@@ -282,7 +282,7 @@ def diagrama_er():
             'Entidades, atributos, claves, relaciones y cardinalidades del problema')
     d.toc(['Método seguido', 'Diagrama E-R', 'Entidades y atributos', 'Relaciones y cardinalidades',
            'Reglas de negocio que justifican las cardinalidades', 'Resolución de relaciones N:M',
-           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Cómo leer la notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Criterios TAP'])
+           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Cómo leer la notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Ventajas y desventajas de cada notación', 'Criterios TAP'])
     d.h1('1. Método seguido')
     d.bullets([
         'Se extrajeron sustantivos del contexto (U4_1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
@@ -363,7 +363,15 @@ def diagrama_er():
     d.h1('11. Supuestos del modelo')
     d.bullets(['Disponibilidad por tipo de habitación (no por número).', 'Un código promocional como máximo por reserva.',
                'Visitantes sin cuenta pueden reservar.', 'La auditoría siempre tiene autor.', 'Las amenidades y extras son catálogos estables.'])
-    d.tap(12, ['Las entidades corresponden a pantallas (habitaciones, reservas, perfil, paneles).',
+    d.h1('12. Ventajas y desventajas de cada notación')
+    d.h2('Notación de Chen')
+    d.pros_cons(['Muestra atributos, relaciones y cardinalidad de forma visual', 'Fácil de explicar a personas no técnicas',
+                 'Distingue atributos clave, derivados y compuestos'],
+                ['Ocupa mucho espacio con muchos atributos', 'No muestra tipos de dato ni claves foráneas'])
+    d.h2('Notación pata de gallo')
+    d.pros_cons(['Compacta: atributos dentro de la entidad', 'Muestra cardinalidad mínima y máxima en la línea', 'Cercana al modelo relacional'],
+                ['Menos intuitiva para quien no conoce los símbolos', 'Las relaciones N:M no tienen nombre visible tan claro'])
+    d.tap(13, ['Las entidades corresponden a pantallas (habitaciones, reservas, perfil, paneles).',
                'El estado de RESERVA se actualiza de forma asíncrona y se refleja en la UI.',
                'Las relaciones definen qué consultas hará la app (mis reservas, llegadas del día).',
                'USUARIO y RESERVA son el núcleo del uso móvil.'])
@@ -380,7 +388,7 @@ def criterios():
     d = Doc('U4_BD/U4_4_Criterios_de_Seleccion_SMBD.docx', U, 'Entregable U4_4 (Bases de datos)', 'Criterios de selección de un SMBD',
             'Análisis técnico, económico, de seguridad, escalabilidad, compatibilidad y facilidad de uso')
     d.toc(['Requisitos que condicionan la elección', 'Criterios y su peso', 'Candidatos evaluados',
-           'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión', 'Relacional frente a NoSQL', 'Criterios TAP'])
+           'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión', 'Relacional frente a NoSQL', 'Ventajas y desventajas de cada candidato', 'Costos', 'Criterios TAP'])
     d.h1('1. Requisitos que condicionan la elección')
     d.bullets([
         ('R1 Costo cero', 'sin licencias ni servidores de pago.'),
@@ -472,7 +480,67 @@ def criterios():
         ['Acceso desde la app', 'Requiere API propia', 'REST/SDK directo con reglas'],
         ['Tiempo real', 'Requiere componentes extra', 'Integrado'],
     ], [3.2, 6.2, 6.6], 'Comparativa de paradigmas', 9)
-    d.tap(9, ['Los criterios priorizan respuestas rápidas para una interfaz fluida.',
+    d.h1('9. Ventajas y desventajas de cada candidato')
+    pc = {
+        'Firebase (Cloud Firestore + Authentication)': (
+            ['Plan gratuito real sin tarjeta', 'Cuentas, verificación y recuperación incluidas', 'Reglas de seguridad en el servidor',
+             'REST desde Android, iOS y web', 'Escala solo; sin servidores que mantener', 'Consola visual para revisar datos'],
+            ['Sin JOIN ni integridad referencial nativa', 'Consultas complejas/analíticas limitadas', 'Dependencia de Google (lock-in)',
+             'Costo por operación si se supera la cuota', 'Sin respaldos automáticos en el plan gratuito']),
+        'PostgreSQL (Supabase)': (
+            ['SQL completo, JOIN e integridad referencial', 'Row Level Security por usuario', 'API REST automática', 'Código abierto: se puede migrar a otro PostgreSQL'],
+            ['El proyecto gratuito se pausa tras días sin uso', '500 MB en el plan gratuito', 'Plan Pro de pago al crecer', 'Menos material en español para KMP']),
+        'MySQL 8 (autoalojado)': (
+            ['Muy conocido y documentado', 'SQL completo', 'Control total del servidor'],
+            ['Requiere servidor siempre encendido (costo mensual)', 'Hay que programar API, autenticación y seguridad', 'Mantenimiento y respaldos a cargo del equipo']),
+        'SQL Server Express': (
+            ['Herramientas visuales maduras', 'Gratis hasta 10 GB'],
+            ['Requiere Windows/servidor propio', 'Límite de 10 GB y de recursos', 'Sin API REST ni autenticación integradas']),
+        'MongoDB Atlas': (
+            ['Documental y flexible como Firestore', 'Consultas y agregaciones potentes', 'Plan M0 gratuito'],
+            ['Solo 512 MB gratis', 'Requiere backend propio para reglas por usuario desde la app', 'Sin autenticación de usuarios integrada']),
+        'SQLite': (
+            ['Gratis, sin servidor, muy rápido', 'Ideal para datos locales'],
+            ['No comparte datos entre dispositivos', 'Sin control de acceso por usuario', 'No sirve para recepción ni administración']),
+    }
+    for cand, (pros, cons) in pc.items():
+        d.h2(cand)
+        d.pros_cons(pros, cons)
+    d.h1('10. Costos')
+    d.note('Precios de referencia en USD, aproximados y sujetos a cambio por cada proveedor; verificar en la página oficial '
+           'antes de usarlos en una propuesta económica.', 'Aviso')
+    d.h2('10.1 Costo del SMBD')
+    d.table(['Opción', 'Plan gratuito', 'Al crecer', 'Costo estimado para Lumbre'], [
+        ['Firebase (Spark → Blaze)', '1 GiB, 50 000 lecturas y 20 000 escrituras al día; Auth sin costo para correo/contraseña',
+         'Pago por uso (centavos por cada 100 000 operaciones) conservando la cuota gratuita', 'Año 1: 0 USD · Año 3 (≈ 3× uso): 0–5 USD/mes'],
+        ['PostgreSQL (Supabase)', '500 MB; el proyecto se pausa por inactividad', 'Plan Pro ≈ 25 USD/mes', 'Año 1: 0 USD (con pausas) · producción: ≈ 300 USD/año'],
+        ['MySQL / PostgreSQL autoalojado', 'Software gratis', 'Servidor virtual (VPS) ≈ 5–12 USD/mes + horas de mantenimiento', '≈ 60–150 USD/año + tiempo del equipo'],
+        ['SQL Server Express', 'Licencia gratis (≤ 10 GB)', 'Servidor Windows ≈ 15–30 USD/mes', '≈ 180–360 USD/año'],
+        ['MongoDB Atlas', 'M0: 512 MB', 'Planes de pago desde ≈ 8–60 USD/mes', '≈ 100–700 USD/año'],
+        ['SQLite', 'Gratis', '—', '0 USD (pero no cumple los requisitos)'],
+    ], [3.6, 4.4, 4.2, 3.8], 'Costo del gestor de base de datos', 8.5)
+    d.h2('10.2 Costo de hosting de la aplicación web')
+    d.table(['Opción', 'Costo', 'Ventajas', 'Desventajas'], [
+        ['GitHub Pages (elegido)', '0 USD', 'Se publica solo con cada push (GitHub Actions); HTTPS incluido', 'Solo archivos estáticos; límites de tamaño y transferencia mensual'],
+        ['Firebase Hosting', '0 USD (Spark, con cuota diaria)', 'CDN de Google; mismo proyecto que la base de datos', 'Cuota de transferencia diaria en el plan gratuito'],
+        ['Netlify / Vercel', '0 USD (planes personales)', 'Despliegue sencillo, vistas previas', 'Restricciones de uso comercial o por créditos en planes gratuitos'],
+        ['Servidor propio (VPS)', '≈ 5–12 USD/mes', 'Control total', 'Mantenimiento, seguridad y certificados a cargo del equipo'],
+        ['Dominio propio (opcional)', '≈ 10–15 USD/año', 'Dirección profesional (lumbrehotel.com)', 'Costo anual y renovación'],
+    ], [3.4, 2.8, 5, 4.8], 'Hosting web', 8.5)
+    d.h2('10.3 Costo de distribución de la app móvil')
+    d.table(['Canal', 'Costo', 'Comentario'], [
+        ['APK directo (actual)', '0 USD', 'Se descarga desde la web; Android pide permitir "orígenes desconocidos".'],
+        ['Google Play', '≈ 25 USD, pago único', 'Instalación con un toque, actualizaciones automáticas, revisión de Google.'],
+        ['App Store (iPhone)', '≈ 99 USD/año', 'Obligatorio para distribuir en iPhone; requiere Mac para compilar.'],
+    ], [4, 3.5, 8.5], 'Distribución móvil')
+    d.h2('10.4 Costo total estimado')
+    d.table(['Escenario', 'Año 1', 'Años siguientes'], [
+        ['Actual (Firebase Spark + GitHub Pages + APK)', '0 USD', '0 USD'],
+        ['Con dominio y Google Play', '≈ 35–40 USD', '≈ 10–15 USD/año'],
+        ['Con dominio, Google Play y App Store', '≈ 135–140 USD', '≈ 110–115 USD/año'],
+        ['Alternativa: PostgreSQL en VPS + dominio', '≈ 70–165 USD + mantenimiento', 'Igual cada año'],
+    ], [8, 4, 4], 'Costo total de propiedad')
+    d.tap(11, ['Los criterios priorizan respuestas rápidas para una interfaz fluida.',
               'Se valora el acceso no bloqueante (REST asíncrono) desde corrutinas.',
               'Se evalúan seguridad, integridad y costo del acceso a datos.',
               'Se exige compatibilidad con Android, iOS y web.'])
@@ -486,7 +554,7 @@ def eleccion():
     d = Doc('U4_BD/U4_5_Eleccion_del_SMBD_Firebase.docx', U, 'Entregable U4_5 (Bases de datos)', 'Elección del SMBD: Firebase',
             'Por qué Firebase (Cloud Firestore + Authentication) es el SMBD del proyecto y cómo se implementó')
     d.toc(['Decisión', 'Justificación frente a cada requisito', 'Cómo se implementó', 'Del modelo relacional a colecciones',
-           'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia', 'Modelo de datos NoSQL en Firebase', 'Cómo protege Firebase cada operación', 'Acceso a datos desde la app', 'Criterios TAP'])
+           'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia', 'Modelo de datos NoSQL en Firebase', 'Cómo protege Firebase cada operación', 'Acceso a datos desde la app', 'Ventajas y desventajas de Firebase', 'Criterios TAP'])
     d.h1('1. Decisión')
     d.p('El sistema gestor de base de datos (SMBD) elegido para Lumbre Hotel & Spa es Firebase, la plataforma de Google, '
         'en su plan Spark gratuito. Dentro de Firebase, los datos se gestionan con Cloud Firestore (base de datos NoSQL '
@@ -557,7 +625,14 @@ match /audit/{id} { allow read: if isSuper(); allow create: if isStaff(); allow 
     d.diagram('13_reglas_firebase.png', 'Evaluación de autenticación y reglas en cada escritura.', 12)
     d.h1('11. Acceso a datos desde la app')
     d.diagram('14_concurrencia.png', 'La app escribe en Firebase de forma asíncrona sin bloquear la interfaz.', 15)
-    d.tap(12, ['La UI refleja al instante cada cambio (actualización optimista).',
+    d.h1('12. Ventajas y desventajas de Firebase en este proyecto')
+    d.pros_cons(['Costo cero hoy y al crecer moderadamente', 'Cuentas y seguridad listas sin programar un servidor',
+                 'Mismo acceso desde Android, iOS y web', 'Cambios visibles en todos los dispositivos', 'Consola para revisar y corregir datos',
+                 'Las reglas impiden que alguien se asigne un rol'],
+                ['Sin JOIN: algunos datos se duplican (desnormalización)', 'Reportes complejos requieren exportar a otra herramienta',
+                 'Depende de un proveedor (Google)', 'Sin respaldos automáticos en el plan gratuito: hay que exportar manualmente',
+                 'Si el uso crece mucho, se paga por operación'], 'Firebase: ventajas y desventajas')
+    d.tap(13, ['La UI refleja al instante cada cambio (actualización optimista).',
                'Todas las llamadas a Firebase son suspend y se ejecutan en un CoroutineScope propio.',
                'Firebase consulta, guarda y actualiza con reglas por rol en el servidor.',
                'El mismo acceso a datos funciona en Android, iOS y web.'])
@@ -663,7 +738,7 @@ def relacional():
             'Transformación del modelo E-R a tablas en 3FN con claves primarias, foráneas y restricciones')
     d.toc(['Reglas de transformación aplicadas', 'Diagrama relacional', 'Esquema relacional en notación textual',
            'Normalización paso a paso', 'Integridad referencial y acciones', 'Script DDL (PostgreSQL)',
-           'Correspondencia con la implementación en Firestore', 'Del relacional al NoSQL de Firebase', 'Criterios TAP'])
+           'Correspondencia con la implementación en Firestore', 'Del relacional al NoSQL de Firebase', 'Normalizado frente a desnormalizado', 'Criterios TAP'])
     d.h1('1. Reglas de transformación aplicadas')
     d.table(['Regla', 'Aplicación en el modelo'], [
         ['Cada entidad fuerte → tabla con su clave primaria', 'rol, usuario, tipo_habitacion, amenidad, promocion, reserva, extra, parametro, auditoria.'],
@@ -738,7 +813,14 @@ AUDITORIA(id_auditoria PK, id_usuario FK→USUARIO, fecha_hora, accion, objetivo
     d.h1('8. Del modelo relacional al modelo NoSQL de Firebase')
     d.diagram('12_relacional_vs_nosql.png', 'Cómo se implementa este esquema relacional en Firebase.', 16.5)
     d.diagram('11_modelo_nosql_firestore.png', 'Resultado: colecciones y campos en Firestore.', 16.5)
-    d.tap(9, ['Las restricciones CHECK coinciden con las validaciones que ve el usuario.',
+    d.h1('9. Ventajas y desventajas: modelo normalizado frente a documento desnormalizado')
+    d.h2('Modelo relacional normalizado (3FN)')
+    d.pros_cons(['Sin datos repetidos', 'Integridad garantizada por el motor (FK, CHECK)', 'Consultas flexibles con JOIN'],
+                ['Más tablas y uniones para leer una reserva completa', 'Requiere un servidor con API propia para la app'])
+    d.h2('Documento desnormalizado en Firebase')
+    d.pros_cons(['Una sola lectura trae la reserva completa', 'Más rápido en móvil con mala conexión', 'Encaja con las reglas por usuario'],
+                ['Algunos datos se repiten (contacto, total)', 'La integridad depende de reglas y de la app'])
+    d.tap(10, ['Las restricciones CHECK coinciden con las validaciones que ve el usuario.',
               'Las escrituras que respetan estas restricciones se hacen en segundo plano.',
               'El DDL documenta el acceso a datos y permite migrar a PostgreSQL.',
               'El modelo soporta las funciones móviles (mis reservas, recepción).'])
@@ -885,10 +967,95 @@ FS_DICT = [
     ]),
 ]
 
+USO = {
+    'rol': {
+        'id_rol': 'Cuando el hotel decide qué puede hacer cada persona: el número indica el nivel de permisos.',
+        'nombre': 'Aparece en el panel del superusuario junto a cada persona: Huésped, Recepción, Administrador o Superusuario.',
+        'nivel': 'Cuando alguien abre una pestaña protegida: la app compara su nivel para mostrarla u ocultarla.',
+    },
+    'usuario': {
+        'id_usuario': 'Cuando Mariana inicia sesión en otro celular: con este identificador la app encuentra su cuenta y sus reservas.',
+        'correo': 'Cuando Mariana crea su cuenta o inicia sesión; también recibe ahí el enlace para recuperar su contraseña.',
+        'nombre': 'Aparece en Perfil ("Hola, Mariana") y se rellena solo al reservar para no escribirlo otra vez.',
+        'telefono': 'Lo usa recepción si necesita llamar a la persona (por ejemplo, si su vuelo se retrasa).',
+        'id_rol': 'Cuando el superusuario convierte a una recepcionista en "Recepción": desde ese momento ve la pestaña de llegadas.',
+        'idioma': 'Cuando Mariana cambia la app a inglés: al abrirla en la computadora ya aparece en inglés.',
+        'moneda': 'Cuando eligió pesos: todos los precios se muestran en MXN en cualquier dispositivo.',
+        'tema': 'Cuando prefiere el modo oscuro de noche: se conserva al volver a entrar.',
+        'bloqueado': 'Cuando el hotel detecta un mal uso: el superusuario bloquea la cuenta y ya no puede entrar.',
+        'fecha_alta': 'Permite saber desde cuándo es cliente (por ejemplo, para premiar a clientes frecuentes).',
+        'ultimo_acceso': 'Ayuda al superusuario a ver qué cuentas siguen activas.',
+    },
+    'tipo_habitacion': {
+        'id_tipo': 'Cuando Mariana elige "Suite Deluxe Mar" en el paso 2 de la reserva.',
+        'nombre': 'Es el título que ve en la tarjeta de la habitación.',
+        'descripcion': 'Es el texto corto que la convence: "Salón y balcón al mar".',
+        'superficie_m2': 'Aparece como "42 m²" para comparar tamaños.',
+        'capacidad': 'Cuando intenta reservar para 4 personas en una habitación de 3, la app le avisa que no caben.',
+        'precio_noche_eur': 'Es la base de todo el presupuesto; si el administrador lo cambia, los nuevos presupuestos lo reflejan al instante.',
+        'disponible': 'Si el hotel cierra una categoría por remodelación, deja de ofrecerse.',
+    },
+    'amenidad': {
+        'id_amenidad': 'Identifica cada comodidad del catálogo.',
+        'nombre': 'Aparece como etiqueta en el detalle: "Bañera", "Wi-Fi rápido", "Terraza".',
+    },
+    'tipo_habitacion_amenidad': {
+        'id_tipo': 'Indica a qué habitación pertenece cada comodidad mostrada en su detalle.',
+        'id_amenidad': 'Indica qué comodidad se muestra en esa habitación.',
+    },
+    'promocion': {
+        'codigo': 'Cuando Mariana escribe LUMBRE10 o pulsa "Usar en mi reserva" en Ofertas.',
+        'porcentaje': 'Es el descuento que aparece en verde en el presupuesto (−10 %).',
+        'activa': 'Cuando termina la campaña, el administrador la desactiva y el código deja de funcionar.',
+    },
+    'reserva': {
+        'referencia': 'Es el código que Mariana recibe (LMB-7MSZSJ) y que dicta en recepción al llegar.',
+        'id_usuario': 'Hace que la reserva aparezca en "Mis reservas" en todos sus dispositivos.',
+        'id_tipo': 'Indica qué habitación reservó; aparece en la tarjeta de la reserva.',
+        'codigo_promocion': 'Deja constancia del descuento que se aplicó.',
+        'nombre_huesped': 'Recepción lo ve en "Llegadas de hoy" para recibir a la persona por su nombre.',
+        'correo_contacto': 'Para enviar confirmaciones o avisos sobre la estancia.',
+        'telefono_contacto': 'Para contactar a la persona si hay un imprevisto.',
+        'fecha_llegada': 'Decide en qué día aparece en "Llegadas de hoy" de recepción.',
+        'fecha_salida': 'Decide cuándo aparece en "Salidas de hoy" y cuándo pasa a "Pasadas".',
+        'adultos': 'Calcula el precio de extras por persona y comprueba que quepan en la habitación.',
+        'ninos': 'Los niños pagan la mitad del desayuno; también cuentan para la capacidad.',
+        'total_eur': 'Es el precio que se respetará aunque el hotel suba tarifas después.',
+        'estado': 'Muestra "Confirmada", "En el hotel" o "Cancelada" en la tarjeta y en recepción.',
+        'notas': 'Recepción lee peticiones como "Cuna, por favor" antes de que llegue el huésped.',
+        'fecha_creacion': 'Ordena las reservas de la más nueva a la más antigua en el panel.',
+    },
+    'extra': {
+        'id_extra': 'Cuando Mariana marca "Desayuno buffet" en el paso 2.',
+        'nombre': 'Es el texto del botón del extra.',
+        'precio_eur': 'Se suma al presupuesto en cuanto se marca el extra.',
+        'unidad_cobro': 'Decide si se cobra por persona y noche, por adulto o una sola vez.',
+    },
+    'reserva_extra': {
+        'referencia': 'Une cada extra con la reserva de Mariana.',
+        'id_extra': 'Indica qué extra contrató.',
+        'importe_eur': 'Guarda lo que pagó por ese extra, aunque el precio cambie después.',
+    },
+    'parametro': {
+        'clave': 'Identifica la regla que se está cambiando (por ejemplo, impuestos).',
+        'valor': 'Cuando el superusuario sube el recargo de fin de semana a 20 %, todos los presupuestos nuevos lo usan sin actualizar la app.',
+        'descripcion': 'Explica al superusuario para qué sirve cada parámetro.',
+        'id_usuario_modifica': 'Permite saber quién cambió la regla.',
+        'fecha_modificacion': 'Permite saber cuándo se cambió.',
+    },
+    'auditoria': {
+        'id_auditoria': 'Identifica cada registro del historial.',
+        'id_usuario': 'Dice quién hizo el cambio (por ejemplo, la recepcionista del turno de noche).',
+        'fecha_hora': 'Dice cuándo ocurrió.',
+        'accion': 'Dice qué se hizo: cambio de precio, de rol, registro de llegada…',
+        'objetivo': 'Dice a qué se le hizo: "LMB-7QK2PA → En el hotel".',
+    },
+}
+
 
 def diccionario():
     d = Doc('U4_BD/U4_7_Diccionario_de_Datos.docx', U, 'Entregable U4_7 (Bases de datos)', 'Diccionario de datos',
-            'Cada tabla y campo con descripción, tipo, tamaño, restricciones y relación')
+            'Cada tabla y campo con descripción, tipo, tamaño, restricciones, relación, ejemplo y uso en la plataforma')
     d.toc(['Convenciones', 'Resumen de tablas'] + [f'Tabla {t}' for t in DICT] + ['Parámetros del sistema', 'Dominios y listas de valores', 'Diccionario NoSQL de Firebase', 'Criterios TAP'])
     d.h1('1. Convenciones')
     d.table(['Abreviatura', 'Significado'], [
@@ -905,8 +1072,12 @@ def diccionario():
         d.p(impl, bold_prefix='Implementación actual:')
         d.table(['Campo', 'Descripción', 'Tipo', 'Tamaño', 'Nulo', 'Clave', 'Restricciones', 'Relación', 'Ejemplo'],
                 [list(c) for c in cols], [2.4, 2.6, 1.6, 1.2, 0.9, 1.1, 2.9, 2.3, 2.0], f'Diccionario de {name}', 7.5)
+        if name in USO:
+            d.table(['Campo', 'Cuándo se usa en la plataforma (ejemplo cotidiano)'],
+                    [[c[0], USO[name].get(c[0], '—')] for c in cols], [3.4, 12.6], f'Uso de {name} en la plataforma', 9)
         n += 1
     d.h1(f'{n}. Parámetros del sistema')
+    d.p('Cada parámetro lo cambia el superusuario desde la web y se nota de inmediato en la app, sin publicar una nueva versión.')
     d.table(['Clave', 'Descripción', 'Valor por defecto', 'Rango válido'], [
         ['taxPercent', 'Impuestos sobre el total', '10', '0–30'],
         ['weekendSurchargePercent', 'Recargo por noche de viernes y sábado', '15', '0–50'],

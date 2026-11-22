@@ -233,6 +233,15 @@ class Doc:
         self.table(['Criterio', 'Cómo lo cumple el proyecto', 'Aporte de este documento'],
                    [[c, g, r] for (c, g), r in zip(base, rows)], [3.4, 7.3, 5.3], 'Matriz de criterios TAP', 8.5)
 
+    def pros_cons(self, pros, cons, caption=None, widths=(8, 8)):
+        """Tabla de dos columnas: ventajas (verde) y desventajas (rojo)."""
+        n = max(len(pros), len(cons))
+        rows = [[('✔ ' + pros[i]) if i < len(pros) else '', ('✘ ' + cons[i]) if i < len(cons) else ''] for i in range(n)]
+        t = self.table(['Ventajas', 'Desventajas'], rows, list(widths), caption, 9)
+        for c, col in ((0, '207A4F'), (1, 'B3261E')):
+            _shade(t.rows[0].cells[c], col)
+        return t
+
     def page_break(self):
         self.d.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 

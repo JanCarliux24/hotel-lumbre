@@ -13,7 +13,7 @@ def e1():
             'Requisitos funcionales y no funcionales, actores, casos de uso, reglas y criterios de aceptación')
     d.toc(['Introducción y alcance', 'Visión del producto', 'Actores y roles', 'Plataformas y norma "móvil útil / web completa"',
            'Requisitos funcionales', 'Requisitos no funcionales', 'Reglas de negocio y parámetros', 'Validaciones de entrada',
-           'Seguridad', 'Cookies, ubicación, idioma y moneda', 'Casos de uso', 'Arquitectura', 'Navegación', 'Criterios de aceptación', 'Glosario', 'Modelo de clases y estados', 'Criterios TAP'])
+           'Seguridad', 'Cookies, ubicación, idioma y moneda', 'Casos de uso', 'Arquitectura', 'Navegación', 'Criterios de aceptación', 'Glosario', 'Modelo de clases y estados', 'Seguridad y manejo de datos', 'Vistas móvil y web', 'Criterios TAP'])
 
     d.h1('1. Introducción y alcance')
     d.p('Este documento especifica el sistema de reservas de Lumbre Hotel & Spa: una sola aplicación escrita con Kotlin '
@@ -194,7 +194,62 @@ def e1():
     d.diagram('17_estados_reserva.png', 'Ciclo de vida de una reserva.', 12)
     d.diagram('19_arquitectura_modulos.png', 'Arquitectura por módulos (basada en gitdiagram.com).', 16)
     d.diagram('14_concurrencia.png', 'Trabajo síncrono y asíncrono sin bloquear la interfaz.', 15)
-    d.tap(17, ['Especifica pantallas, navegación, validaciones y retroalimentación (RF-01…RF-18).',
+    d.h1('17. Seguridad y manejo de datos (detalle)')
+    d.h2('17.1 Qué datos se guardan y dónde')
+    d.table(['Dato', 'Dónde se guarda', 'Quién puede verlo', 'Para qué se usa'], [
+        ['Contraseña', 'Solo en Firebase Authentication (cifrada); nunca en la app ni en la base de datos', 'Nadie, ni el hotel', 'Iniciar sesión'],
+        ['Nombre, correo, teléfono', 'Firestore users/{uid}', 'La propia persona y el superusuario', 'Cuenta y contacto'],
+        ['Preferencias (idioma, moneda, tema)', 'Firestore y el dispositivo', 'La propia persona', 'Mostrar la app como le gusta'],
+        ['Reservas', 'Firestore reservations y copia en el dispositivo', 'Su dueño y el personal (STAFF+)', 'Estancia, recepción, indicadores'],
+        ['Token de sesión', 'Dispositivo (se borra al cerrar sesión)', 'Solo la app', 'Mantener la sesión 1 h y renovarla'],
+        ['Ubicación', 'No se guarda: se redondea (~11 km) y solo se usa para saber el país', 'Nadie', 'Elegir idioma y moneda'],
+        ['Auditoría', 'Firestore audit', 'Solo el superusuario', 'Saber quién cambió qué'],
+    ], [3.3, 5, 3.6, 4.1], 'Inventario de datos', 8.5)
+    d.h2('17.2 Ciclo de vida de los datos')
+    d.bullets([('Recolección', 'solo lo necesario y con consentimiento (casilla obligatoria y aviso de cookies).'),
+               ('Uso', 'cada dato tiene una finalidad concreta (tabla anterior).'),
+               ('Actualización', 'la persona edita su perfil; el personal solo cambia estados de reserva.'),
+               ('Conservación', 'las reservas canceladas se conservan como historial; la auditoría no se borra.'),
+               ('Eliminación', '"Borrar mis datos" limpia el dispositivo y "Eliminar cuenta" borra la cuenta y el perfil.')])
+    d.h2('17.3 Amenazas y cómo se controlan')
+    d.table(['Amenaza', 'Ejemplo', 'Control aplicado'], [
+        ['Suplantación', 'Alguien intenta entrar con la cuenta de otra persona', 'Contraseña robusta, bloqueo tras 5 intentos, mensajes que no revelan si el correo existe'],
+        ['Escalada de privilegios', 'Un huésped intenta darse rol de administrador', 'Regla: solo SUPERADMIN cambia roles; todo usuario nace GUEST'],
+        ['Manipulación de datos', 'Alterar el precio de una reserva desde el navegador', 'Reglas en el servidor validan campos y rangos; el dueño solo puede cancelar'],
+        ['Lectura indebida', 'Ver reservas de otros huéspedes', 'Regla: cada quien lee lo suyo; listado completo solo para STAFF+'],
+        ['Abuso / spam', 'Crear cientos de reservas falsas', 'Espera entre reservas (cooldown), referencias imposibles de adivinar'],
+        ['Robo de sesión', 'Copiar el token de un dispositivo', 'Token de 1 h, HTTPS en todas las conexiones, cierre de sesión borra tokens'],
+        ['Código malicioso en la web', 'Inyectar scripts', 'Política de contenido (CSP) y Compose renderiza texto, no HTML'],
+        ['Pérdida de datos', 'Error humano borra un catálogo', 'Auditoría para rastrear; exportación manual periódica (el plan gratuito no incluye respaldos)'],
+        ['Clave de API visible', 'Alguien ve la clave en el código web', 'Es pública por diseño en Firebase; la protección real está en las reglas'],
+    ], [3.2, 5, 7.8], 'Amenazas y controles', 8.5)
+    d.h2('17.4 Ventajas y desventajas del enfoque de seguridad')
+    d.pros_cons(['La seguridad no depende de la app: se aplica en el servidor', 'Sin servidor propio que proteger', 'Historial completo de cambios administrativos'],
+                ['Las reglas son un lenguaje más a mantener', 'Sin autenticación de dos factores en esta versión', 'Respaldos manuales en el plan gratuito'])
+
+    d.h1('18. Vistas: qué cambia entre móvil y web')
+    d.p('La app es la misma, pero se adapta al dispositivo y a lo que la persona necesita hacer ahí.')
+    d.table(['Aspecto', 'Móvil (Android / iPhone)', 'Web (computadora)'], [
+        ['Para qué se usa', 'Reservar sobre la marcha, consultar la reserva, abrir la habitación, recepción en el lobby', 'Planear con calma y administrar el hotel'],
+        ['Navegación', 'Barra inferior con 5 pestañas al alcance del pulgar', 'Riel lateral con todas las pestañas del rol'],
+        ['Distribución', 'Una columna; el presupuesto se pliega en "Desglose"', 'Varias columnas; presupuesto siempre visible al lado'],
+        ['Funciones exclusivas', 'Llave digital', 'Panel de administración, catálogo y superusuario'],
+        ['Recepción (STAFF)', 'Sí: listas del día en el móvil del turno', 'Sí'],
+        ['Tablas e indicadores', 'No (pantalla pequeña)', 'Sí: reservas con filtros e ingresos por habitación'],
+        ['Ubicación', 'Permiso del sistema Android/iOS', 'Permiso del navegador'],
+        ['Instalación', 'APK (o tienda en el futuro)', 'Ninguna: se abre con un enlace'],
+        ['Actualizaciones', 'Hay que instalar la nueva versión', 'Inmediatas al recargar'],
+        ['Sin conexión', 'Conserva reservas y preferencias locales', 'También, mientras no se borre el navegador'],
+    ], [3.4, 6.3, 6.3], 'Móvil frente a web', 8.5)
+    d.shots([('movil_reserva_paso1.jpg', 'Móvil: una columna'), ('movil_mis_reservas.jpg', 'Móvil: barra inferior')], 4.6)
+    d.shot('web_05_reserva_presupuesto.jpg', 'Web: presupuesto fijo al lado y riel lateral.', 14)
+    d.h2('18.1 Ventajas y desventajas de la vista móvil')
+    d.pros_cons(['Siempre a mano y rápida', 'Llave digital y notificaciones posibles', 'Funciona con mala conexión'],
+                ['Pantalla pequeña: no caben tablas ni paneles', 'Requiere instalar y actualizar', 'Para iPhone hace falta la App Store'])
+    d.h2('18.2 Ventajas y desventajas de la vista web')
+    d.pros_cons(['Sin instalación; un enlace basta', 'Pantalla grande para administrar', 'Se actualiza al instante'],
+                ['Menos práctica de pie o de viaje', 'Sin llave digital', 'Primera carga más pesada (WebAssembly)'])
+    d.tap(19, ['Especifica pantallas, navegación, validaciones y retroalimentación (RF-01…RF-18).',
                'Especifica qué operaciones son inmediatas y cuáles asíncronas (red, sincronización, animaciones).',
                'Especifica las operaciones de consulta, alta y actualización con reglas en el servidor.',
                'Define actores, plataformas y la norma "móvil útil / web completa".'])
@@ -284,6 +339,9 @@ OWN = [
 ]
 
 
+PCL = {'Compose Multiplatform': (['Una sola interfaz para 3 plataformas', 'Animaciones potentes', 'Comunidad grande (JetBrains/Google)'], ['Material 3 aún en alfa', 'Web pesa más en la primera carga', 'Pruebas de UI no corren en Node']), 'Navigation Compose': (['Rutas con tipos: menos errores', 'Transiciones animadas'], ['No sincroniza la URL del navegador']), 'Ktor Client': (['Mismo código de red en todas las plataformas', 'Asíncrono, no bloquea'], ['Hay que configurar un motor por plataforma']), 'Firebase Authentication': (['Cuentas seguras sin servidor propio', 'Verificación y recuperación incluidas'], ['Sin SDK oficial para Wasm: se usó REST', 'Dependencia de Google']), 'Cloud Firestore': (['Reglas por usuario en el servidor', 'Gratis para este volumen'], ['Sin JOIN', 'Sin tiempo real por REST']), 'kotlinx-datetime': (['Fechas correctas en todas las plataformas'], ['Formato local hecho a mano']), 'kotlinx-serialization-json': (['Rápida y sin reflexión', 'Funciona en Wasm'], ['Hay que anotar cada clase']), 'multiplatform-settings': (['Cero configuración', 'Usa el almacenamiento nativo'], ['No cifra los datos']), 'BigDataCloud': (['Gratis y sin clave', 'Precisión de país suficiente'], ['Servicio externo: puede cambiar sus condiciones'])}
+
+
 def e2():
     d = Doc('U2_Librerias/U2_E2_Librerias_y_Componentes.docx', U, 'Entregable 2', 'Librerías y componentes',
             'Documentación de cada librería y componente: propósito, requisitos, instalación, configuración, uso, E/S, ejemplos y limitaciones')
@@ -307,6 +365,10 @@ def e2():
         ], [4, 12], None, 9)
         d.code(L['inst'], 'Instalación (Gradle, catálogo libs.versions.toml).')
         d.code(L['ej'], 'Ejemplo de uso.')
+        for k, (pros, cons) in PCL.items():
+            if L['n'].startswith(k):
+                d.pros_cons(pros, cons, f'Ventajas y desventajas de {k}')
+                break
     d.h1('4. Componentes propios del equipo')
     d.p('Además de las librerías externas, el equipo construyó componentes reutilizables en el módulo shared. Todos son '
         'multiplataforma y están cubiertos por pruebas o usados en varias pantallas.')
@@ -366,7 +428,7 @@ def e3():
     d = Doc('U2_Librerias/U2_E3_Aplicacion_del_Equipo.docx', U, 'Entregable 3', 'Aplicación desarrollada por el equipo',
             'Lumbre Hotel & Spa: descripción, módulos, pantallas, pruebas, publicación y manual de uso')
     d.toc(['Descripción', 'Tecnologías', 'Estructura del proyecto', 'Pantallas y funciones', 'Diferencias móvil y web',
-           'Cuentas, roles y paneles', 'Pruebas', 'Integración continua y publicación', 'Manual rápido de uso', 'Métricas del proyecto', 'Arquitectura y documentación técnica', 'Criterios TAP'])
+           'Cuentas, roles y paneles', 'Pruebas', 'Integración continua y publicación', 'Manual rápido de uso', 'Métricas del proyecto', 'Arquitectura y documentación técnica', 'Vistas móvil y web', 'Criterios TAP'])
     d.h1('1. Descripción')
     d.p('Aplicación de reservas para un hotel boutique frente al mar, con estética vacacional (fotos de playa, piscinas, '
         'gastronomía y excursiones; paleta turquesa, arena y sol) y una mascota guía. Funciona en Android, iOS y web desde un '
@@ -455,7 +517,14 @@ def e3():
     d.code(open(os.path.join(ROOT, 'app', 'firebase', 'firestore.rules'), encoding='utf-8').read(), 'app/firebase/firestore.rules')
     d.h2('11.4 Integración y despliegue continuo')
     d.code(open(os.path.join(ROOT, '.github', 'workflows', 'pages.yml'), encoding='utf-8').read(), '.github/workflows/pages.yml')
-    d.tap(12, ['Muestra todas las pantallas web y móvil y los paneles por rol.',
+    d.h1('12. Vistas móvil y web en la aplicación')
+    d.p('Resumen de lo que cambia entre plataformas (detalle completo y ventajas/desventajas en U2_E1 §18).')
+    d.shots([('movil_ofertas.jpg', 'Ofertas en móvil'), ('movil_detalle_habitacion.jpg', 'Detalle en móvil')], 4.6)
+    d.shot('web_04_ofertas.jpg', 'Ofertas en web.', 13)
+    d.pros_cons(['Un solo código: lo que se corrige en uno se corrige en todos', 'Cada plataforma muestra lo que tiene sentido ahí'],
+                ['Hay que probar en varios tamaños de pantalla', 'Algunas funciones no existen en todas las plataformas'],
+                'Una app adaptable: ventajas y desventajas')
+    d.tap(13, ['Muestra todas las pantallas web y móvil y los paneles por rol.',
                'Describe la sincronización en segundo plano y la actualización optimista.',
                'Incluye las reglas de seguridad completas que protegen el acceso a datos.',
                'Demuestra la app funcionando en el teléfono con las funciones útiles.'])
@@ -469,7 +538,7 @@ def e4():
     d = Doc('U2_Librerias/U2_E4_Componentes_Externos_y_Feedback.docx', U, 'Entregable 4', 'Aplicación con componentes externos y retroalimentación',
             'Integración de componentes de la web y repositorios públicos, vistos como oportunidad, y feedback sobre ellos')
     d.toc(['Planteamiento', 'Componentes externos integrados', 'Proceso de integración', 'Problemas encontrados y oportunidades',
-           'Retroalimentación para los autores de los componentes', 'Retroalimentación recibida sobre nuestra aplicación', 'Mejoras aplicadas', 'Conclusión', 'Criterios TAP'])
+           'Retroalimentación para los autores de los componentes', 'Retroalimentación recibida sobre nuestra aplicación', 'Mejoras aplicadas', 'Conclusión', 'Ventajas y desventajas', 'Criterios TAP'])
     d.h1('1. Planteamiento')
     d.p('La actividad propone integrar componentes desarrollados por otro equipo. En este proyecto no se usaron componentes '
         'de otro equipo del grupo; en su lugar se integraron componentes publicados en la web y en repositorios abiertos '
@@ -538,7 +607,10 @@ def e4():
     d.p('Integrar componentes externos requirió las mismas habilidades que integrar los de otro equipo: leer documentación '
         'ajena, aislar el componente, adaptarlo sin modificarlo y comunicar mejoras de forma constructiva. Cada problema '
         'encontrado dejó una lección aplicable a proyectos futuros.')
-    d.tap(9, ['Los componentes externos de UI (Compose, Material 3) se integraron sin perder consistencia.',
+    d.h1('9. Ventajas y desventajas de usar componentes externos')
+    d.pros_cons(['Ahorro enorme de tiempo', 'Componentes probados por miles de proyectos', 'Licencias libres (Apache, MIT, OFL)', 'Se aprende de código profesional'],
+                ['Cambios de versión pueden romper la compilación', 'Menos control sobre errores internos', 'Dependencia de terceros y de sus condiciones'])
+    d.tap(10, ['Los componentes externos de UI (Compose, Material 3) se integraron sin perder consistencia.',
               'Ktor y las corrutinas de Kotlin se integraron para no bloquear la app.',
               'Firebase se integró por REST como capa de acceso a datos segura.',
               'La integración externa hizo posible la app móvil multiplataforma.'])
@@ -552,7 +624,7 @@ def e5():
     d = Doc('U2_Librerias/U2_E5_Componentes_Proporcionados_y_Preguntas.docx', U, 'Entregable 5', 'Aplicación con los componentes proporcionados',
             'Reutilización de los componentes documentados en tres aplicaciones y cuestionario de retroalimentación')
     d.toc(['Objetivo', 'Componentes proporcionados', 'Aplicaciones construidas con ellos', 'Matriz de reutilización',
-           'Cuestionario de retroalimentación', 'Respuestas y análisis', 'Cambios derivados', 'Conclusión', 'Criterios TAP'])
+           'Cuestionario de retroalimentación', 'Respuestas y análisis', 'Cambios derivados', 'Conclusión', 'Ventajas y desventajas', 'Criterios TAP'])
     d.h1('1. Objetivo')
     d.p('Demostrar que los componentes documentados en el Entregable 2 son realmente reutilizables: con ellos, sin escribir '
         'lógica nueva, se ensamblan tres aplicaciones (Android, iOS y web) y la página informativa reutiliza las mismas '
@@ -620,7 +692,10 @@ def e5():
     d.h1('8. Conclusión')
     d.p('Los componentes cumplieron su propósito: tres aplicaciones comparten el 100 % de la lógica y de la interfaz, y la '
         'retroalimentación confirmó que la documentación permite usarlos de forma autónoma.')
-    d.tap(9, ['Los componentes de UI se reutilizan en 3 plataformas con el mismo aspecto.',
+    d.h1('9. Ventajas y desventajas de reutilizar componentes')
+    d.pros_cons(['Consistencia visual en todas las pantallas', 'Un error se corrige una sola vez', 'Pantallas nuevas en minutos'],
+                ['Un cambio afecta a todas las pantallas que lo usan', 'Hay que documentar bien los parámetros'])
+    d.tap(10, ['Los componentes de UI se reutilizan en 3 plataformas con el mismo aspecto.',
               'Los componentes síncronos (Pricing) y asíncronos (repositorio) se probaron por separado.',
               'El repositorio proporcionado concentra todo el acceso a datos.',
               'Las tres apps construidas confirman la propuesta móvil.'])
