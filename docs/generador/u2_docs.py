@@ -13,7 +13,7 @@ def e1():
             'Requisitos funcionales y no funcionales, actores, casos de uso, reglas y criterios de aceptación')
     d.toc(['Introducción y alcance', 'Visión del producto', 'Actores y roles', 'Plataformas y norma "móvil útil / web completa"',
            'Requisitos funcionales', 'Requisitos no funcionales', 'Reglas de negocio y parámetros', 'Validaciones de entrada',
-           'Seguridad', 'Cookies, ubicación, idioma y moneda', 'Casos de uso', 'Arquitectura', 'Navegación', 'Criterios de aceptación', 'Glosario', 'Modelo de clases y estados', 'Seguridad y manejo de datos', 'Vistas móvil y web', 'Criterios TAP'])
+           'Seguridad', 'Cookies, ubicación, idioma y moneda', 'Casos de uso', 'Arquitectura', 'Navegación', 'Criterios de aceptación', 'Glosario', 'Modelo de clases y estados', 'Seguridad y manejo de datos', 'Vistas móvil y web'])
 
     d.h1('1. Introducción y alcance')
     d.p('Este documento especifica el sistema de reservas de Lumbre Hotel & Spa: una sola aplicación escrita con Kotlin '
@@ -249,10 +249,6 @@ def e1():
     d.h2('18.2 Ventajas y desventajas de la vista web')
     d.pros_cons(['Sin instalación; un enlace basta', 'Pantalla grande para administrar', 'Se actualiza al instante'],
                 ['Menos práctica de pie o de viaje', 'Sin llave digital', 'Primera carga más pesada (WebAssembly)'])
-    d.tap(19, ['Especifica pantallas, navegación, validaciones y retroalimentación (RF-01…RF-18).',
-               'Especifica qué operaciones son inmediatas y cuáles asíncronas (red, sincronización, animaciones).',
-               'Especifica las operaciones de consulta, alta y actualización con reglas en el servidor.',
-               'Define actores, plataformas y la norma "móvil útil / web completa".'])
     return d.save()
 
 
@@ -346,7 +342,7 @@ def e2():
     d = Doc('U2_Librerias/U2_E2_Librerias_y_Componentes.docx', U, 'Entregable 2', 'Librerías y componentes',
             'Documentación de cada librería y componente: propósito, requisitos, instalación, configuración, uso, E/S, ejemplos y limitaciones')
     d.toc(['Mapa de dependencias', 'Entorno de desarrollo', 'Fichas de librerías externas', 'Componentes propios del equipo',
-           'Ejemplo integrado', 'Guía de instalación del proyecto completo', 'Compatibilidad de versiones', 'Licencias', 'Componentes síncronos y asíncronos', 'Criterios TAP'])
+           'Ejemplo integrado', 'Guía de instalación del proyecto completo', 'Compatibilidad de versiones', 'Licencias', 'Componentes síncronos y asíncronos'])
     d.h1('1. Mapa de dependencias')
     d.diagram('09_dependencias_externas.png', 'Librerías y servicios externos usados por cada módulo.', 15.5)
     d.h1('2. Entorno de desarrollo')
@@ -414,10 +410,6 @@ def e2():
     ], [5.5, 3.5, 7], 'Clasificación síncrono/asíncrono', 9)
     d.diagram('14_concurrencia.png', 'Secuencia de una reserva: parte síncrona y parte asíncrona.', 15)
     d.diagram('16_clases_dominio.png', 'Clases de los componentes propios.', 16)
-    d.tap(10, ['Documenta los componentes visuales reutilizables (LumbreButton, Stepper, Lumi…).',
-               'Clasifica cada librería y componente como síncrono o asíncrono y explica la concurrencia.',
-               'Documenta Ktor, Firebase Auth y Firestore como capa de acceso a datos.',
-               'Muestra que las librerías elegidas son multiplataforma para la app móvil.'])
     return d.save()
 
 
@@ -428,7 +420,7 @@ def e3():
     d = Doc('U2_Librerias/U2_E3_Aplicacion_del_Equipo.docx', U, 'Entregable 3', 'Aplicación desarrollada por el equipo',
             'Lumbre Hotel & Spa: descripción, módulos, pantallas, pruebas, publicación y manual de uso')
     d.toc(['Descripción', 'Tecnologías', 'Estructura del proyecto', 'Pantallas y funciones', 'Diferencias móvil y web',
-           'Cuentas, roles y paneles', 'Pruebas', 'Integración continua y publicación', 'Manual rápido de uso', 'Métricas del proyecto', 'Arquitectura y documentación técnica', 'Vistas móvil y web', 'Criterios TAP'])
+           'Cuentas, roles y paneles', 'Pruebas', 'Integración continua y publicación', 'Manual rápido de uso', 'Métricas del proyecto', 'Arquitectura y documentación técnica', 'Vistas móvil y web'])
     d.h1('1. Descripción')
     d.p('Aplicación de reservas para un hotel boutique frente al mar, con estética vacacional (fotos de playa, piscinas, '
         'gastronomía y excursiones; paleta turquesa, arena y sol) y una mascota guía. Funciona en Android, iOS y web desde un '
@@ -524,10 +516,6 @@ def e3():
     d.pros_cons(['Un solo código: lo que se corrige en uno se corrige en todos', 'Cada plataforma muestra lo que tiene sentido ahí'],
                 ['Hay que probar en varios tamaños de pantalla', 'Algunas funciones no existen en todas las plataformas'],
                 'Una app adaptable: ventajas y desventajas')
-    d.tap(13, ['Muestra todas las pantallas web y móvil y los paneles por rol.',
-               'Describe la sincronización en segundo plano y la actualización optimista.',
-               'Incluye las reglas de seguridad completas que protegen el acceso a datos.',
-               'Demuestra la app funcionando en el teléfono con las funciones útiles.'])
     return d.save()
 
 
@@ -538,7 +526,7 @@ def e4():
     d = Doc('U2_Librerias/U2_E4_Componentes_Externos_y_Feedback.docx', U, 'Entregable 4', 'Aplicación con componentes externos y retroalimentación',
             'Integración de componentes de la web y repositorios públicos, vistos como oportunidad, y feedback sobre ellos')
     d.toc(['Planteamiento', 'Componentes externos integrados', 'Proceso de integración', 'Problemas encontrados y oportunidades',
-           'Retroalimentación para los autores de los componentes', 'Retroalimentación recibida sobre nuestra aplicación', 'Mejoras aplicadas', 'Conclusión', 'Ventajas y desventajas', 'Criterios TAP'])
+           'Retroalimentación para los autores de los componentes', 'Retroalimentación recibida sobre nuestra aplicación', 'Mejoras aplicadas', 'Conclusión', 'Ventajas y desventajas'])
     d.h1('1. Planteamiento')
     d.p('La actividad propone integrar componentes desarrollados por otro equipo. En este proyecto no se usaron componentes '
         'de otro equipo del grupo; en su lugar se integraron componentes publicados en la web y en repositorios abiertos '
@@ -610,10 +598,6 @@ def e4():
     d.h1('9. Ventajas y desventajas de usar componentes externos')
     d.pros_cons(['Ahorro enorme de tiempo', 'Componentes probados por miles de proyectos', 'Licencias libres (Apache, MIT, OFL)', 'Se aprende de código profesional'],
                 ['Cambios de versión pueden romper la compilación', 'Menos control sobre errores internos', 'Dependencia de terceros y de sus condiciones'])
-    d.tap(10, ['Los componentes externos de UI (Compose, Material 3) se integraron sin perder consistencia.',
-              'Ktor y las corrutinas de Kotlin se integraron para no bloquear la app.',
-              'Firebase se integró por REST como capa de acceso a datos segura.',
-              'La integración externa hizo posible la app móvil multiplataforma.'])
     return d.save()
 
 
@@ -624,7 +608,7 @@ def e5():
     d = Doc('U2_Librerias/U2_E5_Componentes_Proporcionados_y_Preguntas.docx', U, 'Entregable 5', 'Aplicación con los componentes proporcionados',
             'Reutilización de los componentes documentados en tres aplicaciones y cuestionario de retroalimentación')
     d.toc(['Objetivo', 'Componentes proporcionados', 'Aplicaciones construidas con ellos', 'Matriz de reutilización',
-           'Cuestionario de retroalimentación', 'Respuestas y análisis', 'Cambios derivados', 'Conclusión', 'Ventajas y desventajas', 'Criterios TAP'])
+           'Cuestionario de retroalimentación', 'Respuestas y análisis', 'Cambios derivados', 'Conclusión', 'Ventajas y desventajas'])
     d.h1('1. Objetivo')
     d.p('Demostrar que los componentes documentados en el Entregable 2 son realmente reutilizables: con ellos, sin escribir '
         'lógica nueva, se ensamblan tres aplicaciones (Android, iOS y web) y la página informativa reutiliza las mismas '
@@ -695,10 +679,6 @@ def e5():
     d.h1('9. Ventajas y desventajas de reutilizar componentes')
     d.pros_cons(['Consistencia visual en todas las pantallas', 'Un error se corrige una sola vez', 'Pantallas nuevas en minutos'],
                 ['Un cambio afecta a todas las pantallas que lo usan', 'Hay que documentar bien los parámetros'])
-    d.tap(10, ['Los componentes de UI se reutilizan en 3 plataformas con el mismo aspecto.',
-              'Los componentes síncronos (Pricing) y asíncronos (repositorio) se probaron por separado.',
-              'El repositorio proporcionado concentra todo el acceso a datos.',
-              'Las tres apps construidas confirman la propuesta móvil.'])
     return d.save()
 
 
@@ -709,7 +689,7 @@ def e6():
     d = Doc('U2_Librerias/U2_E6_Reflexiones_y_Conclusiones.docx', U, 'Entregable 6', 'Reflexiones y conclusiones',
             'Lo aprendido al documentar, crear, integrar y evaluar librerías y componentes')
     d.toc(['Resumen del trabajo', 'Reflexión sobre las librerías', 'Reflexión sobre los componentes propios',
-           'Reflexión sobre la integración externa', 'Lecciones aprendidas', 'Qué haríamos diferente', 'Trabajo futuro', 'Conclusiones', 'Criterios TAP'])
+           'Reflexión sobre la integración externa', 'Lecciones aprendidas', 'Qué haríamos diferente', 'Trabajo futuro', 'Conclusiones'])
     d.h1('1. Resumen del trabajo')
     d.table(['Entregable', 'Resultado'], [
         ['E1 Especificaciones', '18 requisitos funcionales, 10 no funcionales, reglas, validaciones, seguridad, casos de uso y diagramas.'],
@@ -748,10 +728,6 @@ def e6():
     d.p('El proyecto demostró que con librerías bien elegidas y componentes propios bien documentados es posible construir, '
         'sin costo, una aplicación profesional para tres plataformas con cuentas, roles, seguridad y privacidad. La '
         'documentación no fue un trámite final, sino la herramienta que hizo posible reutilizar, integrar y mejorar.')
-    d.tap(9, ['Reflexión sobre la calidad de la interfaz y la retroalimentación al usuario.',
-              'Lección: separar lo síncrono de lo asíncrono hace la app fluida y fácil de probar.',
-              'Lección: la seguridad de los datos debe vivir en el servidor.',
-              'Conclusión sobre la viabilidad de la propuesta móvil sin costo.'])
     return d.save()
 
 

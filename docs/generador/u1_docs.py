@@ -7,14 +7,6 @@ VIDEO = 'Prado_JanCarlo_Unidad1.mp4'
 ZIP = 'Prado_JanCarlo_Unidad1.zip'
 
 
-def tap_u1(d, n):
-    d.tap(n, [
-        'Documenta pantallas, componentes, validaciones y retroalimentación con capturas reales de web y móvil.',
-        'Explica qué ocurre de forma inmediata (UI) y qué se resuelve en segundo plano sin bloquear (guardado, red).',
-        'Muestra cómo la interfaz consulta y guarda reservas, cuentas y preferencias.',
-        'Define la oportunidad, la persona usuaria, sus necesidades y cómo la app móvil las resuelve.',
-    ])
-
 
 # ======================================================================================
 # E1 — DOCUMENTO PRINCIPAL
@@ -26,8 +18,7 @@ def e1():
            'Principios UX utilizados', 'User Flow', 'Wireframes y prototipo', 'Descripción de la aplicación',
            'Capturas de las pantallas desarrolladas', 'Componentes gráficos utilizados', 'Navegación e interacción',
            'Validaciones implementadas', 'Retroalimentación del sistema', 'Evidencias de la prueba de usabilidad',
-           'Problemas encontrados', 'Mejoras realizadas y propuestas', 'Reflexión y conclusiones',
-           'Cumplimiento de la rúbrica', 'Criterios TAP'])
+           'Problemas encontrados', 'Mejoras realizadas y propuestas', 'Reflexión y conclusiones'])
 
     # 1 -------------------------------------------------------------------------------
     d.h1('1. Descripción de la oportunidad')
@@ -287,14 +278,6 @@ def e1():
         d.p(a, bold_prefix=q)
 
     # 18 ------------------------------------------------------------------------------
-    d.h1('18. Cumplimiento de la rúbrica de la Unidad 1')
-    d.table(['Criterio', 'Puntos', 'Dónde se cumple'], [
-        ['Definición del problema y usuario', '15', '§1–4'], ['Aplicación y justificación de principios UX', '15', '§5 (7 principios)'],
-        ['User Flow', '5', '§6'], ['Diseño y prototipo UI', '20', '§7 y Entregable 3'], ['Desarrollo de la interfaz gráfica', '20', '§8–10, Entregable 2'],
-        ['Navegación e interacción', '5', '§11'], ['Validaciones y retroalimentación', '5', '§12–13'], ['Prueba de usabilidad', '10', '§14'],
-        ['Reflexión y propuestas de mejora', '5', '§15–17'],
-    ], [8, 2, 6], 'Rúbrica')
-    tap_u1(d, 19)
     return d.save()
 
 
@@ -356,7 +339,7 @@ def e2():
     d = Doc('U1/U1_E2_Codigo_Fuente.docx', U, 'Entregable 2 · Código fuente', 'Código fuente del proyecto',
             'Estructura, instalación, explicación del código y preparación para la defensa')
     d.toc(['Entrega', 'Tecnologías', 'Estructura de carpetas', 'Inventario de archivos', 'Cómo ejecutar',
-           'Código clave explicado', 'Pruebas', 'Preparación para la defensa', 'Criterios TAP'])
+           'Código clave explicado', 'Pruebas', 'Preparación para la defensa'])
     d.h1('1. Entrega')
     d.table(['Elemento', 'Valor'], [
         ['Archivo comprimido', f'{ZIP} (en la carpeta de Drive de la Unidad 1)'], ['Repositorio', REPO],
@@ -435,7 +418,6 @@ navController.navigate(BookingRoute(promo = "LUMBRE10"))''', 'ui/navigation/Rout
         ['¿Por qué seleccionaste ese componente?', 'Stepper para cantidades acotadas, chips para opciones visibles, diálogo para confirmar acciones irreversibles.'],
         ['¿Cómo funciona esta sección del código?', 'Ver §6: validación pura, presupuesto puro y repositorio reactivo con corrutinas.'],
     ], [5.5, 10.5], 'Defensa')
-    tap_u1(d, 9)
     return d.save()
 
 
@@ -446,7 +428,7 @@ def e3():
     d = Doc('U1/U1_E3_Prototipo.docx', U, 'Entregable 3 · Prototipo', 'Prototipo y sistema de diseño',
             'Wireframes, guía visual y correspondencia entre prototipo e implementación')
     d.toc(['Herramienta y alcance', 'Wireframes pantalla por pantalla', 'Sistema de diseño', 'User Flow y navegación',
-           'Correspondencia prototipo → implementación', 'Criterios TAP'])
+           'Correspondencia prototipo → implementación'])
     d.h1('1. Herramienta y alcance')
     d.p('Los wireframes se elaboraron con PlantUML Salt (texto que genera bocetos), una herramienta gratuita que permite '
         'versionar el prototipo junto con el código. Se diseñaron 6 pantallas (mínimo pedido: 4).')
@@ -501,12 +483,6 @@ def e3():
             if os.path.exists(path):
                 c.paragraphs[0].add_run().add_picture(path, width=S.Cm(6.5 if i == 0 else 5))
         d.p(nota, bold_prefix='Prototipo (izq.) vs. implementación (der.):')
-    d.tap(6, [
-        'El prototipo define la interfaz antes de programarla y se comprueba su fidelidad.',
-        'Indica qué elementos reaccionan al instante (presupuesto, validación) y cuáles esperan a la nube.',
-        'Muestra qué datos se capturan y se consultan en cada pantalla.',
-        'Fundamenta la propuesta móvil con pantallas pensadas primero para el teléfono.',
-    ])
     return d.save()
 
 

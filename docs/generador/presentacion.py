@@ -176,7 +176,7 @@ rect(s, Cm(2), Cm(4.2), Cm(0.25), Cm(8.6), SUN)
 text(s, Cm(2.8), Cm(4.0), Cm(28), Cm(1), 'TECNM · INSTITUTO TECNOLÓGICO DE MORELIA', 13, SUN, True)
 text(s, Cm(2.8), Cm(5.0), Cm(28), Cm(3), 'Lumbre Hotel & Spa', 56, WHITE, True, SERIF)
 text(s, Cm(2.8), Cm(8.2), Cm(26), Cm(1.4), 'Sistema de reservas multiplataforma · Android · iOS · Web', 20, WHITE)
-for i, t in enumerate(['Unidad 1 · Interfaz', 'Unidad 2 · Librerías', 'Unidad 4 · Bases de datos', 'TAP · Unidades 3 y 5']):
+for i, t in enumerate(['Unidad 1 · Interfaz', 'Unidad 2 · Librerías', 'Unidad 4 · Bases de datos', 'Unidades 3 y 5 · Móvil']):
     chip(s, Cm(2.8) + Cm(6.6) * i, Cm(10.3), Cm(6.2), t)
 text(s, Cm(2.8), Cm(15.6), Cm(28), Cm(1), 'Jan Carlo Prado Anguiano · Noviembre de 2026', 14, WHITE, True)
 
@@ -187,7 +187,7 @@ secs = [('01', 'La oportunidad y el usuario', 'Por qué existe Lumbre y para qui
         ('03', 'Unidad 2 · Librerías', 'Arquitectura, síncrono/asíncrono, componentes'),
         ('04', 'Unidad 4 · Bases de datos', 'Contexto, DFD, E-R, modelo y Firebase'),
         ('05', 'Móvil y web', 'Qué tiene cada plataforma y por qué'),
-        ('06', 'Resultados', 'Criterios, costos y conclusiones')]
+        ('06', 'Resultados', 'Costos, resultados y conclusiones')]
 for i, (n, t, d) in enumerate(secs):
     col, row = i % 3, i // 3
     x, y = Cm(1.5) + Cm(10.5) * col, Cm(4.2) + Cm(6.2) * row
@@ -271,7 +271,7 @@ bullets(s, Cm(23.2), Cm(4), Cm(10), Cm(13.5), ['Entrada|Android, iOS y web abren
                                                  'Motor|precios, validaciones, idiomas y datos', 'Externos|Firebase y geolocalización'], 13)
 
 # =========================================================================================== 12 · concurrencia
-s = slide('Rápida y sin bloquearse', '03 · Componentes síncronos y asíncronos', 'U2_E2 §9 · TAP')
+s = slide('Rápida y sin bloquearse', '03 · Componentes síncronos y asíncronos', 'U2_E2 §9 · U35_2')
 pic(s, os.path.join(DIAG, '14_concurrencia.png'), Cm(1.5), Cm(3.8), Cm(20.5), Cm(13.6))
 card(s, Cm(22.6), Cm(3.9), Cm(10.3), Cm(6.3), 'Al instante (síncrono)', ['Validar datos', 'Calcular el presupuesto', 'Actualizar la pantalla'], MINT, TEAL, 13)
 card(s, Cm(22.6), Cm(10.6), Cm(10.3), Cm(6.6), 'En segundo plano (asíncrono)', ['Guardar en Firebase', 'Iniciar sesión', 'Animaciones y avisos'], SAND, GOLD, 13)
@@ -376,13 +376,13 @@ for i, t in enumerate(('Huésped', 'Recepción', 'Administrador', 'Superusuario'
 text(s, Cm(1.5), Cm(14.6), Cm(31.4), Cm(2.5), 'Cada nivel incluye lo del anterior. Solo el superusuario puede cambiar roles, y las reglas de Firebase lo hacen cumplir en el servidor.', 14, NAVY, False, SANS, PP_ALIGN.CENTER)
 
 # =========================================================================================== 24 · resultados
-s = slide('Resultados y criterios de evaluación', '06 · Resultados', 'Matriz TAP en cada entregable')
-table(s, Cm(1.5), Cm(3.9), Cm(20), [['Criterio (25 % c/u)', 'Evidencia'],
+s = slide('Resultados', '06 · Resultados', 'Documentos U35_1 a U35_4')
+table(s, Cm(1.5), Cm(3.9), Cm(20), [['Tema', 'Qué logramos'],
                                     ['Interfaz gráfica', '14 pantallas, retroalimentación inmediata, adaptable'],
                                     ['Síncrono / asíncrono', 'Corrutinas, Flows y Ktor; la UI nunca se bloquea'],
                                     ['Acceso a datos', 'Firebase con reglas por rol y copia local'],
                                     ['Propuesta móvil', 'Oportunidad, persona, funciones y KMP']], [6.5, 13.5], 13)
-for i, (n, t) in enumerate((('14', 'pruebas en verde'), ('16', 'documentos + video'), ('< 1 min', 'para reservar'), ('0 €', 'de operación'))):
+for i, (n, t) in enumerate((('14', 'pruebas en verde'), ('20', 'documentos + video'), ('< 1 min', 'para reservar'), ('0 €', 'de operación'))):
     y = Cm(3.9) + Cm(3.4) * i
     rect(s, Cm(22.4), y, Cm(10.5), Cm(3), MINT if i % 2 == 0 else SAND, MSO_SHAPE.ROUNDED_RECTANGLE)
     text(s, Cm(23), y + Cm(0.35), Cm(5), Cm(2), n, 30, TEAL, True, SERIF)
@@ -398,7 +398,8 @@ bullets(s, Cm(2), Cm(6.2), Cm(20), Cm(7), ['Aprendimos|una interfaz es buena cua
                                              'Siguiente paso|pagos de prueba, notificaciones y pruebas de UI.'], 16, WHITE, 9, RGBColor(0x8F, 0xDD, 0xE2))
 text(s, Cm(2), Cm(13.4), Cm(21), Cm(4), ['App web · jancarliux24.github.io/hotel-lumbre/app', 'Diagramas · ' + VISOR,
                                           'Código · github.com/JanCarliux24/hotel-lumbre'], 14, SUN, True)
-pic(s, os.path.join(SHOT, 'movil_confirmacion.jpg'), Cm(24.5), Cm(1.8), Cm(7.6), Cm(15.6), frame=False, pad=0)
+pic(s, os.path.join(SHOT, 'qr_descargas.png'), Cm(22.6), Cm(5.2), Cm(10.4), Cm(6.65))
+text(s, Cm(22.6), Cm(12.3), Cm(10.4), Cm(1), 'Escanea para descargar la APK o abrir la web', 12, WHITE, True, SANS, PP_ALIGN.CENTER)
 footer(s, True)
 
 assert num[0] == TOTAL, num[0]

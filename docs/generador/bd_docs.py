@@ -13,7 +13,7 @@ def contexto():
     d.toc(['Resumen', 'Descripción de la organización', 'Problema actual', 'Propósito de la base de datos',
            'Contexto de uso: quién, dónde y cuándo', 'Necesidades del sistema y datos que las satisfacen',
            'Requisitos de datos', 'Volumen y crecimiento estimado', 'Restricciones y supuestos',
-           'Indicadores de éxito', 'Relación con los demás entregables', 'Partes interesadas', 'Escenarios de uso del contexto', 'Supuestos del contexto', 'Vista general del contexto', 'Criterios TAP'])
+           'Indicadores de éxito', 'Relación con los demás entregables', 'Partes interesadas', 'Escenarios de uso del contexto', 'Supuestos del contexto', 'Vista general del contexto'])
 
     d.h1('1. Resumen')
     d.p('Lumbre Hotel & Spa es un hotel boutique de 86 habitaciones en la Costa del Sol que recibe huéspedes de México, '
@@ -166,10 +166,6 @@ def contexto():
     ], [1, 7, 8], 'Supuestos', 9)
     d.h1('15. Vista general del contexto')
     d.diagram('01_contexto.png', 'Diagrama de contexto (detalle en U4_2).', 16)
-    d.tap(16, ['Identifica quién usa la interfaz, dónde y cuándo.',
-               'Contempla la mala conexión: copia local y sincronización en segundo plano.',
-               'Define qué datos necesita cada necesidad del sistema.',
-               'Ubica el uso móvil (huésped y recepción) frente al uso web (administración).'])
     return d.save()
 
 
@@ -181,7 +177,7 @@ def diagrama_contexto():
             'DFD nivel 0 y nivel 1: el sistema, sus entidades externas, procesos, almacenes y flujos de datos')
     d.toc(['Objetivo', 'Simbología', 'Diagrama de contexto (nivel 0)', 'Entidades externas', 'Flujos de datos del nivel 0',
            'Límite del sistema', 'DFD nivel 1', 'Procesos del nivel 1', 'Almacenes de datos', 'Balanceo entre niveles',
-           'Supuestos y restricciones', 'Reglas de construcción aplicadas', 'Criterios TAP'])
+           'Supuestos y restricciones', 'Reglas de construcción aplicadas'])
     d.h1('1. Objetivo')
     d.p('El diagrama de contexto representa todo el sistema como un único proceso (0) y muestra con quién intercambia '
         'información y qué datos fluyen. Se complementa con el DFD de nivel 1, que abre el proceso 0 en seis procesos y '
@@ -272,10 +268,6 @@ def diagrama_contexto():
     d.bullets(['Un solo proceso en el nivel 0, numerado 0.', 'Flujos nombrados con sustantivos (datos), no con verbos.',
                'Ningún flujo directo entre entidades externas salvo el correo, que origina el servicio de Firebase.',
                'Cada entrada produce al menos una salida al actor.', 'Los mismos nombres se usan en el E-R y en el diccionario.'])
-    d.tap(13, ['Los flujos F1–F9 corresponden a pantallas concretas de la interfaz.',
-               'Los flujos F10, F11 y F14 son asíncronos (red y permisos) y no bloquean la UI.',
-               'El nivel 1 muestra exactamente qué proceso lee y escribe cada almacén.',
-               'E1 y E2 usan el móvil; E3 y E4 la web (norma del producto).'])
     return d.save()
 
 
@@ -287,7 +279,7 @@ def diagrama_er():
             'Entidades, atributos, claves, relaciones y cardinalidades del problema')
     d.toc(['Método seguido', 'Diagrama E-R', 'Entidades y atributos', 'Relaciones y cardinalidades',
            'Reglas de negocio que justifican las cardinalidades', 'Resolución de relaciones N:M',
-           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Cómo leer la notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Ventajas y desventajas de cada notación', 'Criterios TAP'])
+           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Cómo leer la notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Ventajas y desventajas de cada notación'])
     d.h1('1. Método seguido')
     d.bullets([
         'Se extrajeron sustantivos del contexto (U4_1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
@@ -376,10 +368,6 @@ def diagrama_er():
     d.h2('Notación pata de gallo')
     d.pros_cons(['Compacta: atributos dentro de la entidad', 'Muestra cardinalidad mínima y máxima en la línea', 'Cercana al modelo relacional'],
                 ['Menos intuitiva para quien no conoce los símbolos', 'Las relaciones N:M no tienen nombre visible tan claro'])
-    d.tap(13, ['Las entidades corresponden a pantallas (habitaciones, reservas, perfil, paneles).',
-               'El estado de RESERVA se actualiza de forma asíncrona y se refleja en la UI.',
-               'Las relaciones definen qué consultas hará la app (mis reservas, llegadas del día).',
-               'USUARIO y RESERVA son el núcleo del uso móvil.'])
     return d.save()
 
 
@@ -393,7 +381,7 @@ def criterios():
     d = Doc('U4_BD/U4_4_Criterios_de_Seleccion_SMBD.docx', U, 'Entregable U4_4 (Bases de datos)', 'Criterios de selección de un SMBD',
             'Análisis técnico, económico, de seguridad, escalabilidad, compatibilidad y facilidad de uso')
     d.toc(['Requisitos que condicionan la elección', 'Criterios y su peso', 'Candidatos evaluados',
-           'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión', 'Relacional frente a NoSQL', 'Ventajas y desventajas de cada candidato', 'Costos', 'Criterios TAP'])
+           'Análisis por criterio', 'Matriz de decisión ponderada', 'Riesgos y mitigaciones', 'Conclusión', 'Relacional frente a NoSQL', 'Ventajas y desventajas de cada candidato', 'Costos'])
     d.h1('1. Requisitos que condicionan la elección')
     d.bullets([
         ('R1 Costo cero', 'sin licencias ni servidores de pago.'),
@@ -545,10 +533,6 @@ def criterios():
         ['Con dominio, Google Play y App Store', '≈ 135–140 USD', '≈ 110–115 USD/año'],
         ['Alternativa: PostgreSQL en VPS + dominio', '≈ 70–165 USD + mantenimiento', 'Igual cada año'],
     ], [8, 4, 4], 'Costo total de propiedad')
-    d.tap(11, ['Los criterios priorizan respuestas rápidas para una interfaz fluida.',
-              'Se valora el acceso no bloqueante (REST asíncrono) desde corrutinas.',
-              'Se evalúan seguridad, integridad y costo del acceso a datos.',
-              'Se exige compatibilidad con Android, iOS y web.'])
     return d.save()
 
 
@@ -559,7 +543,7 @@ def eleccion():
     d = Doc('U4_BD/U4_5_Eleccion_del_SMBD_Firebase.docx', U, 'Entregable U4_5 (Bases de datos)', 'Elección del SMBD: Firebase',
             'Por qué Firebase (Cloud Firestore + Authentication) es el SMBD del proyecto y cómo se implementó')
     d.toc(['Decisión', 'Justificación frente a cada requisito', 'Cómo se implementó', 'Del modelo relacional a colecciones',
-           'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia', 'Modelo de datos NoSQL en Firebase', 'Cómo protege Firebase cada operación', 'Acceso a datos desde la app', 'Ventajas y desventajas de Firebase', 'Criterios TAP'])
+           'Reglas de seguridad en el servidor', 'Límites del plan gratuito y uso previsto', 'Plan de migración', 'Evidencia', 'Modelo de datos NoSQL en Firebase', 'Cómo protege Firebase cada operación', 'Acceso a datos desde la app', 'Ventajas y desventajas de Firebase'])
     d.h1('1. Decisión')
     d.p('El sistema gestor de base de datos (SMBD) elegido para Lumbre Hotel & Spa es Firebase, la plataforma de Google, '
         'en su plan Spark gratuito. Dentro de Firebase, los datos se gestionan con Cloud Firestore (base de datos NoSQL '
@@ -637,10 +621,6 @@ match /audit/{id} { allow read: if isSuper(); allow create: if isStaff(); allow 
                 ['Sin JOIN: algunos datos se duplican (desnormalización)', 'Reportes complejos requieren exportar a otra herramienta',
                  'Depende de un proveedor (Google)', 'Sin respaldos automáticos en el plan gratuito: hay que exportar manualmente',
                  'Si el uso crece mucho, se paga por operación'], 'Firebase: ventajas y desventajas')
-    d.tap(13, ['La UI refleja al instante cada cambio (actualización optimista).',
-               'Todas las llamadas a Firebase son suspend y se ejecutan en un CoroutineScope propio.',
-               'Firebase consulta, guarda y actualiza con reglas por rol en el servidor.',
-               'El mismo acceso a datos funciona en Android, iOS y web.'])
     return d.save()
 
 
@@ -743,7 +723,7 @@ def relacional():
             'Transformación del modelo E-R a tablas en 3FN con claves primarias, foráneas y restricciones')
     d.toc(['Reglas de transformación aplicadas', 'Diagrama relacional', 'Esquema relacional en notación textual',
            'Normalización paso a paso', 'Integridad referencial y acciones', 'Script DDL (PostgreSQL)',
-           'Correspondencia con la implementación en Firestore', 'Del relacional al NoSQL de Firebase', 'Normalizado frente a desnormalizado', 'Criterios TAP'])
+           'Correspondencia con la implementación en Firestore', 'Del relacional al NoSQL de Firebase', 'Normalizado frente a desnormalizado'])
     d.h1('1. Reglas de transformación aplicadas')
     d.table(['Regla', 'Aplicación en el modelo'], [
         ['Cada entidad fuerte → tabla con su clave primaria', 'rol, usuario, tipo_habitacion, amenidad, promocion, reserva, extra, parametro, auditoria.'],
@@ -825,10 +805,6 @@ AUDITORIA(id_auditoria PK, id_usuario FK→USUARIO, fecha_hora, accion, objetivo
     d.h2('Documento desnormalizado en Firebase')
     d.pros_cons(['Una sola lectura trae la reserva completa', 'Más rápido en móvil con mala conexión', 'Encaja con las reglas por usuario'],
                 ['Algunos datos se repiten (contacto, total)', 'La integridad depende de reglas y de la app'])
-    d.tap(10, ['Las restricciones CHECK coinciden con las validaciones que ve el usuario.',
-              'Las escrituras que respetan estas restricciones se hacen en segundo plano.',
-              'El DDL documenta el acceso a datos y permite migrar a PostgreSQL.',
-              'El modelo soporta las funciones móviles (mis reservas, recepción).'])
     return d.save()
 
 
@@ -1061,7 +1037,7 @@ USO = {
 def diccionario():
     d = Doc('U4_BD/U4_7_Diccionario_de_Datos.docx', U, 'Entregable U4_7 (Bases de datos)', 'Diccionario de datos',
             'Cada tabla y campo con descripción, tipo, tamaño, restricciones, relación, ejemplo y uso en la plataforma')
-    d.toc(['Convenciones', 'Resumen de tablas'] + [f'Tabla {t}' for t in DICT] + ['Parámetros del sistema', 'Dominios y listas de valores', 'Diccionario NoSQL de Firebase', 'Criterios TAP'])
+    d.toc(['Convenciones', 'Resumen de tablas'] + [f'Tabla {t}' for t in DICT] + ['Parámetros del sistema', 'Dominios y listas de valores', 'Diccionario NoSQL de Firebase'])
     d.h1('1. Convenciones')
     d.table(['Abreviatura', 'Significado'], [
         ['PK', 'Clave primaria'], ['FK', 'Clave foránea'], ['UK', 'Valor único'], ['NULO = NO', 'Campo obligatorio'],
@@ -1118,10 +1094,6 @@ def diccionario():
                 [list(c) for c in campos], [2.4, 2.1, 1.5, 3.7, 3.7, 2.6], f'Diccionario de {col}', 8)
     d.diagram('11_modelo_nosql_firestore.png', 'Modelo NoSQL documentado en este diccionario.', 16)
     n += 1
-    d.tap(n, ['Cada campo indica el mensaje de validación que ve el usuario.',
-              'Los campos de fecha en milisegundos permiten ordenar eventos asíncronos.',
-              'Documenta exactamente qué se consulta y guarda en cada colección.',
-              'Incluye los datos que usa la app móvil (reservas, perfil, preferencias).'])
     return d.save()
 
 
