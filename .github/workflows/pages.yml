@@ -49,6 +49,8 @@ jobs:
           mkdir -p _site/app
           cp index.html _site/
           cp -r css js assets _site/
+          mkdir -p _site/diagramas
+          cp docs/diagramas/index.html docs/diagramas/*.svg docs/diagramas/*.png _site/diagramas/
           cp -r app/webApp/build/dist/wasmJs/productionExecutable/. _site/app/
           if [ -f app/androidApp/build/outputs/apk/debug/androidApp-debug.apk ]; then
             cp app/androidApp/build/outputs/apk/debug/androidApp-debug.apk _site/app/lumbre.apk

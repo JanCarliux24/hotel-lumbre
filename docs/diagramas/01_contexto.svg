@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2620 1960" width="2620" height="1960" font-family="Inter, Segoe UI, sans-serif">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="1310.0" y="52" text-anchor="middle" font-size="34" font-weight="700" fill="#16313A">Diagrama de contexto (DFD nivel 0) — Lumbre Hotel &amp; Spa</text>
+<text x="1310.0" y="88" text-anchor="middle" font-size="20" fill="#5B6E73">Notación Yourdon/DeMarco · el sistema completo es el proceso 0 · flujos F1–F14</text>
+<g transform="translate(0,0)">
+<path d="M416.0 982.0 L1094.0 982.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1094.0,982.0 1077.2840365596228,988.6765684494337 1077.2840365596228,975.3234315505663" fill="#0A7C86"/>
+<path d="M1094.0 938.0 L416.0 938.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="416.0,938.0 432.7159634403772,931.3234315505663 432.7159634403772,944.6765684494337" fill="#0A7C86"/>
+<path d="M507.5323651682326 417.2621737231842 L1120.8573726448324 856.3471222575681" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1120.8573726448324,856.3471222575681 1103.3789676262354,852.0453368136062 1111.1519875216484,841.1877852136641" fill="#0A7C86"/>
+<path d="M1144.1418486575733 823.8227748111997 L530.8168411809736 384.7378262768158" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="530.8168411809736,384.7378262768158 548.2952461995707,389.03961172077766 540.5222263041575,399.8971633207198" fill="#0A7C86"/>
+<path d="M1280.0 301.0 L1280.0 754.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1280.0,754.0 1273.3234315505663,737.2840365596228 1286.6765684494337,737.2840365596228" fill="#0A7C86"/>
+<path d="M1320.0 754.0 L1320.0 301.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1320.0,301.0 1326.6765684494337,317.7159634403772 1313.3234315505663,317.7159634403772" fill="#0A7C86"/>
+<path d="M2069.183158819026 384.73782627681584 L1455.8581513424267 823.8227748111997" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1455.8581513424267,823.8227748111997 1465.5635364656107,808.6634377672957 1473.3365563610237,819.5209893672378" fill="#0A7C86"/>
+<path d="M1479.1426273551676 856.3471222575681 L2092.467634831767 417.26217372318416" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="2092.467634831767,417.26217372318416 2082.762249708583,432.4215107670882 2074.98922981317,421.56395916714604" fill="#0A7C86"/>
+<path d="M2134.0 940.0 L1506.0 940.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1506.0,940.0 1522.7159634403772,933.3234315505663 1522.7159634403772,946.6765684494337" fill="#0A7C86"/>
+<path d="M1506.0 980.0 L2134.0 980.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="2134.0,980.0 2117.284036559623,986.6765684494337 2117.284036559623,973.3234315505663" fill="#0A7C86"/>
+<path d="M2094.138433953501 1512.8252783139362 L1478.3630673199577 1064.9886480349958" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1478.3630673199577,1064.9886480349958 1495.8088387376306,1069.4209228056193 1487.9549015385367,1080.2200864543736" fill="#0A7C86"/>
+<path d="M1454.836199412956 1097.3380914071233 L2070.611566046499 1545.1747216860638" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="2070.611566046499,1545.1747216860638 2053.165794628826,1540.7424469154403 2061.01973182792,1529.943283266686" fill="#0A7C86"/>
+<path d="M1320.0 1649.0 L1320.0 1166.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1320.0,1166.0 1326.6765684494337,1182.7159634403772 1313.3234315505663,1182.7159634403772" fill="#0A7C86"/>
+<path d="M1280.0 1166.0 L1280.0 1649.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1280.0,1649.0 1273.3234315505663,1632.2840365596228 1286.6765684494337,1632.2840365596228" fill="#0A7C86"/>
+<path d="M2466 960 L2560 960 L2560 1840 L420 1840 L420 1671" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="420,1671 426.67656844943366,1687.7159634403772 413.32343155056634,1687.7159634403772" fill="#0A7C86"/>
+<path d="M330 1535 L330 1025" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="330,1025 336.67656844943366,1041.7159634403772 323.32343155056634,1041.7159634403772" fill="#0A7C86"/>
+<circle cx="1300" cy="960" r="200.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="1136.0" y1="876.0" x2="1464.0" y2="876.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="1300" y="843.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">0</text>
+<text x="1300" y="953.5500000000001" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Sistema de reservas</text>
+<text x="1300" y="978.7500000000001" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Lumbre Hotel &amp; Spa</text>
+<text x="1300" y="1003.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Android · iOS · web</text>
+<text x="1300" y="1029.15" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">+ base de datos Firebase</text>
+<rect x="110.0" y="895.0" width="300" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="260" y="932.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E1</text>
+<text x="260" y="981.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Huésped / visitante</text>
+<rect x="270.0" y="265.0" width="300" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="420" y="302.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E2</text>
+<text x="420" y="351.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Recepción (STAFF)</text>
+<rect x="1140.0" y="165.0" width="320" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="1300" y="202.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E3</text>
+<text x="1300" y="251.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Administrador (ADMIN)</text>
+<rect x="2010.0" y="265.0" width="340" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="2180" y="302.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E4</text>
+<text x="2180" y="338.5" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Superusuario</text>
+<text x="2180" y="364.9" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">(SUPERADMIN)</text>
+<rect x="2140.0" y="895.0" width="320" height="130" rx="10" fill="#E6F6FA" stroke="#0A7C86" stroke-width="3"/>
+<text x="2300" y="932.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0A7C86">E5</text>
+<text x="2300" y="981.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Firebase Authentication</text>
+<rect x="2020.0" y="1535.0" width="320" height="130" rx="10" fill="#E6F6FA" stroke="#0A7C86" stroke-width="3"/>
+<text x="2180" y="1572.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0A7C86">E6</text>
+<text x="2180" y="1608.5" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Geolocalización</text>
+<text x="2180" y="1634.9" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">(BigDataCloud)</text>
+<rect x="1130.0" y="1655.0" width="340" height="130" rx="10" fill="#E6F6FA" stroke="#0A7C86" stroke-width="3"/>
+<text x="1300" y="1692.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0A7C86">E8</text>
+<text x="1300" y="1728.5" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">SO / navegador</text>
+<text x="1300" y="1754.9" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">(permiso de ubicación)</text>
+<rect x="260.0" y="1535.0" width="320" height="130" rx="10" fill="#E6F6FA" stroke="#0A7C86" stroke-width="3"/>
+<text x="420" y="1572.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0A7C86">E7</text>
+<text x="420" y="1621.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Correo de Firebase</text>
+<text x="1300" y="1926.65" text-anchor="middle" font-size="19" font-weight="400" fill="#5B6E73">Límite del sistema: interfaz de las 3 plataformas + reglas de negocio + sincronización + Cloud Firestore con sus reglas.</text>
+<rect x="588.9" y="1003.4000000000001" width="332.2" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="755.0" y="1025.9" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F1 datos de reserva</text>
+<text x="755.0" y="1047.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F2 consentimiento, credenciales</text>
+<rect x="609.3" y="862.6" width="291.4" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="755.0" y="885.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F3 presupuesto, referencia,</text>
+<text x="755.0" y="906.7" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">mis reservas, avisos</text>
+<rect x="663.2819452925174" y="645.5814301813813" width="250.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="788.5819452925174" y="668.0814301813813" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F4 registro de llegada,</text>
+<text x="788.5819452925174" y="689.6814301813813" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">cancelación</text>
+<rect x="717.3922685332886" y="541.5035183530025" width="291.4" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="863.0922685332886" y="564.0035183530025" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F5 llegadas / en el hotel /</text>
+<text x="863.0922685332886" y="585.6035183530025" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">salidas del día</text>
+<rect x="984.3" y="500.5" width="291.4" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1130.0" y="523.0" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F6 precios, disponibilidad,</text>
+<text x="1130.0" y="544.6" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">promociones</text>
+<rect x="1339.6" y="512.0" width="260.79999999999995" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1470.0" y="533.8" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F7 indicadores, ingresos</text>
+<rect x="1637.1077314667116" y="541.5035183530025" width="199.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1736.9077314667115" y="564.0035183530025" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F8 roles, bloqueo,</text>
+<text x="1736.9077314667115" y="585.6035183530025" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">parámetros</text>
+<rect x="1686.1180547074825" y="645.5814301813813" width="250.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1811.4180547074825" y="668.0814301813813" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F9 usuarios, auditoría,</text>
+<text x="1811.4180547074825" y="689.6814301813813" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">seguridad</text>
+<rect x="1725.3" y="880.5" width="189.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1820.0" y="902.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F10' UID + tokens</text>
+<rect x="1674.3" y="997.0" width="291.4" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1820.0" y="1019.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F10 alta, inicio de sesión,</text>
+<text x="1820.0" y="1041.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">renovación de token</text>
+<rect x="1707.2303053344315" y="1237.8225754651257" width="209.79999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1812.1303053344316" y="1259.6225754651257" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F11' código de país</text>
+<rect x="1611.5443280320255" y="1329.8407942559338" width="250.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1736.8443280320255" y="1352.3407942559338" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F11 lat/lon redondeadas</text>
+<text x="1736.8443280320255" y="1373.9407942559337" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">(~11 km)</text>
+<rect x="1329.4" y="1392.0" width="281.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1470.0" y="1413.8" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F14' coordenadas o rechazo</text>
+<rect x="999.6" y="1392.0" width="260.79999999999995" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1130.0" y="1413.8" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F14 solicitud de permiso</text>
+<rect x="1231.9" y="1824.5" width="536.1999999999999" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1500" y="1846.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F12 solicitud de correo (Firebase envía el mensaje)</text>
+<rect x="171.0" y="1253.0" width="118.0" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="230" y="1275.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">F13 correo</text>
+<text x="230" y="1297.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">con enlace</text>
+</g>
+</svg>

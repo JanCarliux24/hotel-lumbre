@@ -1,6 +1,7 @@
 @startuml 09_dependencias_externas
 !include _estilo.iuml
 title Componentes de terceros integrados (sin modificar su código)
+left to right direction
 
 package "Nuestros componentes (shared)" {
   [UI y pantallas] as UI

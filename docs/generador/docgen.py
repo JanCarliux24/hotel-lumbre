@@ -81,6 +81,7 @@ class Doc:
             ('Integrante(s)', AUTOR + ' (añadir el resto del equipo si aplica)'),
             ('Repositorio', REPO),
             ('Aplicación web', APPWEB),
+            ('Diagramas (zoom)', 'https://jancarliux24.github.io/hotel-lumbre/diagramas/'),
             ('Fecha', 'Noviembre de 2026'),
         ]
         t = d.add_table(rows=0, cols=2); t.alignment = WD_TABLE_ALIGNMENT.CENTER

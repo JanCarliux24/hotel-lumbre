@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%93%90%3C/text%3E%3C/svg%3E">
+<title>Diagramas · Lumbre Hotel &amp; Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --teal:#0A7C86; --navy:#16313A; --sun:#F4A63A; --sand:#FFF4E2; --line:#DCE8EA; --grey:#5B6E73; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: Inter, system-ui, sans-serif; color: var(--navy); background: #F5F8F8; }
+  .app { display: grid; grid-template-columns: 330px 1fr; height: 100vh; }
+  aside { background: #fff; border-right: 1px solid var(--line); overflow-y: auto; padding: 22px 16px 40px; }
+  aside h1 { font-family: 'Playfair Display', serif; font-size: 25px; margin: 0 0 4px; }
+  aside p.sub { margin: 0 0 18px; color: var(--grey); font-size: 13px; line-height: 1.45; }
+  .search { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; font: inherit; margin-bottom: 14px; }
+  .cat { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #B87A1E; font-weight: 700; margin: 18px 8px 6px; }
+  .item { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 9px 10px; border-radius: 10px; font: inherit; font-size: 14px; color: var(--navy); cursor: pointer; }
+  .item small { display: block; color: var(--grey); font-size: 12px; margin-top: 2px; }
+  .item:hover { background: #EEF7F8; }
+  .item.on { background: var(--sand); font-weight: 600; box-shadow: inset 3px 0 0 var(--sun); }
+  main { position: relative; display: flex; flex-direction: column; min-width: 0; }
+  .bar { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: #fff; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .bar h2 { font-size: 17px; margin: 0; flex: 1; min-width: 220px; }
+  .bar h2 span { display: block; font-weight: 400; color: var(--grey); font-size: 13px; margin-top: 2px; }
+  .btn { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 8px 12px; font: inherit; font-size: 13px; cursor: pointer; color: var(--navy); text-decoration: none; white-space: nowrap; }
+  .btn:hover { border-color: var(--teal); color: var(--teal); }
+  .btn.primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .zoom { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; color: var(--grey); font-size: 13px; }
+  .view { position: relative; flex: 1; overflow: hidden; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+          background-image: radial-gradient(#d7e3e5 1px, transparent 1px); background-size: 22px 22px; }
+  .view.drag { cursor: grabbing; }
+  .stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; background: #fff; box-shadow: 0 10px 40px rgba(22,49,58,.12); border-radius: 6px; }
+  .stage svg { display: block; }
+  .hint { position: absolute; right: 16px; bottom: 14px; background: rgba(22,49,58,.85); color: #fff; font-size: 12px; padding: 8px 12px; border-radius: 10px; pointer-events: none; }
+  .menu { display: none; }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; }
+    aside { position: fixed; inset: 0 25% 0 0; z-index: 5; transform: translateX(-105%); transition: transform .25s; box-shadow: 0 0 40px rgba(0,0,0,.2); }
+    aside.open { transform: none; }
+    .menu { display: inline-block; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside id="side">
+    <h1>Diagramas</h1>
+    <p class="sub">Lumbre Hotel &amp; Spa · versión vectorial (SVG): acerca con la rueda o con dos dedos sin perder calidad, arrastra para moverte.</p>
+    <input class="search" id="q" placeholder="Buscar diagrama…">
+    <nav id="list"></nav>
+  </aside>
+  <main>
+    <div class="bar">
+      <button class="btn menu" id="menu">☰</button>
+      <h2 id="title">—<span id="desc"></span></h2>
+      <button class="btn" id="prev" title="Anterior (←)">◀</button>
+      <button class="btn" id="next" title="Siguiente (→)">▶</button>
+      <button class="btn" id="out" title="Alejar (−)">−</button>
+      <span class="zoom" id="z">100%</span>
+      <button class="btn" id="in" title="Acercar (+)">+</button>
+      <button class="btn" id="fit" title="Ajustar (0)">Ajustar</button>
+      <button class="btn" id="one" title="Tamaño real (1)">1:1</button>
+      <button class="btn" id="full" title="Pantalla completa (F)">⛶</button>
+      <a class="btn" id="dsvg" download>SVG</a>
+      <a class="btn primary" id="dpng" download>PNG</a>
+    </div>
+    <div class="view" id="view"><div class="stage" id="stage"></div>
+      <div class="hint">Rueda: zoom · arrastrar: mover · doble clic: acercar · ← →: cambiar</div>
+    </div>
+  </main>
+</div>
+<script>
+const D = [
+  ['Bases de datos', '01_contexto', 'Diagrama de contexto (DFD nivel 0)', 'Sistema, entidades externas y flujos F1–F14'],
+  ['Bases de datos', '01b_dfd_nivel1', 'DFD nivel 1', '6 procesos, 7 almacenes y sus flujos'],
+  ['Bases de datos', '02a_er_chen', 'Entidad-relación (Chen)', 'Rectángulos, rombos y óvalos con cardinalidades'],
+  ['Bases de datos', '02_entidad_relacion', 'Entidad-relación (pata de gallo)', 'Modelo lógico con cardinalidad mínima y máxima'],
+  ['Bases de datos', '03_relacional', 'Modelo relacional (3FN)', 'Tablas, PK, FK, UK y CHECK'],
+  ['Bases de datos', '11_modelo_nosql_firestore', 'Modelo NoSQL en Firebase', 'Colecciones, documentos y campos reales'],
+  ['Bases de datos', '12_relacional_vs_nosql', 'Relacional → NoSQL', 'Cómo se transforma cada tabla en Firestore'],
+  ['Bases de datos', '13_reglas_firebase', 'Reglas de seguridad de Firebase', 'Evaluación de cada escritura'],
+  ['Arquitectura', '19_arquitectura_modulos', 'Arquitectura por módulos', 'Basado en gitdiagram.com'],
+  ['Arquitectura', '04_arquitectura', 'Arquitectura por capas', 'ui · domain · data · platform · i18n'],
+  ['Arquitectura', '16_clases_dominio', 'Diagrama de clases', 'Modelos, repositorio y dominio'],
+  ['Arquitectura', '08_despliegue', 'Despliegue', 'GitHub Pages, APK y Firebase'],
+  ['Arquitectura', '09_dependencias_externas', 'Componentes de terceros', 'Librerías, servicios y recursos'],
+  ['Comportamiento', '05_casos_uso', 'Casos de uso', 'Por rol y plataforma'],
+  ['Comportamiento', '06_secuencia_reserva', 'Secuencia: reservar', 'Del botón a Firestore'],
+  ['Comportamiento', '07_secuencia_login', 'Secuencia: iniciar sesión', 'Firebase Auth y sincronización'],
+  ['Comportamiento', '14_concurrencia', 'Síncrono y asíncrono', 'Corrutinas, Flows y hilos'],
+  ['Comportamiento', '17_estados_reserva', 'Estados de una reserva', 'CONFIRMED · CHECKED_IN · CANCELLED'],
+  ['UX / UI (Unidad 1)', '15_user_flow', 'User Flow', 'De la visita a la confirmación'],
+  ['UX / UI (Unidad 1)', '10_navegacion', 'Mapa de navegación', 'Pantallas por plataforma y rol'],
+  ['UX / UI (Unidad 1)', '18_wf1_inicio', 'Wireframe 1 · Inicio', ''],
+  ['UX / UI (Unidad 1)', '18_wf2_habitaciones', 'Wireframe 2 · Habitaciones', ''],
+  ['UX / UI (Unidad 1)', '18_wf3_reserva_fechas', 'Wireframe 3 · Reserva (fechas)', ''],
+  ['UX / UI (Unidad 1)', '18_wf4_reserva_datos', 'Wireframe 4 · Reserva (datos)', ''],
+  ['UX / UI (Unidad 1)', '18_wf5_confirmacion', 'Wireframe 5 · Confirmación', ''],
+  ['UX / UI (Unidad 1)', '18_wf6_perfil_cuenta', 'Wireframe 6 · Perfil', ''],
+];
+const $ = id => document.getElementById(id);
+const view = $('view'), stage = $('stage');
+let cur = 0, s = 1, tx = 0, ty = 0, W = 1, H = 1;
+
+function renderList(filter = '') {
+  const f = filter.toLowerCase(); let html = '', last = '';
+  D.forEach(([cat, file, t, d], i) => {
+    if (f && !(t + d + cat).toLowerCase().includes(f)) return;
+    if (cat !== last) { html += `<div class="cat">${cat}</div>`; last = cat; }
+    html += `<button class="item${i === cur ? ' on' : ''}" data-i="${i}">${t}${d ? `<small>${d}</small>` : ''}</button>`;
+  });
+  $('list').innerHTML = html;
+  $('list').querySelectorAll('.item').forEach(b => b.onclick = () => { open(+b.dataset.i); $('side').classList.remove('open'); });
+}
+function apply() {
+  stage.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+  $('z').textContent = Math.round(s * 100) + '%';
+}
+function fit() {
+  const r = view.getBoundingClientRect(), pad = 40;
+  s = Math.min((r.width - pad) / W, (r.height - pad) / H);
+  tx = (r.width - W * s) / 2; ty = (r.height - H * s) / 2; apply();
+}
+function zoomAt(k, cx, cy) {
+  const ns = Math.max(0.05, Math.min(12, s * k));
+  tx = cx - (cx - tx) * ns / s; ty = cy - (cy - ty) * ns / s; s = ns; apply();
+}
+async function open(i) {
+  cur = (i + D.length) % D.length; const [, file, t, d] = D[cur];
+  $('title').firstChild.textContent = t; $('desc').textContent = d;
+  $('dsvg').href = file + '.svg'; $('dpng').href = file + '.png';
+  history.replaceState(null, '', '#' + file);
+  const txt = await (await fetch(file + '.svg')).text();
+  stage.innerHTML = txt;
+  const svg = stage.querySelector('svg');
+  const vb = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width ? svg.viewBox.baseVal : null;
+  W = vb ? vb.width : parseFloat(svg.getAttribute('width')); H = vb ? vb.height : parseFloat(svg.getAttribute('height'));
+  svg.setAttribute('width', W); svg.setAttribute('height', H); svg.style.width = W + 'px'; svg.style.height = H + 'px';
+  stage.style.width = W + 'px'; stage.style.height = H + 'px';
+  fit(); renderList($('q').value);
+}
+view.addEventListener('wheel', e => { e.preventDefault(); const r = view.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+const pts = new Map(); let lastDist = 0;
+view.addEventListener('pointerdown', e => { e.preventDefault(); view.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]); view.classList.add('drag'); });
+view.addEventListener('pointermove', e => {
+  if (!pts.has(e.pointerId)) return;
+  const [px, py] = pts.get(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]);
+  if (pts.size === 1) { tx += e.clientX - px; ty += e.clientY - py; apply(); }
+  else if (pts.size === 2) {
+    const [a, b] = [...pts.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]); const r = view.getBoundingClientRect();
+    if (lastDist) zoomAt(d / lastDist, (a[0] + b[0]) / 2 - r.left, (a[1] + b[1]) / 2 - r.top); lastDist = d;
+  }
+});
+['pointerup', 'pointercancel'].forEach(t => view.addEventListener(t, e => { pts.delete(e.pointerId); lastDist = 0; if (!pts.size) view.classList.remove('drag'); }));
+view.addEventListener('dblclick', e => { const r = view.getBoundingClientRect(); zoomAt(1.8, e.clientX - r.left, e.clientY - r.top); });
+const center = () => { const r = view.getBoundingClientRect(); return [r.width / 2, r.height / 2]; };
+$('in').onclick = () => zoomAt(1.3, ...center()); $('out').onclick = () => zoomAt(1 / 1.3, ...center());
+$('fit').onclick = fit; $('one').onclick = () => { const [cx, cy] = center(); zoomAt(1 / s, cx, cy); };
+$('prev').onclick = () => open(cur - 1); $('next').onclick = () => open(cur + 1);
+$('full').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+$('menu').onclick = () => $('side').classList.toggle('open');
+$('q').oninput = e => renderList(e.target.value);
+addEventListener('resize', fit);
+addEventListener('hashchange', () => { const i = D.findIndex(d => d[1] === location.hash.slice(1)); if (i >= 0 && i !== cur) open(i); });
+addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') open(cur + 1); else if (e.key === 'ArrowLeft') open(cur - 1);
+  else if (e.key === '+' || e.key === '=') $('in').click(); else if (e.key === '-') $('out').click();
+  else if (e.key === '0') fit(); else if (e.key === '1') $('one').click(); else if (e.key.toLowerCase() === 'f') $('full').click();
+});
+const start = D.findIndex(d => d[1] === location.hash.slice(1));
+open(start >= 0 ? start : 0);
+</script>
+</body>
+</html>

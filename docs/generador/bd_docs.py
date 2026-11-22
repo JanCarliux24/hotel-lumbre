@@ -188,10 +188,10 @@ def diagrama_contexto():
         'siete almacenes de datos. Ambos se basan en el contexto (U2_1) y alimentan el modelo E-R (U2_3).')
     d.h1('2. Simbología (notación Yourdon/DeMarco)')
     d.table(['Símbolo', 'Significado', 'Ejemplo en el diagrama'], [
-        ['Óvalo', 'Proceso (transforma datos)', '0 Sistema de reservas; 3.0 Cotizar y reservar'],
+        ['Círculo numerado', 'Proceso (transforma datos)', '0 Sistema de reservas; 3.0 Cotizar y reservar'],
         ['Rectángulo crema', 'Entidad externa humana', 'E1 Huésped, E2 Recepción, E3 Administrador, E4 Superusuario'],
         ['Rectángulo azul', 'Entidad externa sistema/servicio', 'E5 Firebase Auth, E6 Geolocalización, E7 Correo, E8 SO/navegador'],
-        ['Cilindro', 'Almacén de datos (nivel 1)', 'D1 users … D7 almacenamiento local'],
+        ['Rectángulo abierto con Dn', 'Almacén de datos (nivel 1, notación DeMarco)', 'D1 users … D7 almacenamiento local'],
         ['Flecha etiquetada Fn', 'Flujo de datos con sentido', 'F1 datos de reserva'],
     ], [3.5, 5, 7.5], 'Simbología')
     d.h1('3. Diagrama de contexto (nivel 0)')
@@ -282,7 +282,7 @@ def diagrama_er():
             'Entidades, atributos, claves, relaciones y cardinalidades del problema')
     d.toc(['Método seguido', 'Diagrama E-R', 'Entidades y atributos', 'Relaciones y cardinalidades',
            'Reglas de negocio que justifican las cardinalidades', 'Resolución de relaciones N:M',
-           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Modelo conceptual en notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Criterios TAP'])
+           'Atributos calculados y derivados', 'Validación del modelo con casos reales', 'Cómo leer la notación de Chen', 'Ciclo de vida de RESERVA', 'Supuestos del modelo', 'Criterios TAP'])
     d.h1('1. Método seguido')
     d.bullets([
         'Se extrajeron sustantivos del contexto (U2_1) y de los casos de uso: usuario, rol, habitación, reserva, extra, promoción, parámetro, auditoría, amenidad.',
@@ -292,7 +292,14 @@ def diagrama_er():
         'Se validó el modelo recorriendo escenarios reales (sección 8).',
     ], numbered=True)
     d.h1('2. Diagrama E-R')
-    d.diagram('02_entidad_relacion.png', 'Modelo entidad-relación conceptual (notación pata de gallo).', 13.5)
+    d.h2('2.1 Notación de Chen (rectángulos, rombos y óvalos)')
+    d.p('Diagrama principal. Cada rectángulo es una entidad, cada rombo una relación entre exactamente dos entidades y '
+        'cada óvalo un atributo. Se entiende empiece donde empiece la lectura: cualquier entidad lleva a sus relaciones '
+        'y de ahí a la otra entidad, con la cardinalidad escrita sobre cada línea. Versión ampliable sin pérdida de calidad: '
+        'https://jancarliux24.github.io/hotel-lumbre/diagramas/#02a_er_chen')
+    d.diagram('02a_er_chen.png', 'Modelo E-R conceptual en notación de Chen.', 16.5)
+    d.h2('2.2 Notación pata de gallo (modelo lógico)')
+    d.diagram('02_entidad_relacion.png', 'Modelo entidad-relación lógico (notación pata de gallo).', 13.5)
     d.p('Lectura de la notación: | significa "uno", o significa "cero" (opcional) y la pata de gallo significa "muchos". '
         'Por ejemplo, ROL ||--o{ USUARIO se lee "un rol se asigna a cero o muchos usuarios; cada usuario tiene exactamente un rol".')
     d.h1('3. Entidades y atributos')
@@ -346,10 +353,11 @@ def diagrama_er():
         ['Recepción registra llegada', 'RESERVA.estado = CHECKED_IN, AUDITORIA nueva', 'Válido, con autor.'],
         ['Superusuario sube a alguien a ADMIN', 'USUARIO.id_rol cambia; AUDITORIA registra', 'Válido.'],
     ], [4.5, 7, 4.5], 'Validación por escenarios')
-    d.h1('9. Modelo conceptual en notación de Chen')
+    d.h1('9. Cómo leer la notación de Chen')
     d.p('El mismo modelo en notación de Chen: rectángulos = entidades, rombos = relaciones, óvalos = atributos '
-        '(subrayado = clave, punteado = derivado), líneas gruesas = participación total, 1/N/M = cardinalidad.')
-    d.diagram('02a_er_chen.png', 'Modelo E-R conceptual en notación de Chen.', 16.5)
+        '(subrayado = clave, punteado = derivado, con ramas = compuesto), línea doble = participación total, círculo con 1/N/M = cardinalidad. '
+        'Se lee igual desde cualquier entidad: cada rombo une exactamente dos entidades y cada atributo sale en su propio rayo, sin cruces.')
+    d.p('El diagrama completo está en la sección 2.1.')
     d.h1('10. Ciclo de vida de la entidad RESERVA')
     d.diagram('17_estados_reserva.png', 'Estados permitidos de una reserva.', 12)
     d.h1('11. Supuestos del modelo')

@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 2310" width="2560" height="2310" font-family="Inter, Segoe UI, sans-serif">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="1280.0" y="52" text-anchor="middle" font-size="34" font-weight="700" fill="#16313A">DFD nivel 1 — explosión del proceso 0</text>
+<text x="1280.0" y="88" text-anchor="middle" font-size="20" fill="#5B6E73">Entidades a la izquierda · procesos al centro · almacenes a la derecha · los flujos entre filas usan carriles verticales</text>
+<g transform="translate(0,60)">
+<path d="M380 242 L620 242" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="620,242 603.2840365596228,248.6765684494337 603.2840365596228,235.3234315505663" fill="#0A7C86"/>
+<path d="M620 278 L380 278" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="380,278 396.7159634403772,271.3234315505663 396.7159634403772,284.67656844943366" fill="#0A7C86"/>
+<path d="M380 582 L620 582" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="620,582 603.2840365596228,588.6765684494337 603.2840365596228,575.3234315505663" fill="#0A7C86"/>
+<path d="M620 618 L380 618" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="380,618 396.7159634403772,611.3234315505663 396.7159634403772,624.6765684494337" fill="#0A7C86"/>
+<path d="M380 962 L620 962" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="620,962 603.2840365596228,968.6765684494337 603.2840365596228,955.3234315505663" fill="#0A7C86"/>
+<path d="M620 998 L380 998" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="380,998 396.7159634403772,991.3234315505663 396.7159634403772,1004.6765684494337" fill="#0A7C86"/>
+<path d="M380 1342 L620 1342" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="620,1342 603.2840365596228,1348.6765684494337 603.2840365596228,1335.3234315505663" fill="#0A7C86"/>
+<path d="M620 1378 L380 1378" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="380,1378 396.7159634403772,1371.3234315505663 396.7159634403772,1384.6765684494337" fill="#0A7C86"/>
+<path d="M380 1682 L620 1682" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="620,1682 603.2840365596228,1688.6765684494337 603.2840365596228,1675.3234315505663" fill="#0A7C86"/>
+<path d="M620 1718 L380 1718" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="380,1718 396.7159634403772,1711.3234315505663 396.7159634403772,1724.6765684494337" fill="#0A7C86"/>
+<path d="M380 2022 L620 2022" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="620,2022 603.2840365596228,2028.6765684494337 603.2840365596228,2015.3234315505663" fill="#0A7C86"/>
+<path d="M620 2058 L380 2058" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="380,2058 396.7159634403772,2051.3234315505665 396.7159634403772,2064.6765684494335" fill="#0A7C86"/>
+<path d="M820 244 L1350.0 244" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,244 1333.2840365596228,250.6765684494337 1333.2840365596228,237.3234315505663" fill="#0A7C86"/>
+<path d="M1350.0 276 L820 276" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="820,276 836.7159634403772,269.3234315505663 836.7159634403772,282.67656844943366" fill="#0A7C86"/>
+<path d="M760 170 L760 120 L2250 120 L2250 200" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="2250,200 2243.3234315505665,183.28403655962282 2256.6765684494335,183.28403655962282" fill="#0A7C86"/>
+<path d="M2190 200 L2190 150 L800 150 L800 190" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="800,190 793.3234315505663,173.28403655962282 806.6765684494337,173.28403655962282" fill="#0A7C86"/>
+<path d="M810 300 L900 300 L900 455 L1350.0 455" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,455 1333.2840365596228,461.6765684494337 1333.2840365596228,448.3234315505663" fill="#0A7C86"/>
+<path d="M820 600 L960 600 L960 485 L1350.0 485" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,485 1333.2840365596228,491.6765684494337 1333.2840365596228,478.3234315505663" fill="#0A7C86"/>
+<path d="M816 940 L1240 940 L1240 500 L1350.0 500" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,500 1333.2840365596228,506.6765684494337 1333.2840365596228,493.3234315505663" fill="#0A7C86"/>
+<path d="M820 620 L1100 620 L1100 640 L2085 640" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="2085,640 2068.284036559623,646.6765684494337 2068.284036559623,633.3234315505663" fill="#0A7C86"/>
+<path d="M2085 580 L1300 580 L1300 560 L818 560" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="818,560 834.7159634403772,553.3234315505663 834.7159634403772,566.6765684494337" fill="#0A7C86"/>
+<path d="M1350.0 860 L1020 860 L1020 955 L817 955" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="817,955 833.7159634403772,948.3234315505663 833.7159634403772,961.6765684494337" fill="#0A7C86"/>
+<path d="M1350.0 980 L820 980" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="820,980 836.7159634403772,973.3234315505663 836.7159634403772,986.6765684494337" fill="#0A7C86"/>
+<path d="M1350.0 1100 L1060 1100 L1060 1005 L817 1005" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="817,1005 833.7159634403772,998.3234315505663 833.7159634403772,1011.6765684494337" fill="#0A7C86"/>
+<path d="M810 1030 L1000 1030 L1000 1345 L1350.0 1345" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,1345 1333.2840365596228,1351.6765684494337 1333.2840365596228,1338.3234315505663" fill="#0A7C86"/>
+<path d="M1350.0 1375 L820 1375" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="820,1375 836.7159634403772,1368.3234315505663 836.7159634403772,1381.6765684494337" fill="#0A7C86"/>
+<path d="M812 1400 L1140 1400 L1140 1740 L1350.0 1740" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,1740 1333.2840365596228,1746.6765684494337 1333.2840365596228,1733.3234315505663" fill="#0A7C86"/>
+<path d="M1350.0 1385 L1180 1385 L1180 1680 L820 1680" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="820,1680 836.7159634403772,1673.3234315505663 836.7159634403772,1686.6765684494337" fill="#0A7C86"/>
+<path d="M820 1720 L1100 1720 L1100 1760 L1350.0 1760" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,1760 1333.2840365596228,1766.6765684494337 1333.2840365596228,1753.3234315505663" fill="#0A7C86"/>
+<path d="M720 1800 L720 1840 L2000 1840 L2000 860 L1770.0 860" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1770.0,860 1786.7159634403772,853.3234315505663 1786.7159634403772,866.6765684494337" fill="#0A7C86"/>
+<path d="M770 1786 L770 1870 L2060 1870 L2060 980 L1770.0 980" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1770.0,980 1786.7159634403772,973.3234315505663 1786.7159634403772,986.6765684494337" fill="#0A7C86"/>
+<path d="M720 2140 L720 2180 L2500 2180 L2500 345 L1710.0 345 L1710.0 298.0" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1710.0,298.0 1716.6765684494337,314.7159634403772 1703.3234315505663,314.7159634403772" fill="#0A7C86"/>
+<path d="M820 2060 L2120 2060 L2120 1100 L1770.0 1100" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1770.0,1100 1786.7159634403772,1093.3234315505663 1786.7159634403772,1106.6765684494337" fill="#0A7C86"/>
+<path d="M814 2010 L1220 2010 L1220 1780 L1350.0 1780" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="1350.0,1780 1333.2840365596228,1786.6765684494337 1333.2840365596228,1773.3234315505663" fill="#0A7C86"/>
+<path d="M1350.0 1795 L1260 1795 L1260 2030 L818 2030" fill="none" stroke="#0A7C86" stroke-width="2.6" stroke-linejoin="round"/>
+<polygon points="818,2030 834.7159634403772,2023.3234315505663 834.7159634403772,2036.6765684494337" fill="#0A7C86"/>
+<circle cx="720" cy="260" r="100.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="638.0" y1="218.0" x2="802.0" y2="218.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="720" y="205.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">1.0</text>
+<text x="720" y="266.75" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Gestionar cuenta</text>
+<text x="720" y="291.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">y sesión</text>
+<circle cx="720" cy="600" r="100.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="638.0" y1="558.0" x2="802.0" y2="558.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="720" y="545.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">2.0</text>
+<text x="720" y="606.75" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Consentimiento,</text>
+<text x="720" y="631.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">idioma y moneda</text>
+<circle cx="720" cy="980" r="100.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="638.0" y1="938.0" x2="802.0" y2="938.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="720" y="925.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">3.0</text>
+<text x="720" y="986.75" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Cotizar y</text>
+<text x="720" y="1011.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">reservar</text>
+<circle cx="720" cy="1360" r="100.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="638.0" y1="1318.0" x2="802.0" y2="1318.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="720" y="1305.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">4.0</text>
+<text x="720" y="1366.75" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Operar</text>
+<text x="720" y="1391.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">recepción</text>
+<circle cx="720" cy="1700" r="100.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="638.0" y1="1658.0" x2="802.0" y2="1658.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="720" y="1645.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">5.0</text>
+<text x="720" y="1706.75" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Administrar</text>
+<text x="720" y="1731.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">catálogo</text>
+<circle cx="720" cy="2040" r="100.0" fill="#D6F3F2" stroke="#0A7C86" stroke-width="3"/>
+<line x1="638.0" y1="1998.0" x2="802.0" y2="1998.0" stroke="#0A7C86" stroke-width="2"/>
+<text x="720" y="1985.7" text-anchor="middle" font-size="22" font-weight="700" fill="#0A7C86">6.0</text>
+<text x="720" y="2046.75" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">Gobernar sistema</text>
+<text x="720" y="2071.95" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">y auditar</text>
+<rect x="1350.0" y="222.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 222.0 H1350.0 V298.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="222.0" x2="1430.0" y2="298.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="267.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D1</text>
+<text x="1600.0" y="267.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">users</text>
+<rect x="1350.0" y="432.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 432.0 H1350.0 V508.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="432.0" x2="1430.0" y2="508.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="477.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D7</text>
+<text x="1600.0" y="477.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">almacenamiento local</text>
+<rect x="1350.0" y="822.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 822.0 H1350.0 V898.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="822.0" x2="1430.0" y2="898.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="867.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D2</text>
+<text x="1600.0" y="867.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">rooms</text>
+<rect x="1350.0" y="942.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 942.0 H1350.0 V1018.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="942.0" x2="1430.0" y2="1018.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="987.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D3</text>
+<text x="1600.0" y="987.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">promos</text>
+<rect x="1350.0" y="1062.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 1062.0 H1350.0 V1138.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="1062.0" x2="1430.0" y2="1138.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="1107.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D5</text>
+<text x="1600.0" y="1107.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">config/params</text>
+<rect x="1350.0" y="1322.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 1322.0 H1350.0 V1398.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="1322.0" x2="1430.0" y2="1398.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="1367.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D4</text>
+<text x="1600.0" y="1367.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">reservations</text>
+<rect x="1350.0" y="1722.0" width="420" height="76" fill="#FFFCF5" stroke="none"/>
+<path d="M1770.0 1722.0 H1350.0 V1798.0 H1770.0" fill="none" stroke="#B87A1E" stroke-width="3"/>
+<line x1="1430.0" y1="1722.0" x2="1430.0" y2="1798.0" stroke="#B87A1E" stroke-width="2"/>
+<text x="1390.0" y="1767.7" text-anchor="middle" font-size="22" font-weight="700" fill="#8A5A12">D6</text>
+<text x="1600.0" y="1767.35" text-anchor="middle" font-size="21" font-weight="600" fill="#16313A">audit</text>
+<rect x="80.0" y="220.0" width="300" height="760" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="230" y="257.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E1</text>
+<text x="230" y="608.5" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Huésped /</text>
+<text x="230" y="634.9" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">visitante</text>
+<rect x="80.0" y="1295.0" width="300" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="230" y="1332.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E2</text>
+<text x="230" y="1381.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Recepción</text>
+<rect x="80.0" y="1635.0" width="300" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="230" y="1672.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E3</text>
+<text x="230" y="1721.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Administrador</text>
+<rect x="80.0" y="1975.0" width="300" height="130" rx="10" fill="#FFF4E2" stroke="#B87A1E" stroke-width="3"/>
+<text x="230" y="2012.0" text-anchor="middle" font-size="20" font-weight="700" fill="#B87A1E">E4</text>
+<text x="230" y="2061.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Superusuario</text>
+<rect x="2085.0" y="200.0" width="330" height="120" rx="10" fill="#E6F6FA" stroke="#0A7C86" stroke-width="3"/>
+<text x="2250" y="237.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0A7C86">E5</text>
+<text x="2250" y="281.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Firebase Auth</text>
+<rect x="2085.0" y="540.0" width="330" height="120" rx="10" fill="#E6F6FA" stroke="#0A7C86" stroke-width="3"/>
+<text x="2250" y="577.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0A7C86">E6</text>
+<text x="2250" y="621.7" text-anchor="middle" font-size="22" font-weight="600" fill="#16313A">Geolocalización</text>
+<rect x="390.0" y="192.5" width="220.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="214.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">credenciales, perfil</text>
+<rect x="415.5" y="296.5" width="169.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="318.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">sesión iniciada</text>
+<rect x="395.1" y="532.5" width="209.79999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="554.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">elección de cookies</text>
+<rect x="415.5" y="636.5" width="169.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="658.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">idioma y moneda</text>
+<rect x="369.6" y="901.0" width="260.79999999999995" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="923.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">fechas, huéspedes,</text>
+<text x="500.0" y="945.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">extras, código, contacto</text>
+<rect x="430.8" y="1005.0" width="138.39999999999998" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="1027.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">presupuesto,</text>
+<text x="500.0" y="1049.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">referencia</text>
+<rect x="405.3" y="1292.5" width="189.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="1314.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">registrar llegada</text>
+<rect x="410.4" y="1396.5" width="179.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="1418.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">reservas del día</text>
+<rect x="374.7" y="1621.0" width="250.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="1643.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">precio, disponibilidad,</text>
+<text x="500.0" y="1665.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">promo</text>
+<rect x="435.9" y="1736.5" width="128.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="1758.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">indicadores</text>
+<rect x="425.7" y="1961.0" width="148.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="1983.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">rol, bloqueo,</text>
+<text x="500.0" y="2005.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">parámetros</text>
+<rect x="446.1" y="2065.0" width="107.8" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="500.0" y="2087.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">usuarios,</text>
+<text x="500.0" y="2109.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">auditoría</text>
+<rect x="910.2" y="198.5" width="199.6" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1010" y="220.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">crear perfil GUEST</text>
+<rect x="915.3" y="290.5" width="189.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1010" y="312.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">rol, preferencias</text>
+<rect x="1564.5" y="80.5" width="271.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1700" y="102.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">signUp / signIn / refresh</text>
+<rect x="1180.8" y="156.5" width="138.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1250" y="178.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">UID + tokens</text>
+<rect x="895.7" y="373.0" width="148.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="970" y="395.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">refreshToken,</text>
+<text x="970" y="417.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">intentos</text>
+<rect x="975.5" y="513.0" width="169.0" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1060" y="535.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">consentimiento,</text>
+<text x="1060" y="557.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">idioma, moneda</text>
+<rect x="1175.9" y="744.5" width="128.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1240" y="766.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">copia local</text>
+<rect x="1795.1" y="599.5" width="209.79999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1900" y="621.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">lat/lon redondeadas</text>
+<rect x="1871.6" y="540.5" width="56.8" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1900" y="562.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">país</text>
+<rect x="1046.1" y="793.0" width="107.8" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1100" y="815.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">precio,</text>
+<text x="1100" y="837.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">capacidad</text>
+<rect x="1115.9" y="988.5" width="128.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1180" y="1010.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">% descuento</text>
+<rect x="1091.0" y="1113.0" width="118.0" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1150" y="1135.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">impuestos,</text>
+<text x="1150" y="1157.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">límites</text>
+<rect x="1085.3" y="1306.5" width="189.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1180" y="1328.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">reserva CONFIRMED</text>
+<rect x="870.4" y="1359.5" width="179.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="960" y="1381.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">reservas del día</text>
+<rect x="1171.0" y="1700.5" width="118.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1230" y="1722.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">RES_STATUS</text>
+<rect x="879.8" y="1640.5" width="240.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1000" y="1662.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">reservas (indicadores)</text>
+<rect x="814.9" y="1729.5" width="230.2" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="930" y="1751.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">ROOM_UPDATE / PROMO_*</text>
+<rect x="2020.2" y="884.5" width="199.6" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="2120" y="906.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">rooms actualizados</text>
+<rect x="2075.1" y="1004.5" width="209.79999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="2180" y="1026.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">promos actualizadas</text>
+<rect x="2335.5" y="1284.5" width="169.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="2420" y="1306.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">role / disabled</text>
+<rect x="2151.0" y="1124.5" width="118.0" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="2210" y="1146.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">parámetros</text>
+<rect x="1325.7" y="1958.0" width="148.6" height="54" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1400" y="1980.5" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">ROLE_CHANGE /</text>
+<text x="1400" y="2002.1" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">PARAMS_UPDATE</text>
+<rect x="929.8" y="1974.5" width="240.39999999999998" height="31" rx="6" fill="#FFFFFF" fill-opacity="0.92"/>
+<text x="1050" y="1996.3" text-anchor="middle" font-size="18" font-weight="500" fill="#16313A">registros de auditoría</text>
+</g>
+</svg>
